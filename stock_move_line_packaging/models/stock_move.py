@@ -12,3 +12,5 @@ class StockMove(models.Model):
         for rec in self:
             if rec.sale_line_id and rec.sale_line_id.product_packaging:
                 rec.product_packaging = rec.sale_line_id.product_packaging
+            else:
+                rec.product_packaging = False
