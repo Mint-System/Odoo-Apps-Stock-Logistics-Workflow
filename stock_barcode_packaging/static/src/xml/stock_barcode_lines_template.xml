@@ -2,7 +2,7 @@
 <templates>
     <t t-inherit="stock_barcode.stock_barcode_lines_template" t-inherit-mode="extension" owl="1">
         <xpath expr="//span[hasclass('product-label')]" position="after">
-            <span class="product-packaging" t-esc="line.product_packaging[1]"/>            
+            <span class="product-packaging" t-if="line.product_packaging" t-esc="line.product_packaging[1]"/>            
         </xpath>
     </t>
 </templates>
