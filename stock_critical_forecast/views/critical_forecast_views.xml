@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="critical_forecast_list" model="ir.ui.view">
+        <field name="name">Critical Forecast List</field>
+        <field name="model">stock.critical_forecast</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="product_id" widget="many2one"/>
+                <field name="critical_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_critical_forecast" model="ir.actions.act_window">
+        <field name="name">Critical Forecast</field>
+        <field name="res_model">stock.critical_forecast</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_critical_forecast" action="action_critical_forecast" name="Critical Forecast" sequence="11" parent="stock.menu_warehouse_report"/>
+
+</odoo>
