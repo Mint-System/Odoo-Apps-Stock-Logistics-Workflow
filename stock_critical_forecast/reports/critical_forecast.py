@@ -22,6 +22,30 @@ class CriticalForecast(models.Model):
     product_type = fields.Selection(related='product_id.type')
     qty_available = fields.Float(digits='Product Unit of Measure')
     virtual_available = fields.Float(digits='Product Unit of Measure')
+    replenish_delay = fields.Integer()
+    min_qty = fields.Integer()
+    qty_in = fields.Float(digits='Product Unit of Measure')
+    qty_out = fields.Float(digits='Product Unit of Measure')
+    product_min_qty = fields.Integer()
+
+
+    def _prepare_move_data(self, move):
+        replenish_data = move.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
+        return {
+            'product_id': move.product_id.id,
+            'type_description': move.product_id.type_description,
+            'default_code': move.product_id.default_code,
+            'critical_date': move.date_deadline,
+            'action_date': move.date_deadline,
+            'qty_available': move.product_id.qty_available,
+            'replenish_delay':move.product_id.produce_delay,
+            'virtual_available': move.product_id.virtual_available,
+            'min_qty': move.product_id.seller_ids[0].min_qty if move.product_id.seller_ids else 0,
+            'product_min_qty': move.product_id.orderpoint_ids[0].product_min_qty if move.product_id.orderpoint_ids else 0,
+            'qty_in': replenish_data['qty']['in'],
+            'qty_out': replenish_data['qty']['out'],
+        }
+        return
 
     def _get_picking_data(self):
 
@@ -36,18 +60,11 @@ class CriticalForecast(models.Model):
 
         for picking in picking_ids:
             for move in picking.move_lines:
-                data.append({
-                    'product_id': move.product_id.id,
-                    'type_description': move.product_id.type_description,
-                    'default_code': move.product_id.default_code,
-                    'critical_date': move.date_deadline,
-                    'action_date': move.date_deadline,
-                    'qty_available': move.product_id.qty_available,
-                    'virtual_available': move.product_id.virtual_available,
-                    'origin': picking.name,
-                    'source_model': picking._name,
-                    'source_ref': picking.id,
-                })
+                record = self._prepare_move_data(move)
+                record['origin'] = picking.name
+                record['source_model'] = picking._name
+                record['source_ref'] = picking.id
+                data.append(record)
 
         return data
 
@@ -64,18 +81,11 @@ class CriticalForecast(models.Model):
 
         for mo in production_ids:
             for move in mo.move_raw_ids:
-                data.append({
-                    'product_id': move.product_id.id,
-                    'type_description': move.product_id.type_description,
-                    'default_code': move.product_id.default_code,
-                    'critical_date': move.date_deadline,
-                    'action_date': move.date_deadline,
-                    'qty_available': move.product_id.qty_available,
-                    'virtual_available': move.product_id.virtual_available,
-                    'origin': move.name,
-                    'source_model': mo._name,
-                    'source_ref': mo.id,
-                })
+                record = self._prepare_move_data(move)
+                record['origin'] = mo.name
+                record['source_model'] = mo._name
+                record['source_ref'] = mo.id
+                data.append(record)
 
         return data
 
