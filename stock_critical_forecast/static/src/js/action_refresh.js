@@ -19,13 +19,16 @@ odoo.define('demand_planner.action_refresh', function (require) {
         action_refresh: function () {
             var self =this;
             var user = session.uid;
+            console.log("RPC QUERY")
             rpc.query({
                 model: 'stock.critical_forecast',
                 method: 'get_data',
                 context: session.user_context,
                 args: [[user]],
             }).then(function (e) {
+                console.log("SET LAST UPDATE DATE")
                 self.set_last_update_date();
+                console.log("TRIGGER RELOAD")
                 self.trigger_up('reload');
             });
         },

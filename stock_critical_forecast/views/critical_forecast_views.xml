@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <record id="critical_forecast_search" model="ir.ui.view">
+        <field name="name">Critical Forecast Search</field>
+        <field name="model">stock.critical_forecast</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="default_code"/>
+                <field name="type_description"/>
+                <field name="product_id"/>
+                <filter name="group_type" string="By Source Document" context="{'group_by': 'origin'}"/>
+            </search>
+        </field>
+    </record>
+
     <record id="critical_forecast_list" model="ir.ui.view">
         <field name="name">Critical Forecast List</field>
         <field name="model">stock.critical_forecast</field>
@@ -7,12 +21,12 @@
             <tree create="0">
                 <field name="default_code" />
                 <field name="product_type" invisible="1"/>
-                <!-- <field name="forecast_availability"  widget="forecast_widget"/> -->
-                <field name="product_id" widget="many2one" />
                 <button class="oe_stat_button" name="action_product_forecast_report" type="object" icon="fa-cubes" attrs="{'invisible': [('product_type', '!=', 'product')]}" />
+                <field name="product_id" widget="many2one" />
                 <field name="type_description"/>
                 <field name="action_date"/>
                 <field name="critical_date"/>
+                <field name="qty_available"/>
                 <field name="origin"/>
             </tree>
         </field>

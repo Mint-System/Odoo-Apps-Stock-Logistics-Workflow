@@ -12,13 +12,13 @@ class CriticalForecast(models.Model):
 
     # Report fields
     product_id = fields.Many2one('product.product', 'Product')
-    # forecast_availability = fields.Float('Forecast Availability', digits='Product Unit of Measure',)
     type_description = fields.Char()
     action_date = fields.Date()
     critical_date = fields.Date()
     origin = fields.Char("Source Document")
     default_code = fields.Char("Internal Reference")
     product_type = fields.Selection(related='product_id.type')
+    qty_available = fields.Float(digits='Product Unit of Measure')
 
     def _get_picking_data(self):
 
@@ -35,12 +35,13 @@ class CriticalForecast(models.Model):
             for move in picking.move_lines:
                 data.append({
                     'product_id': move.product_id.id,
-                    'forecast_availability': 0,
                     'type_description': move.product_id.type_description,
                     'default_code': move.product_id.default_code,
                     'critical_date': move.date_deadline,
                     'action_date': move.date_deadline,
-                    'origin': picking.name
+                    'qty_available': 0,
+                    'origin': "%s,%s" % (picking._name, picking.id) 
+                    # 'source_document': move._get_source_document() 
                 })
 
         return data
@@ -60,12 +61,13 @@ class CriticalForecast(models.Model):
             for move in mo.move_raw_ids:
                 data.append({
                     'product_id': move.product_id.id,
-                    'forecast_availability': 0,
                     'type_description': move.product_id.type_description,
                     'default_code': move.product_id.default_code,
                     'critical_date': move.date_deadline,
                     'action_date': move.date_deadline,
-                    'origin': mo.name
+                    'qty_available': 0,
+                    'origin': "%s,%s" % (mo._name, mo.id) 
+                    # 'source_document': move._get_source_document()
                 })
 
         return data
@@ -87,9 +89,14 @@ class CriticalForecast(models.Model):
         # Create Entry in demand planner
         return self.sudo().create(mo_data)
 
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        self.get_data()
+        return super().search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
+
     def action_product_forecast_report(self):
         self.ensure_one()
         action = self.product_id.action_product_forecast_report()
-        action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, }
+        action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'}
         _logger.warning(action) if request.session.debug else {}
         return action
