@@ -15,10 +15,13 @@ class CriticalForecast(models.Model):
     type_description = fields.Char()
     action_date = fields.Date()
     critical_date = fields.Date()
-    origin = fields.Char("Source Document")
-    default_code = fields.Char("Internal Reference")
+    origin = fields.Char('Source Document')
+    source_model = fields.Char()
+    source_ref = fields.Many2oneReference(model_field='source_model')
+    default_code = fields.Char('Internal Reference')
     product_type = fields.Selection(related='product_id.type')
     qty_available = fields.Float(digits='Product Unit of Measure')
+    virtual_available = fields.Float(digits='Product Unit of Measure')
 
     def _get_picking_data(self):
 
@@ -39,9 +42,11 @@ class CriticalForecast(models.Model):
                     'default_code': move.product_id.default_code,
                     'critical_date': move.date_deadline,
                     'action_date': move.date_deadline,
-                    'qty_available': 0,
-                    'origin': "%s,%s" % (picking._name, picking.id) 
-                    # 'source_document': move._get_source_document() 
+                    'qty_available': move.product_id.qty_available,
+                    'virtual_available': move.product_id.virtual_available,
+                    'origin': picking.name,
+                    'source_model': picking._name,
+                    'source_ref': picking.id,
                 })
 
         return data
@@ -65,9 +70,11 @@ class CriticalForecast(models.Model):
                     'default_code': move.product_id.default_code,
                     'critical_date': move.date_deadline,
                     'action_date': move.date_deadline,
-                    'qty_available': 0,
-                    'origin': "%s,%s" % (mo._name, mo.id) 
-                    # 'source_document': move._get_source_document()
+                    'qty_available': move.product_id.qty_available,
+                    'virtual_available': move.product_id.virtual_available,
+                    'origin': move.name,
+                    'source_model': mo._name,
+                    'source_ref': mo.id,
                 })
 
         return data
@@ -89,14 +96,26 @@ class CriticalForecast(models.Model):
         # Create Entry in demand planner
         return self.sudo().create(mo_data)
 
-    @api.model
-    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
-        self.get_data()
-        return super().search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
+    # @api.model
+    # def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+    #     self.get_data()
+    #     return super().search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
 
     def action_product_forecast_report(self):
         self.ensure_one()
         action = self.product_id.action_product_forecast_report()
-        action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'}
+        action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'} 
+        _logger.warning(action) if request.session.debug else {}
+        return action
+
+
+    def action_open_origin(self):
+        self.ensure_one()
+        action = {
+            "type": "ir.actions.act_window",
+            "res_model": self.source_model,
+            "views": [[False, "form"]],
+            "res_id": self.source_ref,
+        }
         _logger.warning(action) if request.session.debug else {}
         return action

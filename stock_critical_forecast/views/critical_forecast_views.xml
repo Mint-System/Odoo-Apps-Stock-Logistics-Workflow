@@ -27,7 +27,9 @@
                 <field name="action_date"/>
                 <field name="critical_date"/>
                 <field name="qty_available"/>
+                <field name="virtual_available"/>
                 <field name="origin"/>
+                <button class="oe_stat_button" name="action_open_origin" type="object" icon="fa-external-link" />
             </tree>
         </field>
     </record>
