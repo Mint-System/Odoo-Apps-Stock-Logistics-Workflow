@@ -9,7 +9,8 @@
                 <field name="default_code"/>
                 <field name="type_description"/>
                 <field name="product_id"/>
-                <filter name="group_type" string="By Source Document" context="{'group_by': 'origin'}"/>
+                <filter name="filter_critical_date" string="Critical Date" date="critical_date"/>
+                <filter name="group_type" string="By Route" context="{'group_by': 'route_id'}"/>
             </search>
         </field>
     </record>
@@ -24,19 +25,21 @@
                 <button class="oe_stat_button" name="action_product_forecast_report" type="object" icon="fa-cubes" attrs="{'invisible': [('product_type', '!=', 'product')]}" />
                 <field name="product_id" widget="many2one" />
                 <field name="type_description"/>
-                <field name="action_date"/>
-                <field name="critical_date"/>
-                <field name="replenish_delay"/>
-                <field name="qty_available"/>
-                <field name="virtual_available"/>
-                <field name="min_qty"/>
-                <field name="product_min_qty"/>
-                <field name="qty_in"/>
-                <field name="qty_out"/>
-                <field name="promised_qty"/>
-                <field name="agreed_qty"/>
-                <field name="origin"/>
-                <button class="oe_stat_button" name="action_open_origin" type="object" icon="fa-external-link" />
+                <field name="action_date" optional="show"/>
+                <field name="critical_date"  optional="show"/>
+                <field name="replenish_delay" optional="hide"/>
+                <field name="qty_available" optional="hide"/>
+                <field name="virtual_available" optional="hide"/>
+                <field name="min_qty" optional="hide"/>
+                <field name="product_min_qty" optional="hide"/>
+                <field name="qty_in" optional="hide"/>
+                <field name="qty_out" optional="hide"/>
+                <field name="promised_qty" optional="hide"/>
+                <field name="agreed_qty" optional="hide"/>
+                <field name="route_id" optional="hide"/>
+                <field name="seller_id" optional="hide"/>
+                <!-- <field name="origin" />
+                <button class="oe_stat_button" name="action_open_origin" type="object" icon="fa-external-link" /> -->
             </tree>
         </field>
     </record>
