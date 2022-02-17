@@ -24,10 +24,11 @@ class CriticalForecast(models.Model):
     virtual_available = fields.Float(digits='Product Unit of Measure')
     replenish_delay = fields.Integer()
     min_qty = fields.Integer()
+    product_min_qty = fields.Integer()
     qty_in = fields.Float(digits='Product Unit of Measure')
     qty_out = fields.Float(digits='Product Unit of Measure')
-    product_min_qty = fields.Integer()
-
+    promised_qty = fields.Float(digits='Product Unit of Measure')
+    agreed_qty = fields.Float(digits='Product Unit of Measure')
 
     def _prepare_move_data(self, move):
         replenish_data = move.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
@@ -44,13 +45,12 @@ class CriticalForecast(models.Model):
             'product_min_qty': move.product_id.orderpoint_ids[0].product_min_qty if move.product_id.orderpoint_ids else 0,
             'qty_in': replenish_data['qty']['in'],
             'qty_out': replenish_data['qty']['out'],
+            'promised_qty': sum(self.env['sale.blanket.order.line'].search([('product_id', '=', move.product_id.id)]).mapped('remaining_uom_qty')) if move.product_id.sale_ok else 0,
+            'agreed_qty': move.product_id.purchased_product_qty,
         }
-        return
 
-    def _get_picking_data(self):
-
-        data = []
-
+    def _get_picking_data(self, data=[]):
+        
         picking_ids = self.env['stock.picking'].search([
             ('state', 'not in', ('cancel', 'draft', 'done')),
             ('picking_type_id.code', '=', 'outgoing'),
@@ -60,17 +60,17 @@ class CriticalForecast(models.Model):
 
         for picking in picking_ids:
             for move in picking.move_lines:
-                record = self._prepare_move_data(move)
-                record['origin'] = picking.name
-                record['source_model'] = picking._name
-                record['source_ref'] = picking.id
-                data.append(record)
+                rec1 = self._prepare_move_data(move)
+                rec2 = {
+                    'origin': picking.name,
+                    'source_model':  picking._name,
+                    'source_ref': picking.id,
+                }
+                data.append({**rec1, **rec2})
 
         return data
 
-    def _get_production_data(self):
-
-        data = []
+    def _get_production_data(self, data=[]):
 
         production_ids = self.env['mrp.production'].search([
             ('state', 'in', ['draft', 'confirmed']),
@@ -82,10 +82,13 @@ class CriticalForecast(models.Model):
         for mo in production_ids:
             for move in mo.move_raw_ids:
                 record = self._prepare_move_data(move)
-                record['origin'] = mo.name
-                record['source_model'] = mo._name
-                record['source_ref'] = mo.id
-                data.append(record)
+                rec1 = self._prepare_move_data(move)
+                rec2 = {
+                    'origin': mo.name,
+                    'source_model':  mo._name,
+                    'source_ref': mo.id,
+                }
+                data.append({**rec1, **rec2})
 
         return data
 
