@@ -143,3 +143,8 @@ class CriticalForecast(models.Model):
     #     }
     #     _logger.warning(action) if request.session.debug else {}
     #     return action
+
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        # _logger.warning([domain, fields, offset, limit, order]) if request.session.debug else {}
+        return super(CriticalForecast, self).search_read(domain, fields, offset, limit, order)

@@ -19,16 +19,13 @@ odoo.define('demand_planner.action_refresh', function (require) {
         action_refresh: function () {
             var self =this;
             var user = session.uid;
-            console.log("RPC QUERY")
             rpc.query({
                 model: 'stock.critical_forecast',
                 method: 'get_data',
                 context: session.user_context,
                 args: [[user]],
             }).then(function (e) {
-                console.log("SET LAST UPDATE DATE")
                 self.set_last_update_date();
-                console.log("TRIGGER RELOAD")
                 self.trigger_up('reload');
             });
         },
@@ -43,7 +40,7 @@ odoo.define('demand_planner.action_refresh', function (require) {
             }).then((result) => {
                 if (result.length) {
                     this.$buttons.find('.container_last_updated_on').removeClass('d-none');
-                    this.$buttons.find('.container_last_updated_date').text(moment(result[0].create_date).format('MM/DD/Y HH:MM'));
+                    this.$buttons.find('.container_last_updated_date').text(moment(result[0].create_date).format('lll'));
                 } else {
                     this.$buttons.find('.container_last_updated_on').addClass('d-none');
                 }

@@ -6,10 +6,11 @@
         <field name="model">stock.critical_forecast</field>
         <field name="arch" type="xml">
             <search>
-                <field name="default_code"/>
-                <field name="type_description"/>
+                <!-- <field name="default_code"/>
+                <field name="type_description"/> -->
                 <field name="product_id"/>
                 <filter name="filter_critical_date" string="Critical Date" date="critical_date"/>
+                <filter name="filter_action_date" string="Action Date" date="action_date"/>
                 <filter name="group_type" string="By Route" context="{'group_by': 'route_id'}"/>
             </search>
         </field>
