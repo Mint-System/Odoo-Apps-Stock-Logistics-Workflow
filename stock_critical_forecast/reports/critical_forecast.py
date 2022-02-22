@@ -99,7 +99,6 @@ class CriticalForecast(models.Model):
 
         for mo in production_ids:
             for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids):
-                record = self._prepare_move_data(move)
                 rec1 = self._prepare_move_data(move)
                 rec2 = {
                     # 'origin': mo.name,
