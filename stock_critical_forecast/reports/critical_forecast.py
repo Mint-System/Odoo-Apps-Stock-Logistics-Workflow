@@ -39,6 +39,7 @@ class CriticalForecast(models.Model):
 
         # Get data from replenishment report
         replenish_data = move.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
+        
         # Look for unfilled lines and set as critical date
         unfilled_lines = list(filter(lambda l: not l['replenishment_filled'], replenish_data['lines']))
         replenish_delay = move.product_id.seller_ids[0].delay if move.product_id.seller_ids else move.product_id.produce_delay
@@ -94,7 +95,6 @@ class CriticalForecast(models.Model):
             ('state', 'in', ['draft', 'confirmed']),
             ('company_id', '=', self.env.company.id)
         ])
-
         # _logger.warning(production_ids) if request.session.debug else {}
 
         for mo in production_ids:
@@ -130,28 +130,20 @@ class CriticalForecast(models.Model):
 
         # _logger.warning([current_product_ids, product_ids]) if request.session.debug else {}
 
-        # Remove all data from critical forecast model
-        # _logger.warning("Remove all data") if request.session.debug else {}
-        # self.search([]).unlink()
-        # self.env.cr.execute('''
-        #     DELETE FROM stock_critical_forecast
-        # ''')
-
         # Create entries
-        # _logger.warning("Create entries") if request.session.debug else {}
         self.create(list(filter(lambda d: d['product_id'] not in current_product_ids, data)))
+        # self.create(data)
 
         # Update entries
-        # _logger.warning("Update all data") if request.session.debug else {}
         for curr in current_ids:
             vals = list(filter(lambda d: d['product_id'] == curr.product_id.id, data))
             if vals:
                 curr.write(vals[0])
 
         # Unlink entries
-        # _logger.warning("Remove entries") if request.session.debug else {}
         self.search([('product_id','not in', product_ids)]).unlink()
-        # self.create(data)
+        # self.search([]).unlink()
+        
 
     def action_product_forecast_report(self):
         """Open forecast report"""
@@ -173,9 +165,6 @@ class CriticalForecast(models.Model):
     #     _logger.warning(action) if request.session.debug else {}
     #     return action
 
-    @api.model
-    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
-        # _logger.warning(domain) if request.session.debug else {}
-        # if domain:
-        #     domain[0].append(['type_description', 'ilike', domain[0][0] ])
-        return super(CriticalForecast, self).search_read(domain, fields, offset, limit, order)
+    # @api.model
+    # def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+    #     return super(CriticalForecast, self).search_read(domain, fields, offset, limit, order)
