@@ -8,6 +8,7 @@ from odoo.http import request
 class CriticalForecast(models.Model):
     _name = 'stock.critical_forecast'
     _description = 'Critical Forecast'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'product_id'
 
     # Report fields
@@ -31,6 +32,7 @@ class CriticalForecast(models.Model):
     agreed_qty = fields.Float(digits='Product Unit of Measure')
     route_id = fields.Many2one('stock.location.route', 'Route')
     seller_id = fields.Many2one('res.partner', 'Vendor')
+    # activity_ids = fields.One2many(related='product_id.activity_ids', string='Activities')
 
     def _prepare_move_data(self, move):
         """Generate entry based on move data"""
@@ -110,7 +112,7 @@ class CriticalForecast(models.Model):
         return data, product_ids
 
     def get_data(self):
-        """Generate report data with sudo"""
+        """Generate report data"""
 
         # Get current data
         current_ids = self.search([])
@@ -130,26 +132,26 @@ class CriticalForecast(models.Model):
 
         # Remove all data from critical forecast model
         # _logger.warning("Remove all data") if request.session.debug else {}
-        # self.sudo().search([]).unlink()
+        # self.search([]).unlink()
         # self.env.cr.execute('''
         #     DELETE FROM stock_critical_forecast
         # ''')
 
         # Create entries
         # _logger.warning("Create entries") if request.session.debug else {}
-        self.sudo().create(list(filter(lambda d: d['product_id'] not in current_product_ids, data)))
+        self.create(list(filter(lambda d: d['product_id'] not in current_product_ids, data)))
 
         # Update entries
         # _logger.warning("Update all data") if request.session.debug else {}
-        for curr in current_ids.sudo():
+        for curr in current_ids:
             vals = list(filter(lambda d: d['product_id'] == curr.product_id.id, data))
             if vals:
                 curr.write(vals[0])
 
         # Unlink entries
         # _logger.warning("Remove entries") if request.session.debug else {}
-        self.sudo().search([('product_id','not in', product_ids)]).unlink()
-        # self.sudo().create(data)
+        self.search([('product_id','not in', product_ids)]).unlink()
+        # self.create(data)
 
     def action_product_forecast_report(self):
         """Open forecast report"""
