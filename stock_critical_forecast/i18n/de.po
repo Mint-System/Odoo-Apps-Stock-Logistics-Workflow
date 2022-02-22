@@ -6,14 +6,34 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-18 08:42+0000\n"
-"PO-Revision-Date: 2022-02-18 08:42+0000\n"
+"POT-Creation-Date: 2022-02-22 07:27+0000\n"
+"PO-Revision-Date: 2022-02-22 07:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: stock_critical_forecast
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.critical_forecast_search
+msgid "180 days"
+msgstr "180 tage"
+
+#. module: stock_critical_forecast
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.critical_forecast_search
+msgid "30 days"
+msgstr "30 Tage"
+
+#. module: stock_critical_forecast
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.critical_forecast_search
+msgid "60 days"
+msgstr "60 Tage"
+
+#. module: stock_critical_forecast
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.critical_forecast_search
+msgid "90 days"
+msgstr "90 Tage"
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,help:stock_critical_forecast.field_stock_critical_forecast__product_type
@@ -25,18 +45,14 @@ msgstr ""
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_stock_critical_forecast__action_date
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.critical_forecast_search
 msgid "Action Date"
 msgstr "Aktionsdatum"
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_stock_critical_forecast__agreed_qty
 msgid "Agreed Qty"
-msgstr "Kaufverträge Verbleibend"
-
-#. module: stock_critical_forecast
-#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.critical_forecast_search
-msgid "By Route"
-msgstr "Route"
+msgstr "Kaufverträge verbleibend"
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_stock_critical_forecast__create_uid
@@ -122,7 +138,7 @@ msgstr "Produkttyp"
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_stock_critical_forecast__promised_qty
 msgid "Promised Qty"
-msgstr "Rahmenvertrag Verbleibend"
+msgstr "Rahmenvertrag verbleibend"
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_stock_critical_forecast__qty_available
@@ -145,7 +161,7 @@ msgstr "Bedarf"
 #: code:addons/stock_logistics_workflow/stock_critical_forecast/static/src/xml/action_refresh_button.xml:0
 #, python-format
 msgid "Refresh"
-msgstr "Aktualisieren"
+msgstr ""
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_stock_critical_forecast__replenish_delay
@@ -154,6 +170,7 @@ msgstr "Wiederbeschaffungszeit"
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_stock_critical_forecast__route_id
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.critical_forecast_search
 msgid "Route"
 msgstr ""
 
@@ -164,6 +181,7 @@ msgstr "Typenbeschreibung"
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_stock_critical_forecast__seller_id
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.critical_forecast_search
 msgid "Vendor"
 msgstr "Lieferant"
 

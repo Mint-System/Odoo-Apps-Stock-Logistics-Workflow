@@ -121,6 +121,14 @@ class CriticalForecast(models.Model):
         # Get delivery order data
         data, product_ids = self._get_picking_data(data, product_ids)
 
+        # Get current data
+
+        # Create entries
+
+        # Update entries
+
+        # Unlink entries
+
         # Create Entry in demand planner
         return self.sudo().create(data)
 
