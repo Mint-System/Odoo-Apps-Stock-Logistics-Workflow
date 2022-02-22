@@ -18,7 +18,7 @@ class CriticalForecast(models.Model):
     # origin = fields.Char('Source Document')
     # source_model = fields.Char()
     # source_ref = fields.Many2oneReference(model_field='source_model')
-    default_code = fields.Char('Internal Reference')
+    # default_code = fields.Char('Internal Reference')
     product_type = fields.Selection(related='product_id.type')
     qty_available = fields.Float(digits='Product Unit of Measure')
     virtual_available = fields.Float(digits='Product Unit of Measure')
@@ -45,7 +45,7 @@ class CriticalForecast(models.Model):
         return {
             'product_id': move.product_id.id,
             'type_description': move.product_id.type_description,
-            'default_code': move.product_id.default_code,
+            # 'default_code': move.product_id.default_code,
             'critical_date': critical_date,
             'action_date': critical_date - timedelta(days=replenish_delay) if critical_date else None,
             'qty_available': move.product_id.qty_available,
@@ -56,19 +56,21 @@ class CriticalForecast(models.Model):
             'qty_in': replenish_data['qty']['in'],
             'qty_out': replenish_data['qty']['out'],
             'promised_qty': sum(self.env['sale.blanket.order.line'].search([('product_id', '=', move.product_id.id)]).mapped('remaining_uom_qty')) if move.product_id.sale_ok else 0,
-            'agreed_qty': move.product_id.purchased_product_qty,
-            'route_id': move.product_id.route_ids[0].id if move.product_id.route_ids else 0,
-            'seller_id': move.product_id.seller_ids[0].name.id if move.product_id.seller_ids else 0,
+            'agreed_qty': sum(self.env['purchase.requisition.line'].search([('product_id', '=', move.product_id.id)]).mapped(lambda l: l.product_qty - l.qty_ordered)) if move.product_id.purchase_ok else 0,
+            'route_id': move.product_id.route_ids[0].id if move.product_id.route_ids else False,
+            'seller_id': move.product_id.seller_ids[0].name.id if move.product_id.seller_ids else False,
         }
 
-    def _get_picking_data(self, data=[], product_ids = []):
+    def _get_picking_data(self, data=[], product_ids=[]):
         """Get data delivery orders"""
         
+        self.env['stock.picking'].clear_caches()
         picking_ids = self.env['stock.picking'].search([
             ('state', 'not in', ('cancel', 'draft', 'done')),
             ('picking_type_id.code', '=', 'outgoing'),
             ('company_id', '=', self.env.company.id),
         ])
+        # _logger.warning([picking_ids]) if request.session.debug else {}
 
         for picking in picking_ids:
             for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids):
@@ -83,7 +85,7 @@ class CriticalForecast(models.Model):
 
         return data, product_ids
 
-    def _get_production_data(self, data=[], product_ids = []):
+    def _get_production_data(self, data=[], product_ids=[]):
         """Get data for manufacturing orders"""
 
         production_ids = self.env['mrp.production'].search([
@@ -111,33 +113,43 @@ class CriticalForecast(models.Model):
         """Generate report data with sudo"""
 
         # Get current data
-        current_data = self.search([])
-        current_product_ids = current_data.mapped('product_id.id')
-        _logger.warning([current_data, current_product_ids]) if request.session.debug else {}
+        current_ids = self.search([])
+        current_product_ids = current_ids.mapped('product_id.id')
 
-        # Remove all data from critical forecast model
-        _logger.warning("Remove all data") if request.session.debug else {}
-        self.sudo().search([]).unlink()
-        # self.env.cr.execute('''
-        #     DELETE FROM stock_critical_forecast
-        # ''')
+        # Reset data
+        data=[]
+        product_ids=[]
 
         # Get manufacturing order data
-        data, product_ids = self._get_production_data()
+        data, product_ids = self._get_production_data(data, product_ids)
 
         # Get delivery order data
         data, product_ids = self._get_picking_data(data, product_ids)
 
+        # _logger.warning([current_product_ids, product_ids]) if request.session.debug else {}
+
+        # Remove all data from critical forecast model
+        # _logger.warning("Remove all data") if request.session.debug else {}
+        # self.sudo().search([]).unlink()
+        # self.env.cr.execute('''
+        #     DELETE FROM stock_critical_forecast
+        # ''')
+
         # Create entries
-        # data.filtered(lambda r: r.product_id.id not in current_product_ids).create()
+        # _logger.warning("Create entries") if request.session.debug else {}
+        self.sudo().create(list(filter(lambda d: d['product_id'] not in current_product_ids, data)))
 
         # Update entries
+        # _logger.warning("Update all data") if request.session.debug else {}
+        for curr in current_ids.sudo():
+            vals = list(filter(lambda d: d['product_id'] == curr.product_id.id, data))
+            if vals:
+                curr.write(vals[0])
 
         # Unlink entries
-
-        # Create Entry in demand planner
-        _logger.warning("Create entries") if request.session.debug else {}
-        self.sudo().create(data)
+        # _logger.warning("Remove entries") if request.session.debug else {}
+        self.sudo().search([('product_id','not in', product_ids)]).unlink()
+        # self.sudo().create(data)
 
     def action_product_forecast_report(self):
         """Open forecast report"""
@@ -161,5 +173,7 @@ class CriticalForecast(models.Model):
 
     @api.model
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
-        # _logger.warning([domain, fields, offset, limit, order]) if request.session.debug else {}
+        # _logger.warning(domain) if request.session.debug else {}
+        # if domain:
+        #     domain[0].append(['type_description', 'ilike', domain[0][0] ])
         return super(CriticalForecast, self).search_read(domain, fields, offset, limit, order)
