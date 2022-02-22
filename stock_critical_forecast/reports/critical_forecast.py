@@ -108,12 +108,19 @@ class CriticalForecast(models.Model):
         return data, product_ids
 
     def get_data(self):
-        """Generate report data"""
+        """Generate report data with sudo"""
+
+        # Get current data
+        current_data = self.search([])
+        current_product_ids = current_data.mapped('product_id.id')
+        _logger.warning([current_data, current_product_ids]) if request.session.debug else {}
 
         # Remove all data from critical forecast model
-        self.env.cr.execute('''
-            DELETE FROM stock_critical_forecast
-        ''')
+        _logger.warning("Remove all data") if request.session.debug else {}
+        self.sudo().search([]).unlink()
+        # self.env.cr.execute('''
+        #     DELETE FROM stock_critical_forecast
+        # ''')
 
         # Get manufacturing order data
         data, product_ids = self._get_production_data()
@@ -121,16 +128,16 @@ class CriticalForecast(models.Model):
         # Get delivery order data
         data, product_ids = self._get_picking_data(data, product_ids)
 
-        # Get current data
-
         # Create entries
+        # data.filtered(lambda r: r.product_id.id not in current_product_ids).create()
 
         # Update entries
 
         # Unlink entries
 
         # Create Entry in demand planner
-        return self.sudo().create(data)
+        _logger.warning("Create entries") if request.session.debug else {}
+        self.sudo().create(data)
 
     def action_product_forecast_report(self):
         """Open forecast report"""
