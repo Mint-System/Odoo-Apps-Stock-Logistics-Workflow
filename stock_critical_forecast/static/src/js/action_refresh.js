@@ -33,14 +33,14 @@ odoo.define('demand_planner.action_refresh', function (require) {
             return this._rpc({
                 model: this.modelName,
                 method: 'search_read',
-                args: [[], ['create_date']],
+                args: [[], ['write_date']],
                 kwargs: {
                     limit: 1,
                 },
             }).then((result) => {
                 if (result.length) {
                     this.$buttons.find('.container_last_updated_on').removeClass('d-none');
-                    this.$buttons.find('.container_last_updated_date').text(moment(result[0].create_date).format('lll'));
+                    this.$buttons.find('.container_last_updated_date').text(moment(result[0].write_date).format('lll'));
                 } else {
                     this.$buttons.find('.container_last_updated_on').addClass('d-none');
                 }
