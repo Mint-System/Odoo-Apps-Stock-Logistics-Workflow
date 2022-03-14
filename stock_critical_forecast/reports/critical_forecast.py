@@ -39,12 +39,13 @@ class CriticalForecast(models.Model):
 
         # Get data from replenishment report
         replenish_data = move.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
-        
+        # _logger.warning([replenish_data]) if request.session.debug and move.product_tmpl_id.name == 'BUSCH' else {}
+
         # Look for unfilled lines and set as critical date
-        unfilled_lines = list(filter(lambda l: not l['replenishment_filled'], replenish_data['lines']))
+        problematic_lines = list(filter(lambda l: not l['replenishment_filled'] or l['is_late'], replenish_data['lines']))
         replenish_delay = move.product_id.seller_ids[0].delay if move.product_id.seller_ids else move.product_id.produce_delay
-        critical_date = datetime.strptime(unfilled_lines[0]['delivery_date'], '%d.%m.%Y %H:%M:%S') if unfilled_lines else None
-        # _logger.warning(critical_date) if request.session.debug and move.product_id.id == 39 else {}
+        critical_date = datetime.strptime(problematic_lines[0]['delivery_date'], '%d.%m.%Y %H:%M:%S') if problematic_lines else None
+        # _logger.warning(critical_date) if request.session.debug and move.product_id.name == 'BUSCH' else {}
         return {
             'product_id': move.product_id.id,
             'type_description': move.product_id.type_description,
