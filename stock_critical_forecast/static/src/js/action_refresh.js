@@ -1,4 +1,4 @@
-odoo.define('demand_planner.action_refresh', function (require) {
+odoo.define('stock_critical_forecast.action_refresh', function (require) {
     "use strict";
 
     var core = require('web.core');
@@ -20,7 +20,7 @@ odoo.define('demand_planner.action_refresh', function (require) {
             var self =this;
             var user = session.uid;
             rpc.query({
-                model: 'stock.critical_forecast',
+                model: 'critical.forecast',
                 method: 'get_data',
                 context: session.user_context,
                 args: [[user]],

@@ -1,25 +1,20 @@
-from datetime import datetime, timedelta
-from odoo import api, fields, models
 import logging
+from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 from odoo.http import request
+from datetime import datetime, timedelta
 
 
 class CriticalForecast(models.Model):
-    _name = 'stock.critical_forecast'
+    _name = 'critical.forecast'
     _description = 'Critical Forecast'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'product_id'
 
-    # Report fields
     product_id = fields.Many2one('product.product', 'Product')
     type_description = fields.Char()
     action_date = fields.Date()
     critical_date = fields.Date()
-    # origin = fields.Char('Source Document')
-    # source_model = fields.Char()
-    # source_ref = fields.Many2oneReference(model_field='source_model')
-    # default_code = fields.Char('Internal Reference')
     product_type = fields.Selection(related='product_id.type')
     qty_available = fields.Float(digits='Product Unit of Measure')
     virtual_available = fields.Float(digits='Product Unit of Measure')
@@ -32,35 +27,48 @@ class CriticalForecast(models.Model):
     agreed_qty = fields.Float(digits='Product Unit of Measure')
     route_id = fields.Many2one('stock.location.route', 'Route')
     seller_id = fields.Many2one('res.partner', 'Vendor')
-    # activity_ids = fields.One2many(related='product_id.activity_ids', string='Activities')
 
-    def _prepare_move_data(self, move):
-        """Generate entry based on move data"""
-
-        # Get data from replenishment report
-        replenish_data = move.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
-        # _logger.warning([replenish_data]) if request.session.debug and move.product_tmpl_id.name == 'BUSCH' else {}
-
-        # Look for unfilled lines and set as critical date
+    def _compute_critical_date(self, replenish_data):
         problematic_lines = list(filter(lambda l: not l['replenishment_filled'] or l['is_late'], replenish_data['lines']))
-        replenish_delay = move.product_id.seller_ids[0].delay if move.product_id.seller_ids else move.product_id.produce_delay
-        critical_date = datetime.strptime(problematic_lines[0]['delivery_date'], '%d.%m.%Y %H:%M:%S') if problematic_lines else None
-        # _logger.warning(critical_date) if request.session.debug and move.product_id.name == 'BUSCH' else {}
+        return datetime.strptime(problematic_lines[0]['delivery_date'], '%d.%m.%Y %H:%M:%S') if problematic_lines else None
+
+    def _compute_replenish_delay(self, move):
+        return move.product_id.seller_ids[0].delay if move.product_id.seller_ids else move.product_id.produce_delay
+
+    def _compute_agreed_qty(self, move):
+        if move.product_id.purchase_ok:
+            requisition_ids = self.env['purchase.requisition.line'].search([('product_id', '=', move.product_id.id)])
+            agreed_qty = sum(requisition_ids.mapped(lambda l: l.product_qty - l.qty_ordered))
+        else:
+            agreed_qty = 0
+        return agreed_qty
+
+    def _compute_promised_qty(self, move):
+        if move.product_id.sale_ok:
+            line_ids = self.env['sale.blanket.order.line'].search([('product_id', '=', move.product_id.id)])
+            promised_qty = sum(line_ids.mapped('remaining_uom_qty'))
+        else:
+            promised_qty = 0
+        return promised_qty
+
+    def _prepare_report_line(self, move, replenish_data):
+        replenish_delay = self._compute_replenish_delay(move)
+        critical_date = self._compute_critical_date(replenish_data)
+        promised_qty = self._compute_promised_qty(move)
+        agreed_qty = self._compute_agreed_qty(move)
         return {
             'product_id': move.product_id.id,
             'type_description': move.product_id.type_description,
-            # 'default_code': move.product_id.default_code,
             'critical_date': critical_date,
             'action_date': critical_date - timedelta(days=replenish_delay) if critical_date else None,
-            'qty_available': move.product_id.qty_available,
             'replenish_delay': replenish_delay,
             'virtual_available': move.product_id.virtual_available,
             'min_qty': move.product_id.seller_ids[0].min_qty if move.product_id.seller_ids else 0,
             'product_min_qty': move.product_id.orderpoint_ids[0].product_min_qty if move.product_id.orderpoint_ids else 0,
             'qty_in': replenish_data['qty']['in'],
             'qty_out': replenish_data['qty']['out'],
-            'promised_qty': sum(self.env['sale.blanket.order.line'].search([('product_id', '=', move.product_id.id)]).mapped('remaining_uom_qty')) if move.product_id.sale_ok else 0,
-            'agreed_qty': sum(self.env['purchase.requisition.line'].search([('product_id', '=', move.product_id.id)]).mapped(lambda l: l.product_qty - l.qty_ordered)) if move.product_id.purchase_ok else 0,
+            'promised_qty': promised_qty,
+            'agreed_qty': agreed_qty,
             'route_id': move.product_id.route_ids[0].id if move.product_id.route_ids else False,
             'seller_id': move.product_id.seller_ids[0].name.id if move.product_id.seller_ids else False,
         }
@@ -68,23 +76,21 @@ class CriticalForecast(models.Model):
     def _get_picking_data(self, data=[], product_ids=[]):
         """Get data delivery orders"""
         
+        # Clear cache
         self.env['stock.picking'].clear_caches()
+
+        # Lookup unfinished outgoing delivery ordrers
         picking_ids = self.env['stock.picking'].search([
             ('state', 'not in', ('cancel', 'draft', 'done')),
             ('picking_type_id.code', '=', 'outgoing'),
             ('company_id', '=', self.env.company.id),
         ])
-        # _logger.warning([picking_ids]) if request.session.debug else {}
+        _logger.warning([picking_ids]) if request.session.debug else {}
 
         for picking in picking_ids:
             for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids):
-                rec1 = self._prepare_move_data(move)
-                rec2 = {
-                    # 'origin': picking.name,
-                    # 'source_model':  picking._name,
-                    # 'source_ref': picking.id,
-                }
-                data.append({**rec1, **rec2})
+                replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])              
+                data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
 
         return data, product_ids
@@ -92,31 +98,28 @@ class CriticalForecast(models.Model):
     def _get_production_data(self, data=[], product_ids=[]):
         """Get data for manufacturing orders"""
 
+        # Lookup unfinished manufacturing orders
         production_ids = self.env['mrp.production'].search([
             ('state', 'in', ['draft', 'confirmed']),
             ('company_id', '=', self.env.company.id)
         ])
-        # _logger.warning(production_ids) if request.session.debug else {}
+        _logger.warning(production_ids) if request.session.debug else {}
 
         for mo in production_ids:
             for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids):
-                rec1 = self._prepare_move_data(move)
-                rec2 = {
-                    # 'origin': mo.name,
-                    # 'source_model':  mo._name,
-                    # 'source_ref': mo.id,
-                }
-                data.append({**rec1, **rec2})
+                replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
+                data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
 
         return data, product_ids
 
     def get_data(self):
-        """Generate report data"""
+        """Generate critical forecast data"""
 
         # Get current data
         current_ids = self.search([])
         current_product_ids = current_ids.mapped('product_id.id')
+        _logger.warning([current_ids]) if request.session.debug else {}
 
         # Reset data
         data=[]
@@ -128,11 +131,8 @@ class CriticalForecast(models.Model):
         # Get delivery order data
         data, product_ids = self._get_picking_data(data, product_ids)
 
-        # _logger.warning([current_product_ids, product_ids]) if request.session.debug else {}
-
         # Create entries
         self.create(list(filter(lambda d: d['product_id'] not in current_product_ids, data)))
-        # self.create(data)
 
         # Update entries
         for curr in current_ids:
@@ -142,29 +142,12 @@ class CriticalForecast(models.Model):
 
         # Unlink entries
         self.search([('product_id','not in', product_ids)]).unlink()
-        # self.search([]).unlink()
-        
+
 
     def action_product_forecast_report(self):
-        """Open forecast report"""
+        """Open product forecast report"""
         self.ensure_one()
         action = self.product_id.action_product_forecast_report()
         action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'} 
-        # _logger.warning(action) if request.session.debug else {}
+        _logger.warning(action) if request.session.debug else {}
         return action
-
-    # def action_open_origin(self):
-    #     """Open source document"""
-    #     self.ensure_one()
-    #     action = {
-    #         "type": "ir.actions.act_window",
-    #         "res_model": self.source_model,
-    #         "views": [[False, "form"]],
-    #         "res_id": self.source_ref,
-    #     }
-    #     _logger.warning(action) if request.session.debug else {}
-    #     return action
-
-    # @api.model
-    # def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
-    #     return super(CriticalForecast, self).search_read(domain, fields, offset, limit, order)

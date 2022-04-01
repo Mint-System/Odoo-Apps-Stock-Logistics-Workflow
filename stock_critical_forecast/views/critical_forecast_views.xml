@@ -3,26 +3,23 @@
 
     <record id="critical_forecast_search" model="ir.ui.view">
         <field name="name">Critical Forecast Search</field>
-        <field name="model">stock.critical_forecast</field>
+        <field name="model">critical.forecast</field>
         <field name="arch" type="xml">
             <search>
                 <field name="product_id"/>
                 <field name="type_description"/>
                 <field name="seller_id"/>
-                <!-- <field name="default_code"/> -->
                 <filter string="Critical Date" name="critical_date" domain="[('critical_date', '!=', False)]"/>
                 <filter string="30 days" name="next_month" domain="[('critical_date','&lt;', (context_today() + datetime.timedelta(days=30)).strftime('%%Y-%%m-%%d'))]"/>
                 <filter string="60 days" name="next_two_month" domain="[('critical_date','&lt;', (context_today() + datetime.timedelta(days=60)).strftime('%%Y-%%m-%%d'))]"/>
                 <filter string="90 days" name="next_quarter" domain="[('critical_date','&lt;', (context_today() + datetime.timedelta(days=90)).strftime('%%Y-%%m-%%d'))]"/>
                 <filter string="180 days" name="next_semester" domain="[('critical_date','&lt;', (context_today() + datetime.timedelta(days=180)).strftime('%%Y-%%m-%%d'))]"/>
-                <!-- <filter name="filter_critical_date" string="Critical Date" date="critical_date"/> -->
                 <separator/>
                 <filter string="Action Date" name="action_date" domain="[('action_date', '!=', False)]"/>
                 <filter string="30 days" name="next_month" domain="[('action_date','&lt;', (context_today() + datetime.timedelta(days=30)).strftime('%%Y-%%m-%%d'))]"/>
                 <filter string="60 days" name="next_two_month" domain="[('action_date','&lt;', (context_today() + datetime.timedelta(days=60)).strftime('%%Y-%%m-%%d'))]"/>
                 <filter string="90 days" name="next_quarter" domain="[('action_date','&lt;', (context_today() + datetime.timedelta(days=90)).strftime('%%Y-%%m-%%d'))]"/>
                 <filter string="180 days" name="next_semester" domain="[('action_date','&lt;', (context_today() + datetime.timedelta(days=180)).strftime('%%Y-%%m-%%d'))]"/>
-                <!-- <filter name="filter_action_date" string="Action Date" date="action_date"/> -->
                 <separator/>
                 <filter name="group_type" string="Route" context="{'group_by': 'route_id'}"/>
                 <filter name="group_type" string="Vendor" context="{'group_by': 'seller_id'}"/>
@@ -32,10 +29,9 @@
 
     <record id="critical_forecast_list" model="ir.ui.view">
         <field name="name">Critical Forecast List</field>
-        <field name="model">stock.critical_forecast</field>
+        <field name="model">critical.forecast</field>
         <field name="arch" type="xml">
             <tree create="0" default_order="action_date asc, product_id desc">
-                <!-- <field name="default_code" /> -->
                 <field name="product_type" invisible="1"/>
                 <button class="oe_stat_button" name="action_product_forecast_report" type="object" icon="fa-cubes" attrs="{'invisible': [('product_type', '!=', 'product')]}" />
                 <field name="product_id" widget="many2one" />
@@ -48,21 +44,23 @@
                 <field name="virtual_available" optional="hide"/>
                 <field name="min_qty" optional="hide"/>
                 <field name="product_min_qty" optional="hide"/>
-                <field name="qty_in" optional="hide"/>
-                <field name="qty_out" optional="hide"/>
                 <field name="promised_qty" optional="hide"/>
                 <field name="agreed_qty" optional="hide"/>
-                <field name="route_id" optional="hide"/>
-                <field name="seller_id" optional="hide"/>
-                <!-- <field name="origin" />
-                <button class="oe_stat_button" name="action_open_origin" type="object" icon="fa-external-link" /> -->
+                <field name="qty_in" optional="hide"/>
+                <field name="qty_out" optional="hide"/>
             </tree>
         </field>
     </record>
 
+    <template id="button_render_js" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script src="stock_critical_forecast/static/src/js/action_refresh.js" type="text/javascript"/>
+        </xpath>
+    </template>
+
     <record id="critical_forecast_kanban" model="ir.ui.view">
         <field name="name">Critical Forecast Kanban</field>
-        <field name="model">stock.critical_forecast</field>
+        <field name="model">critical.forecast</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" sample="1">
                 <field name="product_id"/>
@@ -94,13 +92,13 @@
         </field>
     </record>
 
-    <record id="action_critical_forecast" model="ir.actions.act_window">
+    <record id="critical_forecast_action" model="ir.actions.act_window">
         <field name="name">Critical Forecast</field>
-        <field name="res_model">stock.critical_forecast</field>
+        <field name="res_model">critical.forecast</field>
         <field name="view_mode">tree,kanban</field>
         <field name="context">{'search_default_critical_date': 1}</field>
     </record>
 
-    <menuitem id="menu_critical_forecast" action="action_critical_forecast" name="Critical Forecast" sequence="11" parent="stock.menu_warehouse_report"/>
+    <menuitem id="critical_forecast_menu" action="critical_forecast_action" name="Critical Forecast" sequence="11" parent="stock.menu_warehouse_report"/>
 
 </odoo>
