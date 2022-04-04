@@ -8,10 +8,10 @@
     'author': 'Mint System GmbH, Odoo Community Association (OCA)',
     'website': 'https://www.mint-system.ch',
     'category': 'Inventory',
-    'version': '14.0.1.0.0',
+    'version': '14.0.1.1.0',
     'license': 'AGPL-3',
     
-    'depends': ['stock', 'sale_order_line_position', 'purchase_order_line_position'],
+    'depends': ['stock', 'sale_order_line_pos', 'purchase_order_line_position'],
 
     'data': [
         'views/view_picking_form.xml',
