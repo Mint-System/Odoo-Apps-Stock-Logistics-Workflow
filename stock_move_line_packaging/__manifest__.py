@@ -7,7 +7,7 @@
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
     "version": "14.0.2.0.0",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "depends": ["sale_stock"],
     "data": ["views/view_picking_form.xml"],
     "installable": True,

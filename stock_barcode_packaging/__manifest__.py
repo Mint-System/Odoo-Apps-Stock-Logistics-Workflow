@@ -7,7 +7,7 @@
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
     "version": "14.0.1.0.1",
-    "license": "OEEL-1",
+    "license": "OPL-1",
     "depends": ["stock_barcode", "stock_move_line_packaging"],
     "qweb": ["static/src/xml/stock_barcode_lines_template.xml"],
     "installable": True,
