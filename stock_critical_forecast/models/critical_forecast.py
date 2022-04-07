@@ -62,6 +62,7 @@ class CriticalForecast(models.Model):
             'critical_date': critical_date,
             'action_date': critical_date - timedelta(days=replenish_delay) if critical_date else None,
             'replenish_delay': replenish_delay,
+            'qty_available': move.product_id.qty_available,
             'virtual_available': move.product_id.virtual_available,
             'min_qty': move.product_id.seller_ids[0].min_qty if move.product_id.seller_ids else 0,
             'product_min_qty': move.product_id.orderpoint_ids[0].product_min_qty if move.product_id.orderpoint_ids else 0,
