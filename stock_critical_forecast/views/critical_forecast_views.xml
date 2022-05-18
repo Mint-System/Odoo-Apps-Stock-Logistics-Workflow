@@ -44,8 +44,6 @@
                 <field name="virtual_available" optional="hide"/>
                 <field name="min_qty" optional="hide"/>
                 <field name="product_min_qty" optional="hide"/>
-                <field name="promised_qty" optional="hide"/>
-                <field name="agreed_qty" optional="hide"/>
                 <field name="qty_in" optional="hide"/>
                 <field name="qty_out" optional="hide"/>
             </tree>

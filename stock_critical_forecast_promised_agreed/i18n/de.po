@@ -1,0 +1,60 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_critical_forecast_promised_agreed
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-18 09:10+0000\n"
+"PO-Revision-Date: 2022-05-18 09:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_critical_forecast_promised_agreed
+#: model:ir.model.fields,field_description:stock_critical_forecast_promised_agreed.field_critical_forecast__agreed_qty
+msgid "Agreed Qty"
+msgstr "Kaufverträge verbleibend"
+
+#. module: stock_critical_forecast_promised_agreed
+#: model:ir.model,name:stock_critical_forecast_promised_agreed.model_critical_forecast
+msgid "Critical Forecast"
+msgstr "Kritische Vorhersage"
+
+#. module: stock_critical_forecast_promised_agreed
+#: model:ir.model.fields,field_description:stock_critical_forecast_promised_agreed.field_critical_forecast__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: stock_critical_forecast_promised_agreed
+#: model:ir.model.fields,field_description:stock_critical_forecast_promised_agreed.field_critical_forecast__id
+msgid "ID"
+msgstr ""
+
+#. module: stock_critical_forecast_promised_agreed
+#: model:ir.model.fields,field_description:stock_critical_forecast_promised_agreed.field_critical_forecast____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: stock_critical_forecast_promised_agreed
+#. openerp-web
+#: code:addons/stock_critical_forecast_promised_agreed/static/src/xml/listview_refresh.xml:0
+#, python-format
+msgid "Last Updated On:"
+msgstr ""
+
+#. module: stock_critical_forecast_promised_agreed
+#: model:ir.model.fields,field_description:stock_critical_forecast_promised_agreed.field_critical_forecast__promised_qty
+msgid "Promised Qty"
+msgstr "Rahmenvertrag verbleibend"
+
+#. module: stock_critical_forecast_promised_agreed
+#. openerp-web
+#: code:addons/stock_critical_forecast_promised_agreed/static/src/xml/listview_refresh.xml:0
+#, python-format
+msgid "Refresh"
+msgstr ""

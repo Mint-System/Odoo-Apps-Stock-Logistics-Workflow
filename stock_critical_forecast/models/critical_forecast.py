@@ -3,6 +3,8 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 from odoo.http import request
 from datetime import datetime, timedelta
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.tools.misc import get_lang
 
 
 class CriticalForecast(models.Model):
@@ -23,39 +25,25 @@ class CriticalForecast(models.Model):
     product_min_qty = fields.Integer()
     qty_in = fields.Float(digits='Product Unit of Measure')
     qty_out = fields.Float(digits='Product Unit of Measure')
-    promised_qty = fields.Float(digits='Product Unit of Measure')
-    agreed_qty = fields.Float(digits='Product Unit of Measure')
     route_id = fields.Many2one('stock.location.route', 'Route')
     seller_id = fields.Many2one('res.partner', 'Vendor')
 
     def _compute_critical_date(self, replenish_data):
         problematic_lines = list(filter(lambda l: not l['replenishment_filled'] or l['is_late'], replenish_data['lines']))
-        return datetime.strptime(problematic_lines[0]['delivery_date'], '%d.%m.%Y %H:%M:%S') if problematic_lines else None
+        _logger.warning(problematic_lines)
+        if not problematic_lines:
+            return None
+        lang = get_lang(self.env)
+        date_time_format = lang.date_format + ' ' + lang.time_format
+        _logger.warning([problematic_lines[0]['delivery_date'],date_time_format])
+        return datetime.strptime(problematic_lines[0]['delivery_date'], date_time_format) if problematic_lines else None
 
     def _compute_replenish_delay(self, move):
         return move.product_id.seller_ids[0].delay if move.product_id.seller_ids else move.product_id.produce_delay
 
-    def _compute_agreed_qty(self, move):
-        if move.product_id.purchase_ok:
-            requisition_ids = self.env['purchase.requisition.line'].search([('product_id', '=', move.product_id.id)])
-            agreed_qty = sum(requisition_ids.mapped(lambda l: l.product_qty - l.qty_ordered))
-        else:
-            agreed_qty = 0
-        return agreed_qty
-
-    def _compute_promised_qty(self, move):
-        if move.product_id.sale_ok:
-            line_ids = self.env['sale.blanket.order.line'].search([('product_id', '=', move.product_id.id)])
-            promised_qty = sum(line_ids.mapped('remaining_uom_qty'))
-        else:
-            promised_qty = 0
-        return promised_qty
-
     def _prepare_report_line(self, move, replenish_data):
         replenish_delay = self._compute_replenish_delay(move)
         critical_date = self._compute_critical_date(replenish_data)
-        promised_qty = self._compute_promised_qty(move)
-        agreed_qty = self._compute_agreed_qty(move)
         return {
             'product_id': move.product_id.id,
             'type_description': move.product_id.type_description,
@@ -68,8 +56,6 @@ class CriticalForecast(models.Model):
             'product_min_qty': move.product_id.orderpoint_ids[0].product_min_qty if move.product_id.orderpoint_ids else 0,
             'qty_in': replenish_data['qty']['in'],
             'qty_out': replenish_data['qty']['out'],
-            'promised_qty': promised_qty,
-            'agreed_qty': agreed_qty,
             'route_id': move.product_id.route_ids[0].id if move.product_id.route_ids else False,
             'seller_id': move.product_id.seller_ids[0].name.id if move.product_id.seller_ids else False,
         }
@@ -101,7 +87,7 @@ class CriticalForecast(models.Model):
 
         # Lookup unfinished manufacturing orders
         production_ids = self.env['mrp.production'].search([
-            ('state', 'in', ['draft', 'confirmed']),
+            ('state', 'in', ['draft','confirmed','progess','to_close']),
             ('company_id', '=', self.env.company.id)
         ])
         _logger.warning(production_ids) if request.session.debug else {}
@@ -143,7 +129,6 @@ class CriticalForecast(models.Model):
 
         # Unlink entries
         self.search([('product_id','not in', product_ids)]).unlink()
-
 
     def action_product_forecast_report(self):
         """Open product forecast report"""
