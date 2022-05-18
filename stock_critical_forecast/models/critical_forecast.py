@@ -30,12 +30,10 @@ class CriticalForecast(models.Model):
 
     def _compute_critical_date(self, replenish_data):
         problematic_lines = list(filter(lambda l: not l['replenishment_filled'] or l['is_late'], replenish_data['lines']))
-        _logger.warning(problematic_lines)
         if not problematic_lines:
             return None
         lang = get_lang(self.env)
         date_time_format = lang.date_format + ' ' + lang.time_format
-        _logger.warning([problematic_lines[0]['delivery_date'],date_time_format])
         return datetime.strptime(problematic_lines[0]['delivery_date'], date_time_format) if problematic_lines else None
 
     def _compute_replenish_delay(self, move):
