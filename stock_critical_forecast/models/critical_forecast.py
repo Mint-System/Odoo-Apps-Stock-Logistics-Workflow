@@ -85,7 +85,7 @@ class CriticalForecast(models.Model):
 
         # Lookup unfinished manufacturing orders
         production_ids = self.env['mrp.production'].search([
-            ('state', 'in', ['draft','confirmed','progess','to_close']),
+            ('state', 'in', ['draft','confirmed','progress','to_close']),
             ('company_id', '=', self.env.company.id)
         ])
         _logger.warning(production_ids) if request.session.debug else {}
