@@ -7,7 +7,6 @@
         <field name="arch" type="xml">
             <search>
                 <field name="product_id"/>
-                <field name="type_description"/>
                 <field name="seller_id"/>
                 <filter string="Critical Date" name="critical_date" domain="[('critical_date', '!=', False)]"/>
                 <filter string="30 days" name="next_month" domain="[('critical_date','&lt;', (context_today() + datetime.timedelta(days=30)).strftime('%%Y-%%m-%%d'))]"/>
@@ -35,7 +34,6 @@
                 <field name="product_type" invisible="1"/>
                 <button class="oe_stat_button" name="action_product_forecast_report" type="object" icon="fa-cubes" attrs="{'invisible': [('product_type', '!=', 'product')]}" />
                 <field name="product_id" widget="many2one" />
-                <field name="type_description"/>
                 <field name="action_date" optional="show" decoration-warning="action_date == today" decoration-danger="action_date &lt; today" decoration-bf="action_date &lt; today" />
                 <field name="critical_date" optional="show"/>
                 <field name="activity_ids" widget="list_activity" optional="show"/>
@@ -49,12 +47,6 @@
             </tree>
         </field>
     </record>
-
-    <template id="button_render_js" inherit_id="web.assets_backend">
-        <xpath expr="." position="inside">
-            <script src="stock_critical_forecast/static/src/js/action_refresh.js" type="text/javascript"/>
-        </xpath>
-    </template>
 
     <record id="critical_forecast_kanban" model="ir.ui.view">
         <field name="name">Critical Forecast Kanban</field>

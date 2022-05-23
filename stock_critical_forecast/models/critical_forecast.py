@@ -14,7 +14,6 @@ class CriticalForecast(models.Model):
     _rec_name = 'product_id'
 
     product_id = fields.Many2one('product.product', 'Product')
-    type_description = fields.Char()
     action_date = fields.Date()
     critical_date = fields.Date()
     product_type = fields.Selection(related='product_id.type')
@@ -33,8 +32,8 @@ class CriticalForecast(models.Model):
         if not problematic_lines:
             return None
         lang = get_lang(self.env)
-        date_time_format = lang.date_format + ' ' + lang.time_format
-        return datetime.strptime(problematic_lines[0]['delivery_date'], date_time_format) if problematic_lines else None
+        # date_time_format = lang.date_format + ' ' + lang.time_format
+        return datetime.strptime(problematic_lines[0]['delivery_date'], lang.date_format) if problematic_lines else None
 
     def _compute_replenish_delay(self, move):
         return move.product_id.seller_ids[0].delay if move.product_id.seller_ids else move.product_id.produce_delay
@@ -44,7 +43,6 @@ class CriticalForecast(models.Model):
         critical_date = self._compute_critical_date(replenish_data)
         return {
             'product_id': move.product_id.id,
-            'type_description': move.product_id.type_description,
             'critical_date': critical_date,
             'action_date': critical_date - timedelta(days=replenish_delay) if critical_date else None,
             'replenish_delay': replenish_delay,
@@ -73,7 +71,7 @@ class CriticalForecast(models.Model):
         _logger.warning([picking_ids]) if request.session.debug else {}
 
         for picking in picking_ids:
-            for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids):
+            for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.detailed_type == 'product'):
                 replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])              
                 data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
@@ -91,7 +89,7 @@ class CriticalForecast(models.Model):
         _logger.warning(production_ids) if request.session.debug else {}
 
         for mo in production_ids:
-            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids):
+            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.detailed_type == 'product'):
                 replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
                 data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
