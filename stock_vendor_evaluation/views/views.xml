@@ -63,7 +63,9 @@
     <field name="name">Vendor Rating</field>
     <field name="res_model">stock.picking</field>
     <field name="view_mode">pivot</field>
-    <field name="domain">[('evaluation_value', '>', 0)]</field>
+    <field name="domain">[('picking_type_code', '=', 'incoming'),
+    ('evaluation_value', '!=', False),
+    ('state', 'not in', ['draft', 'waiting', 'cancel'])]</field>
   </record>
 
   <menuitem name="Vendor Rating"

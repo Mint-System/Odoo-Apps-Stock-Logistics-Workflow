@@ -7,6 +7,4 @@ from datetime import datetime, timedelta
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    vendor_rating = fields.Float()
-
-
+    vendor_rating = fields.Float(readonly=True)

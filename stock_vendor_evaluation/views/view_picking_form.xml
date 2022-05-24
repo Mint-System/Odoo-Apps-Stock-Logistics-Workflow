@@ -9,7 +9,7 @@
         <field name="arch" type="xml">
             <data>
                 <field name="partner_id" position="after">
-                    <field name="evaluation_id" attrs="{'invisible': ['|', ('state', 'in', ['draft', 'waiting', 'cancel']), ('picking_type_code', '!=', 'incoming')]}" />
+                    <field name="evaluation_id" options="{'no_open': True}" attrs="{'invisible': ['|', ('state', 'in', ['draft', 'waiting', 'cancel']), ('picking_type_code', '!=', 'incoming')]}" />
                 </field>
             </data>
         </field>
