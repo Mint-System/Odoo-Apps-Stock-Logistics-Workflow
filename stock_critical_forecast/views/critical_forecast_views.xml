@@ -52,7 +52,7 @@
 
     <template id="button_render_js" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
-            <script src="stock_critical_forecast/static/src/js/action_refresh.js" type="text/javascript"/>
+            <script src="stock_critical_forecast/static/src/js/show_last_updated_date.js" type="text/javascript"/>
         </xpath>
     </template>
 

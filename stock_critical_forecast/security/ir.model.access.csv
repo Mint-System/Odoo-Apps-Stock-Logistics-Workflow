@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_critical_forecast_critical_forecast,stock_critical_forecast.critical_forecast,model_critical_forecast,base.group_user,1,1,1,1
+access_critical_forecast,access_critical_forecast,model_critical_forecast,base.group_user,1,1,1,1

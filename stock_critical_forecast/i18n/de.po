@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-18 09:10+0000\n"
-"PO-Revision-Date: 2022-05-18 09:10+0000\n"
+"POT-Creation-Date: 2022-06-08 08:42+0000\n"
+"PO-Revision-Date: 2022-06-08 08:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -77,6 +77,26 @@ msgstr ""
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_critical_forecast__message_attachment_count
 msgid "Attachment Count"
+msgstr ""
+
+#. module: stock_critical_forecast
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.view_compute_wizard
+msgid "Calculate"
+msgstr "Berechnen"
+
+#. module: stock_critical_forecast
+#: model:ir.actions.act_window,name:stock_critical_forecast.compute
+#: model:ir.actions.server,name:stock_critical_forecast.calculate_action_ir_actions_server
+#: model:ir.actions.server,name:stock_critical_forecast.get_data
+#: model:ir.cron,cron_name:stock_critical_forecast.calculate_action
+#: model:ir.cron,name:stock_critical_forecast.calculate_action
+#: model:ir.ui.menu,name:stock_critical_forecast.menu_critical_forecast_get_data
+msgid "Calculate Critical Forecast"
+msgstr "Kritische Vorhersage berechnen"
+
+#. module: stock_critical_forecast
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.view_compute_wizard
+msgid "Cancel"
 msgstr ""
 
 #. module: stock_critical_forecast
@@ -166,10 +186,10 @@ msgstr ""
 
 #. module: stock_critical_forecast
 #. openerp-web
-#: code:addons/stock_critical_forecast/static/src/xml/listview_refresh.xml:0
+#: code:addons/stock_critical_forecast/static/src/xml/listview_last_updated_date.xml:0
 #, python-format
 msgid "Last Updated On:"
-msgstr "Zuletzt aktualisiert am:"
+msgstr ""
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_critical_forecast__write_uid
@@ -247,6 +267,11 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: stock_critical_forecast
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.view_compute_wizard
+msgid "Parameters"
+msgstr ""
+
+#. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_critical_forecast__product_id
 msgid "Product"
 msgstr "Produkt"
@@ -277,13 +302,6 @@ msgid "Qty Out"
 msgstr "Bedarf"
 
 #. module: stock_critical_forecast
-#. openerp-web
-#: code:addons/stock_critical_forecast/static/src/xml/listview_refresh.xml:0
-#, python-format
-msgid "Refresh"
-msgstr ""
-
-#. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_critical_forecast__replenish_delay
 msgid "Replenish Delay"
 msgstr "Wiederbeschaffungszeit"
@@ -312,6 +330,11 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+
+#. module: stock_critical_forecast
+#: model_terms:ir.ui.view,arch_db:stock_critical_forecast.view_compute_wizard
+msgid "The critical forecast report will be updated."
+msgstr "Der Bericht Kritische Vorhersage wird aktualisiert."
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_critical_forecast__type_description

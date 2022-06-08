@@ -98,6 +98,7 @@ class CriticalForecast(models.Model):
 
         return data, product_ids
 
+    @api.model
     def get_data(self):
         """Generate critical forecast data"""
 
@@ -135,3 +136,7 @@ class CriticalForecast(models.Model):
         action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'} 
         _logger.warning(action) if request.session.debug else {}
         return action
+
+    def calculate(self):
+        self.get_data()
+        return {'type': 'ir.actions.client', 'tag': 'reload'}
