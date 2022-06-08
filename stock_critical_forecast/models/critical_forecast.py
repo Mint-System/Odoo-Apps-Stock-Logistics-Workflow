@@ -138,5 +138,6 @@ class CriticalForecast(models.Model):
         return action
 
     def calculate(self):
-        self.get_data()
+        action = self.sudo().env.ref('stock_critical_forecast.calculate_action')
+        action.method_direct_trigger()
         return {'type': 'ir.actions.client', 'tag': 'reload'}

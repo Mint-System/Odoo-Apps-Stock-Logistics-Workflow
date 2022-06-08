@@ -1,15 +1,13 @@
 <?xml version="1.0"?>
 <odoo>
-    <record id="get_data" model="ir.actions.server">
+    <!-- <record id="get_data" model="ir.actions.server">
         <field name="name">Calculate Critical Forecast</field>
         <field name="model_id" ref="stock_critical_forecast.model_critical_forecast"/>
-        <!-- <field name="binding_model_id" ref="purchase.model_purchase_order"/>
-        <field name="binding_view_types">list,form</field> -->
         <field name="state">code</field>
         <field name="code">model.get_data()</field>
-    </record>
+    </record> -->
 
-    <record forcecreate="True" id="calculate_action" model="ir.cron">
+    <record forcecreate="True" id=" " model="ir.cron">
         <field name="name">Calculate Critical Forecast</field>
         <field name="model_id" ref="stock_critical_forecast.model_critical_forecast"/>
         <field name="state">code</field>
