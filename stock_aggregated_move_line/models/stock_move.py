@@ -9,7 +9,7 @@ class StockMoveLine(models.Model):
     def _get_aggregated_product_quantities(self, **kwargs):
         aggregated_move_lines = super()._get_aggregated_product_quantities(**kwargs)
         for aggregated_move_line in aggregated_move_lines:
-            move_line = aggregated_move_lines[aggregated_move_line]['move_line']
-            aggregated_move_lines[aggregated_move_line]['description'] = move_line.move_id.description_picking.replace('\n', '<br/>')
+            product = aggregated_move_lines[aggregated_move_line]['product']
+            aggregated_move_lines[aggregated_move_line]['move_line'] = self.filtered(lambda l: l.product_id == product)
         # _logger.warning(aggregated_move_lines)
         return aggregated_move_lines

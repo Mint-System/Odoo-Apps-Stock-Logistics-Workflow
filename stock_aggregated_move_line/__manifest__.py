@@ -1,14 +1,14 @@
 {
-    "name": "Stock Aggregated Move Lines Description",
+    "name": "Stock Aggregated Move Line",
     "summary": """
-        Use stock move description for the aggregated move line description.
+        Access move line in stock aggregated report.
     """,
     "author": "Mint System GmbH, Odoo Community Association (OCA)",
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
-    "version": "14.0.2.0.0",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["stock_aggregated_move_line"],
+    "depends": ["stock"],
     "data": ["views/stock.xml"],
     "installable": True,
     "application": False,

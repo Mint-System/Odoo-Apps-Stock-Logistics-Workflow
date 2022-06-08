@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_report_delivery_aggregated_move_lines" model="ir.ui.view">
+        <field name="name">stock_aggregated_move_lines_description.stock_report_delivery_aggregated_move_lines</field>
+        <field name="inherit_id" ref="stock.stock_report_delivery_aggregated_move_lines"/>
+        <field name="arch" type="xml">
+            <xpath expr="//td/p/span" position="replace">
+                <span t-raw="aggregated_lines[line]['description']"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
