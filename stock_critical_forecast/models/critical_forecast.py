@@ -5,6 +5,7 @@ from odoo.http import request
 from datetime import datetime, timedelta
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.misc import get_lang
+# import threading
 
 
 class CriticalForecast(models.Model):
@@ -70,7 +71,7 @@ class CriticalForecast(models.Model):
             ('picking_type_id.code', '=', 'outgoing'),
             ('company_id', '=', self.env.company.id),
         ])
-        _logger.warning([picking_ids]) if request.session.debug else {}
+        _logger.warning(['picking_ids',picking_ids]) if request.session.debug else {}
 
         for picking in picking_ids:
             for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids):
@@ -88,7 +89,7 @@ class CriticalForecast(models.Model):
             ('state', 'in', ['confirmed','progress','to_close']),
             ('company_id', '=', self.env.company.id)
         ])
-        _logger.warning(production_ids) if request.session.debug else {}
+        _logger.warning(['production_ids',production_ids]) if request.session.debug else {}
 
         for mo in production_ids:
             for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids):
@@ -105,7 +106,7 @@ class CriticalForecast(models.Model):
         # Get current data
         current_ids = self.search([])
         current_product_ids = current_ids.mapped('product_id.id')
-        _logger.warning([current_ids]) if request.session.debug else {}
+        _logger.warning(['current_ids',current_ids]) if request.session.debug else {}
 
         # Reset data
         data=[]
@@ -134,10 +135,12 @@ class CriticalForecast(models.Model):
         self.ensure_one()
         action = self.product_id.action_product_forecast_report()
         action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'} 
-        _logger.warning(action) if request.session.debug else {}
+        # _logger.warning(action) if request.session.debug else {}
         return action
 
     def calculate(self):
         action = self.sudo().env.ref('stock_critical_forecast.calculate_action')
         action.method_direct_trigger()
+        # threaded_calculation = threading.Thread(target=self.get_data, args=())
+        # threaded_calculation.start()
         return {'type': 'ir.actions.client', 'tag': 'reload'}
