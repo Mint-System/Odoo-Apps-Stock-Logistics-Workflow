@@ -8,11 +8,15 @@ odoo.define('stock_critical_forecast.show_last_updated_date', function (require)
     ListController.include({
         renderButtons: function($node) {
             this._super(...arguments)
-            this.set_last_update_date()
+            if(this.$buttons.find('.container_last_updated_on')) {
+                this.set_last_update_date()
+            }
          },
          updateButtons() {
             this._super(...arguments)
-            this.set_last_update_date()
+            if(this.$buttons.find('.container_last_updated_on')) {
+                this.set_last_update_date()
+            }
         },
         set_last_update_date: function () {
             return this._rpc({
@@ -25,9 +29,6 @@ odoo.define('stock_critical_forecast.show_last_updated_date', function (require)
             }).then((result) => {
                 var write_date = new Date(result[0].write_date)
                 write_date = new Date(write_date.setMinutes(write_date.getMinutes() - write_date.getTimezoneOffset()))
-                console.log(
-                    write_date
-                  )
                 if (result.length) {
                     this.$buttons.find('.container_last_updated_on').removeClass('d-none')
                     this.$buttons.find('.container_last_updated_date').text(write_date.toLocaleString(ulang))
