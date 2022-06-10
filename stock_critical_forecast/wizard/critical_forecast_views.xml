@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_compute_wizard" model="ir.ui.view">
+        <field name="name">Calculate Critical Forecast</field>
+        <field name="model">critical.forecast</field>
+        <field name="arch" type="xml">
+            <form string="Parameters">
+                <p>
+                The critical forecast report will be updated.
+                </p>
+                <footer>
+                    <button name="calculate" string="Calculate" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="compute" model="ir.actions.act_window">
+        <field name="name">Calculate Critical Forecast</field>
+        <field name="res_model">critical.forecast</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_critical_forecast_get_data"
+        action="stock_critical_forecast.compute"
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="150"/>
+
+</odoo>

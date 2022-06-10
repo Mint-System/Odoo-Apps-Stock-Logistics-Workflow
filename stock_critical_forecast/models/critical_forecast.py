@@ -5,6 +5,7 @@ from odoo.http import request
 from datetime import datetime, timedelta
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.misc import get_lang
+# import threading
 
 
 class CriticalForecast(models.Model):
@@ -32,8 +33,13 @@ class CriticalForecast(models.Model):
         if not problematic_lines:
             return None
         lang = get_lang(self.env)
-        # date_time_format = lang.date_format + ' ' + lang.time_format
-        return datetime.strptime(problematic_lines[0]['delivery_date'], lang.date_format) if problematic_lines else None
+        date_time_format = lang.date_format + ' ' + lang.time_format
+        delivery_date = problematic_lines[0]['delivery_date']
+        try:
+            delivery_date = datetime.strptime(delivery_date, date_time_format)
+        except:
+            delivery_date = datetime.strptime(delivery_date, lang.date_format)
+        return delivery_date
 
     def _compute_replenish_delay(self, move):
         return move.product_id.seller_ids[0].delay if move.product_id.seller_ids else move.product_id.produce_delay
@@ -68,10 +74,10 @@ class CriticalForecast(models.Model):
             ('picking_type_id.code', '=', 'outgoing'),
             ('company_id', '=', self.env.company.id),
         ])
-        _logger.warning([picking_ids]) if request.session.debug else {}
+        _logger.warning(['picking_ids',picking_ids]) if request.session.debug else {}
 
         for picking in picking_ids:
-            for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.detailed_type == 'product'):
+            for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids):
                 replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])              
                 data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
@@ -83,26 +89,27 @@ class CriticalForecast(models.Model):
 
         # Lookup unfinished manufacturing orders
         production_ids = self.env['mrp.production'].search([
-            ('state', 'in', ['draft','confirmed','progress','to_close']),
+            ('state', 'in', ['confirmed','progress','to_close']),
             ('company_id', '=', self.env.company.id)
         ])
-        _logger.warning(production_ids) if request.session.debug else {}
+        _logger.warning(['production_ids',production_ids]) if request.session.debug else {}
 
         for mo in production_ids:
-            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.detailed_type == 'product'):
+            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids):
                 replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
                 data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
 
         return data, product_ids
 
+    @api.model
     def get_data(self):
         """Generate critical forecast data"""
 
         # Get current data
         current_ids = self.search([])
         current_product_ids = current_ids.mapped('product_id.id')
-        _logger.warning([current_ids]) if request.session.debug else {}
+        _logger.warning(['current_ids',current_ids]) if request.session.debug else {}
 
         # Reset data
         data=[]
@@ -131,5 +138,12 @@ class CriticalForecast(models.Model):
         self.ensure_one()
         action = self.product_id.action_product_forecast_report()
         action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'} 
-        _logger.warning(action) if request.session.debug else {}
+        # _logger.warning(action) if request.session.debug else {}
         return action
+
+    def calculate(self):
+        action = self.sudo().env.ref('stock_critical_forecast.calculate_action')
+        action.method_direct_trigger()
+        # threaded_calculation = threading.Thread(target=self.get_data, args=())
+        # threaded_calculation.start()
+        return {'type': 'ir.actions.client', 'tag': 'reload'}
