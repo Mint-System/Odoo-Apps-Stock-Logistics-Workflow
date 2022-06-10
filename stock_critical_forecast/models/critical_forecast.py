@@ -35,7 +35,12 @@ class CriticalForecast(models.Model):
             return None
         lang = get_lang(self.env)
         date_time_format = lang.date_format + ' ' + lang.time_format
-        return datetime.strptime(problematic_lines[0]['delivery_date'], date_time_format) if problematic_lines else None
+        delivery_date = problematic_lines[0]['delivery_date']
+        try:
+            delivery_date = datetime.strptime(delivery_date, date_time_format)
+        except:
+            delivery_date = datetime.strptime(delivery_date, lang.date_format)
+        return delivery_date
 
     def _compute_replenish_delay(self, move):
         return move.product_id.seller_ids[0].delay if move.product_id.seller_ids else move.product_id.produce_delay

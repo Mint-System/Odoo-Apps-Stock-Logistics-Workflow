@@ -27,13 +27,15 @@ odoo.define('stock_critical_forecast.show_last_updated_date', function (require)
                     limit: 1,
                 },
             }).then((result) => {
-                var write_date = new Date(result[0].write_date)
-                write_date = new Date(write_date.setMinutes(write_date.getMinutes() - write_date.getTimezoneOffset()))
-                if (result.length) {
-                    this.$buttons.find('.container_last_updated_on').removeClass('d-none')
-                    this.$buttons.find('.container_last_updated_date').text(write_date.toLocaleString(ulang))
-                } else {
-                    this.$buttons.find('.container_last_updated_on').addClass('d-none')
+                if (result.length > 0) {
+                    var write_date = new Date(result[0].write_date)
+                    write_date = new Date(write_date.setMinutes(write_date.getMinutes() - write_date.getTimezoneOffset()))
+                    if (result.length) {
+                        this.$buttons.find('.container_last_updated_on').removeClass('d-none')
+                        this.$buttons.find('.container_last_updated_date').text(write_date.toLocaleString(ulang))
+                    } else {
+                        this.$buttons.find('.container_last_updated_on').addClass('d-none')
+                    }
                 }
             })
         },
