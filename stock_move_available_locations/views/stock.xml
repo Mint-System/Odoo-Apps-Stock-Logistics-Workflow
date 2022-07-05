@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_location_form" model="ir.ui.view">
+    <field name="name">stock_move_available_locations.view_location_form</field>
+    <field name="model">stock.location</field>
+    <field name="inherit_id" ref="stock.view_location_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='return_location']" position="after">
+        <field name="picking_location"/>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="view_picking_form" model="ir.ui.view">
+    <field name="name">stock_move_available_locations.view_picking_form</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//page[@name='operations']//field[@name='location_id']" position="before">
+        <field name="available_location_ids" invisible="1"/>
+      </xpath>
+      <field name="move_line_ids_without_package" position="attributes">
+        <attribute name="context">{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}</attribute>
+      </field>
+    </field>
+  </record>
+
+  <record id="view_stock_move_operations" model="ir.ui.view">
+    <field name="name">stock_move_available_locations.view_stock_move_operations</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="stock.view_stock_move_operations" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='location_id']" position="before">
+        <field name="available_location_ids" invisible="1"/>
+      </xpath>
+      <field name="move_line_ids" position="attributes">
+        <attribute name="context">{'tree_view_ref': 'stock.view_stock_move_line_operation_tree', 'default_product_uom_id': product_uom, 'default_picking_id': picking_id, 'default_move_id': id, 'default_product_id': product_id, 'default_location_id': available_location_ids[0], 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}</attribute>
+      </field>
+    </field>
+  </record>
+
+  <record id="view_stock_move_line_operation_tree" model="ir.ui.view">
+    <field name="name">stock_move_available_locations.view_stock_move_line_operation_tree</field>
+    <field name="model">stock.move.line</field>
+    <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='location_id']" position="before">
+        <field name="available_location_ids" invisible="1"/>
+      </xpath>
+      <xpath expr="//field[@name='location_id']" position="attributes">
+        <attribute name="domain">[('id', 'in', available_location_ids), '|', ('company_id', '=', False), ('company_id', '=', company_id)]</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="view_stock_move_line_detailed_operation_tree" model="ir.ui.view">
+    <field name="name">stock_move_available_locations.view_stock_move_line_detailed_operation_tree</field>
+    <field name="model">stock.move.line</field>
+    <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='location_id']" position="before">
+        <field name="location_id_domain" invisible="1"/>
+      </xpath>
+      <xpath expr="//field[@name='location_id']" position="attributes">
+        <attribute name="domain">location_id_domain</attribute>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>
