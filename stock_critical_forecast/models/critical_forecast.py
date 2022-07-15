@@ -1,7 +1,6 @@
 import logging
 from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
-from odoo.http import request
 from datetime import datetime, timedelta
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.misc import get_lang
@@ -74,7 +73,7 @@ class CriticalForecast(models.Model):
             ('picking_type_id.code', '=', 'outgoing'),
             ('company_id', '=', self.env.company.id),
         ])
-        _logger.warning(['picking_ids',picking_ids]) if request.session.debug else {}
+        # _logger.warning(['picking_ids',picking_ids])
 
         for picking in picking_ids:
             for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids):
@@ -92,7 +91,7 @@ class CriticalForecast(models.Model):
             ('state', 'in', ['confirmed','progress','to_close']),
             ('company_id', '=', self.env.company.id)
         ])
-        _logger.warning(['production_ids',production_ids]) if request.session.debug else {}
+        # _logger.warning(['production_ids',production_ids])
 
         for mo in production_ids:
             for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids):
@@ -109,7 +108,7 @@ class CriticalForecast(models.Model):
         # Get current data
         current_ids = self.search([])
         current_product_ids = current_ids.mapped('product_id.id')
-        _logger.warning(['current_ids',current_ids]) if request.session.debug else {}
+        # _logger.warning(['current_ids',current_ids])
 
         # Reset data
         data=[]
@@ -138,7 +137,7 @@ class CriticalForecast(models.Model):
         self.ensure_one()
         action = self.product_id.action_product_forecast_report()
         action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'} 
-        # _logger.warning(action) if request.session.debug else {}
+        # _logger.warning(action)
         return action
 
     def calculate(self):
