@@ -51,6 +51,9 @@
       <xpath expr="//field[@name='location_id']" position="attributes">
         <attribute name="domain">[('id', 'in', available_location_ids), '|', ('company_id', '=', False), ('company_id', '=', company_id)]</attribute>
       </xpath>
+      <!-- <xpath expr="//field[@name='location_dest_id']" position="attributes">
+        <attribute name="domain">[('id', 'in', available_location_ids), '|', ('company_id', '=', False), ('company_id', '=', company_id)]</attribute>
+      </xpath> -->
     </field>
   </record>
 
@@ -65,6 +68,9 @@
       <xpath expr="//field[@name='location_id']" position="attributes">
         <attribute name="domain">location_id_domain</attribute>
       </xpath>
+      <!-- <xpath expr="//field[@name='location_dest_id']" position="attributes">
+        <attribute name="domain">location_id_domain</attribute>
+      </xpath> -->
     </field>
   </record>
 
