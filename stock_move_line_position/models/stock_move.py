@@ -9,23 +9,13 @@ class StockMove(models.Model):
     position = fields.Integer("Pos", compute='_compute_get_position')
 
     def _compute_get_position(self):
-        """Get position from sale or purchase order"""
+        """Get position from sale, purchase or manufacturing order"""
         for move in self:
             if move.sale_line_id:
                 move.position = move.sale_line_id.position
             elif move.purchase_line_id:
                 move.position = move.purchase_line_id.position
+            elif move.bom_line_id or move.move_dest_ids.bom_line_id:
+                move.position = move.bom_line_id.position or move.move_dest_ids[0].bom_line_id.position
             else:
                 move.position = 0
-
-        # for rec in self:
-        #     if rec.picking_id.sale_id:
-        #         rec.position = rec.picking_id.sale_id.get_position(rec.product_id, rec.product_uom_qty)
-        #         if rec.position == 0:
-        #             rec.position = rec.picking_id.sale_id.get_position(rec.product_id)
-        #     elif rec.picking_id.purchase_id:
-        #         rec.position = rec.picking_id.purchase_id.get_position(rec.product_id, rec.product_uom_qty)
-        #         if rec.position == 0:
-        #             rec.position = rec.picking_id.purchase_id.get_position(rec.product_id)
-        #     else:
-        #         rec.position = 0

@@ -1,14 +1,14 @@
 {
     "name": "Stock Move Line Position",
     "summary": """
-        Get line position from purchase or sale order.
+        Get line position from purchase, sale or manufacturing order.
     """,
     "author": "Mint System GmbH, Odoo Community Association (OCA)",
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
-    "version": "14.0.2.0.0",
+    "version": "14.0.3.0.0",
     "license": "AGPL-3",
-    "depends": ["stock", "sale_order_line_pos", "purchase_order_line_position"],
+    "depends": ["stock", "sale_order_line_pos", "purchase_order_line_position", "mrp_bom_position"],
     "data": ["views/view_picking_form.xml"],
     "installable": True,
     "application": False,

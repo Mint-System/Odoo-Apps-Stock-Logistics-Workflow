@@ -6,7 +6,7 @@
 Stock Move Line Position
 ========================
 
-Get line position from purchase or sale order.
+Get line position from purchase, sale or manufacturing order.
 
 For a detailed documentation have a look at https://www.odoo-wiki.org/.
 
