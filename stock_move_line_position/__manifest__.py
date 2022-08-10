@@ -8,7 +8,12 @@
     "category": "Inventory",
     "version": "14.0.3.0.0",
     "license": "AGPL-3",
-    "depends": ["stock", "sale_order_line_pos", "purchase_order_line_position", "mrp_bom_position"],
+    "depends": [
+        "stock",
+        "sale_order_line_pos",
+        "purchase_order_line_position",
+        "mrp_bom_position",
+    ],
     "data": ["views/view_picking_form.xml"],
     "installable": True,
     "application": False,
