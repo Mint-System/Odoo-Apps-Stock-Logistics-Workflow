@@ -23,7 +23,6 @@ class StockPicking(models.Model):
             ])
             if picking_ids:
                 values = picking_ids.mapped('evaluation_value')
-                _logger.warning([picking_ids, values])
                 record.partner_id.write({
                     'vendor_rating': sum(values) / len(values)
                 })

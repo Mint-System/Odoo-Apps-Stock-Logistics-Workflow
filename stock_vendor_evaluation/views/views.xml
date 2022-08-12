@@ -64,7 +64,7 @@
     <field name="res_model">stock.picking</field>
     <field name="view_mode">pivot</field>
     <field name="domain">[('picking_type_code', '=', 'incoming'),
-    ('evaluation_value', '!=', False),
+    ('evaluation_id', '!=', False),
     ('state', 'not in', ['draft', 'waiting', 'cancel'])]</field>
   </record>
 
