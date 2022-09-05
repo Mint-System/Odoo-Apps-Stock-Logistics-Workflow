@@ -78,7 +78,7 @@ class CriticalForecast(models.Model):
         # _logger.warning(['picking_ids',picking_ids])
 
         for picking in picking_ids:
-            for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids):
+            for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.type == 'product'):
                 replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])              
                 data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
@@ -96,7 +96,7 @@ class CriticalForecast(models.Model):
         # _logger.warning(['production_ids',production_ids])
 
         for mo in production_ids:
-            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids):
+            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.type == 'product'):
                 replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
                 data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
@@ -122,16 +122,16 @@ class CriticalForecast(models.Model):
         # Get delivery order data
         data, product_ids = self._get_picking_data(data, product_ids)
 
-        # Create entries
+        # Create new entries
         self.create(list(filter(lambda d: d['product_id'] not in current_product_ids, data)))
 
-        # Update entries
+        # Update existing entries
         for curr in current_ids:
             vals = list(filter(lambda d: d['product_id'] == curr.product_id.id, data))
             if vals:
                 curr.write(vals[0])
 
-        # Unlink entries
+        # Unlink obsolete entries
         self.search([('product_id','not in', product_ids)]).unlink()
 
     def action_product_forecast_report(self):
