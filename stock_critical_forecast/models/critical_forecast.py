@@ -24,7 +24,7 @@ class CriticalForecast(models.Model):
     min_qty = fields.Integer()
     product_min_qty = fields.Integer()
     qty_in = fields.Float(digits='Product Unit of Measure')
-    qty_out = fields.Float(digits='Product Unit of Measure')
+    qty_out = fields.Float(digits='Product Unit of Measure', help="Forecasted outgoing plus minimum quantity.")
     route_id = fields.Many2one('stock.location.route', 'Route')
     seller_id = fields.Many2one('res.partner', 'Vendor')
 
@@ -47,6 +47,7 @@ class CriticalForecast(models.Model):
     def _prepare_report_line(self, move, replenish_data):
         replenish_delay = self._compute_replenish_delay(move)
         critical_date = self._compute_critical_date(replenish_data)
+        product_min_qty = move.product_id.orderpoint_ids[0].product_min_qty if move.product_id.orderpoint_ids else 0
         return {
             'product_id': move.product_id.id,
             'type_description': move.product_id.type_description,
@@ -56,9 +57,9 @@ class CriticalForecast(models.Model):
             'qty_available': move.product_id.qty_available,
             'virtual_available': move.product_id.virtual_available,
             'min_qty': move.product_id.seller_ids[0].min_qty if move.product_id.seller_ids else 0,
-            'product_min_qty': move.product_id.orderpoint_ids[0].product_min_qty if move.product_id.orderpoint_ids else 0,
+            'product_min_qty': product_min_qty,
             'qty_in': replenish_data['qty']['in'],
-            'qty_out': replenish_data['qty']['out'],
+            'qty_out': replenish_data['qty']['out'] + product_min_qty,
             'route_id': move.product_id.route_ids[0].id if move.product_id.route_ids else False,
             'seller_id': move.product_id.seller_ids[0].name.id if move.product_id.seller_ids else False,
         }
