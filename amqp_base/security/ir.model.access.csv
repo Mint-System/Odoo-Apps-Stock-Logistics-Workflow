@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_amqp_host,access_amqp_host,amqp_base.model_amqp_host,base.group_user,1,1,1,1
+access_amqp_publisher,access_amqp_publisher,amqp_base.model_amqp_publisher,base.group_user,1,1,1,1
+access_amqp_consumer,access_amqp_consumer,amqp_base.model_amqp_consumer,base.group_user,1,1,1,1
+access_amqp_message,access_amqp_message,amqp_base.model_amqp_message,base.group_user,1,1,1,1

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_tree" model="ir.ui.view">
+    <field name="name">amqp_base.view_tree</field>
+    <field name="model">amqp.host</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name" />
+        <field name="url" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="view_form" model="ir.ui.view">
+    <field name="name">amqp_base.view_form</field>
+    <field name="model">amqp.host</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name" />
+            <field name="url" />
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="amqp_host_act" model="ir.actions.act_window">
+    <field name="name">AMQP Hosts</field>
+    <field name="res_model">amqp.host</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+  <menuitem id="menu_amqp" name="AMQP" parent="base.menu_custom" sequence="30" />
+
+  <menuitem name="Hosts" id="amqp_host" action="amqp_host_act" parent="menu_amqp" sequence="5" />
+
+</odoo>

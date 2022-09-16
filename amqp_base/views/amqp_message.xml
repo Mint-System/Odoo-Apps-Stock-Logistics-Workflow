@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="message_view_tree" model="ir.ui.view">
+    <field name="name">amqp_base.message_view_tree</field>
+    <field name="model">amqp.message</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="body" />
+        <field name="state" />
+        <field name="publisher_id" />
+        <field name="consumer_id" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="message_view_form" model="ir.ui.view">
+    <field name="name">amqp_base.message_view_form</field>
+    <field name="model">amqp.message</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="publish" type="object" string="Publish" />
+          <field name="state" widget="statusbar"/>
+        </header>
+        <sheet>
+          <div name="button_box" class="oe_button_box" attrs="{'invisible': [('id', '=', False)]}">
+          </div>
+          <group>
+            <field name="body" />
+            <field name="state" />
+            <field name="publisher_id" attrs="{'invisible': [('consumer_id', '!=', False)]}" />
+            <field name="consumer_id" attrs="{'invisible': [('publisher_id', '!=', False)]}" />
+            <field name="result" />
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="amqp_message_act" model="ir.actions.act_window">
+    <field name="name">AMQP Messages</field>
+    <field name="res_model">amqp.message</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+  <menuitem name="Messages" id="amqp_message" action="amqp_message_act" parent="menu_amqp" sequence="20" />
+
+</odoo>
