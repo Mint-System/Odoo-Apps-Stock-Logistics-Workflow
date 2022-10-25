@@ -1,5 +1,5 @@
-import logging
 from odoo import _, api, fields, models
+import logging
 _logger = logging.getLogger(__name__)
 from datetime import datetime, timedelta
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
@@ -59,7 +59,7 @@ class CriticalForecast(models.Model):
             'min_qty': move.product_id.seller_ids[0].min_qty if move.product_id.seller_ids else 0,
             'product_min_qty': product_min_qty,
             'qty_in': replenish_data['qty']['in'],
-            'qty_out': replenish_data['qty']['out'] + product_min_qty,
+            'qty_out': replenish_data['qty']['out'],
             'route_id': move.product_id.route_ids[0].id if move.product_id.route_ids else False,
             'seller_id': move.product_id.seller_ids[0].name.id if move.product_id.seller_ids else False,
         }

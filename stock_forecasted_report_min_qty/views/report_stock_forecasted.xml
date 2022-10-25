@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="stock_account_report_product_product_replenishment" inherit_id="stock.report_replenishment_header">
+        <xpath expr="//div[@class='mx-3 text-center'][1]" position="after">
+            <div class="mx-3 text-center">
+                <div class="h3">
+                    <t t-esc="docs['min_qty']" t-options='{"widget": "float", "decimal_precision": "Product Unit of Measure"}'/>
+                    <t t-esc="docs['uom']" groups="uom.group_uom"/>
+                </div>
+                <div>Minimum Stock</div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
