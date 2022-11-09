@@ -26,6 +26,7 @@ git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./ad
 | [stock_move_line_packaging](stock_move_line_packaging) |         Link product packaging from sale order. |
 | [stock_move_line_position](stock_move_line_position) |         Get line position from purchase, sale or manufacturing order. |
 | [stock_move_sale_order_name](stock_move_sale_order_name) |         Use sale order line name for stock move description. |
+| [stock_move_upstream_quantity](stock_move_upstream_quantity) |         Propagate quantity done change on stock move to upstream moves. |
 | [stock_move_upstream_state](stock_move_upstream_state) |         Access state of upstream move in current move. |
 | [stock_move_weight_uom](stock_move_weight_uom) |         Convert unit of measurement when calculating total weight. |
 | [stock_picking_mrp_production_done](stock_picking_mrp_production_done) |         Complete picking and upstream manufacture order at the same time. |
