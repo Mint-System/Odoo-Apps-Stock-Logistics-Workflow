@@ -28,7 +28,7 @@ class CriticalForecast(models.Model):
     route_id = fields.Many2one('stock.location.route', 'Route')
     seller_id = fields.Many2one('res.partner', 'Vendor')
 
-    def _compute_critical_date(self, replenish_data):
+    def _compute_critical_date(self, product_id, replenish_data):
         problematic_lines = list(filter(lambda l: not l['replenishment_filled'] or l['is_late'], replenish_data['lines']))
         if not problematic_lines:
             return None
@@ -41,28 +41,45 @@ class CriticalForecast(models.Model):
             delivery_date = datetime.strptime(delivery_date, lang.date_format)
         return delivery_date
 
-    def _compute_replenish_delay(self, move):
-        return move.product_id.seller_ids[0].delay if move.product_id.seller_ids else move.product_id.produce_delay
+    def _compute_replenish_delay(self, product_id):
+        return product_id.seller_ids[0].delay if product_id.seller_ids else product_id.produce_delay
 
-    def _prepare_report_line(self, move, replenish_data):
-        replenish_delay = self._compute_replenish_delay(move)
-        critical_date = self._compute_critical_date(replenish_data)
-        product_min_qty = move.product_id.orderpoint_ids[0].product_min_qty if move.product_id.orderpoint_ids else 0
+    def _prepare_report_line(self, product_id, replenish_data):
+        replenish_delay = self._compute_replenish_delay(product_id)
+        critical_date = self._compute_critical_date(product_id, replenish_data)
+        product_min_qty = product_id.orderpoint_ids[0].product_min_qty if product_id.orderpoint_ids else 0
         return {
-            'product_id': move.product_id.id,
-            'type_description': move.product_id.type_description,
+            'product_id': product_id.id,
+            'type_description': product_id.type_description,
             'critical_date': critical_date,
             'action_date': critical_date - timedelta(days=replenish_delay) if critical_date else None,
             'replenish_delay': replenish_delay,
-            'qty_available': move.product_id.qty_available,
-            'virtual_available': move.product_id.virtual_available,
-            'min_qty': move.product_id.seller_ids[0].min_qty if move.product_id.seller_ids else 0,
+            'qty_available': product_id.qty_available,
+            'virtual_available': product_id.virtual_available,
+            'min_qty': product_id.seller_ids[0].min_qty if product_id.seller_ids else 0,
             'product_min_qty': product_min_qty,
             'qty_in': replenish_data['qty']['in'],
             'qty_out': replenish_data['qty']['out'],
-            'route_id': move.product_id.route_ids[0].id if move.product_id.route_ids else False,
-            'seller_id': move.product_id.seller_ids[0].name.id if move.product_id.seller_ids else False,
+            'route_id': product_id.route_ids[0].id if product_id.route_ids else False,
+            'seller_id': product_id.seller_ids[0].name.id if product_id.seller_ids else False,
         }
+
+    def _get_production_data(self, data=[], product_ids=[]):
+        """Get data for manufacturing orders"""
+
+        # Lookup unfinished manufacturing orders
+        production_ids = self.env['mrp.production'].search([
+            ('state', 'in', ['confirmed','progress','to_close']),
+            ('company_id', '=', self.env.company.id)
+        ])
+
+        for mo in production_ids:
+            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.type == 'product'):
+                replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
+                data.append(self._prepare_report_line(move.product_id, replenish_data))
+                product_ids.append(move.product_id.id)
+
+        return data, product_ids
 
     def _get_picking_data(self, data=[], product_ids=[]):
         """Get data delivery orders"""
@@ -76,32 +93,17 @@ class CriticalForecast(models.Model):
             ('picking_type_id.code', '=', 'outgoing'),
             ('company_id', '=', self.env.company.id),
         ])
-        # _logger.warning(['picking_ids',picking_ids])
 
         for picking in picking_ids:
             for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.type == 'product'):
                 replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])              
-                data.append(self._prepare_report_line(move, replenish_data))
+                data.append(self._prepare_report_line(move.product_id, replenish_data))
                 product_ids.append(move.product_id.id)
 
         return data, product_ids
 
-    def _get_production_data(self, data=[], product_ids=[]):
-        """Get data for manufacturing orders"""
-
-        # Lookup unfinished manufacturing orders
-        production_ids = self.env['mrp.production'].search([
-            ('state', 'in', ['confirmed','progress','to_close']),
-            ('company_id', '=', self.env.company.id)
-        ])
-        # _logger.warning(['production_ids',production_ids])
-
-        for mo in production_ids:
-            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.type == 'product'):
-                replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
-                data.append(self._prepare_report_line(move, replenish_data))
-                product_ids.append(move.product_id.id)
-
+    def _get_order_data(self, data=[], product_ids=[]):
+        """Hook for other order data."""
         return data, product_ids
 
     @api.model
@@ -111,7 +113,6 @@ class CriticalForecast(models.Model):
         # Get current data
         current_ids = self.search([])
         current_product_ids = current_ids.mapped('product_id.id')
-        # _logger.warning(['current_ids',current_ids])
 
         # Reset data
         data=[]
@@ -122,6 +123,9 @@ class CriticalForecast(models.Model):
 
         # Get delivery order data
         data, product_ids = self._get_picking_data(data, product_ids)
+
+        # Get other order data
+        data, product_ids = self._get_order_data(data, product_ids)
 
         # Create new entries
         self.create(list(filter(lambda d: d['product_id'] not in current_product_ids, data)))
@@ -140,7 +144,6 @@ class CriticalForecast(models.Model):
         self.ensure_one()
         action = self.product_id.action_product_forecast_report()
         action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'} 
-        # _logger.warning(action)
         return action
 
     def calculate(self):

@@ -18,6 +18,7 @@ git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./ad
 | [stock_aggregated_move_lines_description](stock_aggregated_move_lines_description) |         Use stock move description for the aggregated move line description. |
 | [stock_barcode_mrp](stock_barcode_mrp) |         Access work order by scanning the barcode of a manufacturing order. |
 | [stock_barcode_packaging](stock_barcode_packaging) |         Show sale order packaging on barcode operation. |
+| [stock_critical_forecast_link_replenish](stock_critical_forecast_link_replenish) |         Calculate action date from active orderpoint rules. |
 | [stock_critical_forecast](stock_critical_forecast) |         Show critical demand date for components in manufacturing and products to be shipped. |
 | [stock_critical_forecast_promised_agreed](stock_critical_forecast_promised_agreed) |         Extends report with agreed and promised quantity. |
 | [stock_forecasted_report_min_qty](stock_forecasted_report_min_qty) |         Include minimum stock in forecast. |
