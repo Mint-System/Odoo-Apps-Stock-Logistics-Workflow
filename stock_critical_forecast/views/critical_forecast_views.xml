@@ -33,7 +33,7 @@
         <field name="arch" type="xml">
             <tree create="0" default_order="action_date asc, product_id desc">
                 <field name="product_type" invisible="1"/>
-                <button class="oe_stat_button" name="action_product_forecast_report" type="object" icon="fa-cubes" attrs="{'invisible': [('product_type', '!=', 'product')]}" />
+                <button class="oe_stat_button" name="action_product_forecast_report" type="object" icon="fa-area-chart" attrs="{'invisible': [('product_type', '!=', 'product')]}" />
                 <field name="product_id" widget="many2one" />
                 <field name="type_description"/>
                 <field name="action_date" optional="show" decoration-warning="action_date == today" decoration-danger="action_date &lt; today" decoration-bf="action_date &lt; today" />

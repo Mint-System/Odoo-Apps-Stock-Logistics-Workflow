@@ -48,6 +48,7 @@ class CriticalForecast(models.Model):
         replenish_delay = self._compute_replenish_delay(product_id)
         critical_date = self._compute_critical_date(product_id, replenish_data)
         product_min_qty = product_id.orderpoint_ids[0].product_min_qty if product_id.orderpoint_ids else 0
+        # _logger.warning([product_id.name, product_min_qty, product_id.orderpoint_ids])
         return {
             'product_id': product_id.id,
             'type_description': product_id.type_description,
@@ -140,10 +141,15 @@ class CriticalForecast(models.Model):
         self.search([('product_id','not in', product_ids)]).unlink()
 
     def action_product_forecast_report(self):
-        """Open product forecast report"""
+        """Open product forecast report."""
         self.ensure_one()
         action = self.product_id.action_product_forecast_report()
-        action['context'] = {'active_id': self.product_id.id, 'active_ids': [self.product_id.id], 'default_product_id': self.product_id.id, 'active_model': 'product.product'} 
+        action['context'] = {
+            'active_id': self.product_id.id,
+            'active_ids': [self.product_id.id],
+            'default_product_id': self.product_id.id,
+            'active_model': 'product.product'
+        } 
         return action
 
     def calculate(self):

@@ -30,3 +30,10 @@ class CriticalForecast(models.Model):
             product_ids.append(orderpoint.product_id.id)
 
         return data, product_ids
+
+    def action_product_replenish(self):
+        """Open product replenish view."""
+        self.ensure_one()
+        action = self.env["ir.actions.actions"]._for_xml_id('stock.action_orderpoint_replenish')
+        action['domain'] = [('product_id', '=', self.product_id.id)]
+        return action
