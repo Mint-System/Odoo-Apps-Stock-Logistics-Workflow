@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 class StockMove(models.Model):
     _inherit = "stock.move"
 
-    product_packaging = fields.Many2one('product.packaging', string='Package', compute="_compute_product_packaging")
+    product_packaging = fields.Many2one('product.packaging', string='Package', compute="_compute_product_packaging", readonly=False)
 
     def _compute_product_packaging(self):
         for rec in self:
