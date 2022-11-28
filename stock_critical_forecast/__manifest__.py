@@ -6,7 +6,7 @@
     "author": "Mint System GmbH, Odoo Community Association (OCA)",
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
-    "version": "14.0.4.5.1",
+    "version": "14.0.4.6.0",
     "license": "AGPL-3",
     "depends": ["mrp", "sale_stock", "product_type_description"],
     "data": [

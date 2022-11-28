@@ -1,6 +1,8 @@
 import logging
 from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
+from datetime import datetime, time
+from dateutil import relativedelta
 
 
 class CriticalForecast(models.Model):
@@ -15,7 +17,9 @@ class CriticalForecast(models.Model):
                 ('qty_to_order', '>', 0.0)
             ], limit=1)
             if oderpoint_id:
-                return oderpoint_id.lead_days_date
+                # Action date is always today, therefore critical date is today plus rplenish delay.
+                replenish_delay = self._compute_replenish_delay(product_id)
+                return fields.Date.today() + relativedelta.relativedelta(days=replenish_delay)
         return res
 
     def _get_order_data(self, data=[], product_ids=[]):
