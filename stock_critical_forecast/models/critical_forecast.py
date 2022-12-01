@@ -75,10 +75,11 @@ class CriticalForecast(models.Model):
         ])
 
         for mo in production_ids:
-            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.type == 'product'):
-                replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
-                data.append(self._prepare_report_line(move.product_id, replenish_data))
-                product_ids.append(move.product_id.id)
+            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.type == 'product'):
+                if move.product_id.id not in product_ids:
+                    replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])
+                    data.append(self._prepare_report_line(move.product_id, replenish_data))
+                    product_ids.append(move.product_id.id)
 
         return data, product_ids
 
@@ -96,10 +97,11 @@ class CriticalForecast(models.Model):
         ])
 
         for picking in picking_ids:
-            for move in picking.move_lines.filtered(lambda m: m.product_id.id not in product_ids and m.product_id.type == 'product'):
-                replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])              
-                data.append(self._prepare_report_line(move.product_id, replenish_data))
-                product_ids.append(move.product_id.id)
+            for move in picking.move_lines.filtered(lambda m: m.product_id.type == 'product'):
+                if move.product_id.id not in product_ids:
+                    replenish_data = self.env['report.stock.report_product_product_replenishment']._get_report_data([move.product_tmpl_id.id])              
+                    data.append(self._prepare_report_line(move.product_id, replenish_data))
+                    product_ids.append(move.product_id.id)
 
         return data, product_ids
 
