@@ -6,7 +6,7 @@
 Stock Picking MRP Production Done
 =================================
 
-Complete picking and upstream manufacture order at the same time..
+Complete picking and upstream manufacture order at the same time.
 
 For a detailed documentation have a look at https://www.odoo-wiki.org/.
 
