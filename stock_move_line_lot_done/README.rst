@@ -3,7 +3,7 @@
     :alt: License: GPL-3
 
 ========================
-Stock Move Line Qty Done
+Stock Move Line Lot Done
 ========================
 
 When lot is assigned automatically set quantity done.
