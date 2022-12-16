@@ -23,6 +23,7 @@ git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./ad
 | [stock_critical_forecast_promised_agreed](stock_critical_forecast_promised_agreed) |         Extends report with agreed and promised quantity. |
 | [stock_forecasted_report_min_qty](stock_forecasted_report_min_qty) |         Include minimum stock in forecast. |
 | [stock_move_available_locations](stock_move_available_locations) |         Show storage locations that have a positive stock for the product. |
+| [stock_move_line_lot_done](stock_move_line_lot_done) |         When lot is assigned automatically set quantity done. |
 | [stock_move_line_packaging](stock_move_line_packaging) |         Link product packaging from sale order. |
 | [stock_move_line_position](stock_move_line_position) |         Get line position from purchase, sale or manufacturing order. |
 | [stock_move_sale_order_name](stock_move_sale_order_name) |         Use sale order line name for stock move description. |
