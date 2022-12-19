@@ -30,6 +30,7 @@ git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./ad
 | [stock_move_upstream_quantity](stock_move_upstream_quantity) |         Propagate quantity done change on stock move to upstream moves. |
 | [stock_move_upstream_state](stock_move_upstream_state) |         Access state of upstream move in current move. |
 | [stock_move_weight_uom](stock_move_weight_uom) |         Convert unit of measurement when calculating total weight. |
+| [stock_picking_mrp_production_assign](stock_picking_mrp_production_assign) |         Assign picking and upstream manufacture order at the same time. |
 | [stock_picking_mrp_production_done](stock_picking_mrp_production_done) |         Complete picking and upstream manufacture order at the same time. |
 | [stock_picking_notes](stock_picking_notes) |         Notes from sale order are copied to stock picking on confirmation. |
 | [stock_picking_responsible](stock_picking_responsible) |         Use sale order user stock picking responsible. |
