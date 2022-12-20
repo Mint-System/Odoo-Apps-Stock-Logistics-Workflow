@@ -34,3 +34,4 @@ git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./ad
 | [stock_picking_mrp_production_done](stock_picking_mrp_production_done) |         Complete picking and upstream manufacture order at the same time. |
 | [stock_picking_notes](stock_picking_notes) |         Notes from sale order are copied to stock picking on confirmation. |
 | [stock_picking_responsible](stock_picking_responsible) |         Use sale order user stock picking responsible. |
+| [stock_production_lot_date](stock_production_lot_date) |         Define lot date and set expiry date relatively. |
