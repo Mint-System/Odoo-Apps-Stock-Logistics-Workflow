@@ -14,6 +14,7 @@ git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./ad
 
 | Module | Summary |
 | --- | --- |
+| [stock_account_location_valued](stock_account_location_valued) |         Mark stock location to be valued. |
 | [stock_aggregated_move_line](stock_aggregated_move_line) |         Access move line in stock aggregated report. |
 | [stock_aggregated_move_lines_description](stock_aggregated_move_lines_description) |         Use stock move description for the aggregated move line description. |
 | [stock_barcode_mrp](stock_barcode_mrp) |         Access work order by scanning the barcode of a manufacturing order. |

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_location_form" model="ir.ui.view">
+    <field name="name">stock_account_location_valued.view_location_form</field>
+    <field name="model">stock.location</field>
+    <field name="inherit_id" ref="stock.view_location_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='return_location']" position="after">
+        <field name="valued_location"/>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="view_location_tree2" model="ir.ui.view">
+    <field name="name">stock_account_location_valued.view_location_tree2</field>
+    <field name="model">stock.location</field>
+    <field name="inherit_id" ref="stock.view_location_tree2" />
+    <field name="arch" type="xml">
+      <field name="usage" position="after">
+        <field name="should_be_valued" optional="show"/>
+      </field>
+    </field>
+  </record>
+
+</odoo>
