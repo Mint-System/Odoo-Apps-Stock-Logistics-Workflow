@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
-    date = fields.Date()
+    date = fields.Datetime()
 
     @api.constrains('name', 'date', 'product_id', 'company_id')
     def _check_unique_lot(self):
@@ -51,11 +51,20 @@ class StockProductionLot(models.Model):
                     date = (self.date or datetime.now()) + timedelta(days=duration)
                     self[field] = fields.Datetime.to_string(date)
 
+    def _format_date(self, date):
+        """
+        Format date field in user language.
+        """
+        lang_model = self.env['res.lang']
+        lang = lang_model._lang_get(self.env.user.lang)
+        date_format = lang.date_format
+        return date.strftime(date_format)
+
     def name_get(self):
         res = []
         for rec in self:
             if rec.date:
-                res.append((rec.id, '%s (%s)' % (rec.name, rec.date.strftime('%Y-%m-%d'))))
+                res.append((rec.id, '%s (%s)' % (rec.name, self._format_date(rec.date))))
             else:
                 res.append((rec.id, rec.name))
         return res
