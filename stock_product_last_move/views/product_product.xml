@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="product_product_tree_view" model="ir.ui.view">
+        <field name="name">stock_product_last_move.product_product_tree_view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view" />
+        <field name="arch" type="xml">
+            <field name="qty_available" position="after">
+                <field name="last_incoming_date" optional="show" />
+                <!-- <field name="last_incoming_line_id" optional="hide" /> -->
+                <field name="last_ougtoing_date" optional="show" />
+                <!-- <field name="last_outgoing_line_id" optional="hide" /> -->
+            </field>
+        </field>
+    </record>
+</odoo>
