@@ -31,7 +31,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:stock_product_last_move.field_product_product__last_incoming_date
 #: model:ir.model.fields,field_description:stock_product_last_move.field_product_template__last_incoming_date
 msgid "Last Incoming Date"
-msgstr "Datum Letzter Eingange"
+msgstr "Datum Letzter Eingang"
 
 #. module: stock_product_last_move
 #: model:ir.model.fields,field_description:stock_product_last_move.field_product_product____last_update
