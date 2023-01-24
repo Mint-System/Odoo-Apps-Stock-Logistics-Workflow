@@ -8,9 +8,7 @@
         <field name="arch" type="xml">
             <field name="qty_available" position="after">
                 <field name="last_incoming_date" optional="show" />
-                <!-- <field name="last_incoming_line_id" optional="hide" /> -->
-                <field name="last_ougtoing_date" optional="show" />
-                <!-- <field name="last_outgoing_line_id" optional="hide" /> -->
+                <field name="last_outgoing_date" optional="show" />
             </field>
         </field>
     </record>

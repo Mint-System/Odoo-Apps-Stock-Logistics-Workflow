@@ -9,20 +9,24 @@ class ProductTemplate(models.Model):
     last_incoming_line_id = fields.Many2one(
         comodel_name='stock.move.line',
         compute='_compute_last_incoming_line_id',
-        string='Last Purchase Line',
+        string='Last Incoming Line',
+        store=True,
     )
     last_incoming_date = fields.Datetime(
         compute='_compute_last_incoming_line_id',
-        string='Last Incoming Date'
+        string='Last Incoming Date',
+        store=True,
     )
     last_outgoing_line_id = fields.Many2one(
         comodel_name='stock.move.line',
         compute='_compute_last_outgoing_line_id',
         string='Last Outgoing Line',
+        store=True,
     )
-    last_ougtoing_date = fields.Datetime(
+    last_outgoing_date = fields.Datetime(
         compute='_compute_last_outgoing_line_id',
-        string='Last Outgoing Date'
+        string='Last Outgoing Date',
+        store=True,
     )
 
     @api.depends('qty_available')
@@ -49,4 +53,4 @@ class ProductTemplate(models.Model):
             last_line_id = self.env['stock.move.line'].search(domain, limit=1, order='date desc')
             # _logger.warning([product.name, last_line_id])
             product.last_outgoing_line_id = last_line_id
-            product.last_ougtoing_date = last_line_id.date if last_line_id else False
+            product.last_outgoing_date = last_line_id.date if last_line_id else False
