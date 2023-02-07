@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inventory_summary_search" model="ir.ui.view">
+        <field name="name">Inventory Summary Search</field>
+        <field name="model">inventory.summary</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <separator/>
+                <filter name="group_type" string="Product" context="{'group_by': 'product_id'}"/>
+                <filter name="group_type" string="Location" context="{'group_by': 'location_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="inventory_summary_list" model="ir.ui.view">
+        <field name="name">Inventory Summary List</field>
+        <field name="model">inventory.summary</field>
+        <field name="arch" type="xml">
+            <tree create="0" default_order="location_id asc, product_id desc">
+                <field name="product_id" widget="many2one" />
+                <field name="location_id" widget="many2one" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="inventory_summary_action" model="ir.actions.act_window">
+        <field name="name">Inventory Summary</field>
+        <field name="res_model">inventory.summary</field>
+        <field name="view_mode">tree,kanban</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="inventory_summary_menu" action="inventory_summary_action" name="Inventory Summary" sequence="11" parent="stock.menu_warehouse_report"/>
+
+</odoo>

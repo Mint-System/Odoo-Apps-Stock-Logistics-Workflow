@@ -23,6 +23,7 @@ git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./ad
 | [stock_critical_forecast](stock_critical_forecast) |         Show critical demand date for components in manufacturing and products to be shipped. |
 | [stock_critical_forecast_promised_agreed](stock_critical_forecast_promised_agreed) |         Extends report with agreed and promised quantity. |
 | [stock_forecasted_report_min_qty](stock_forecasted_report_min_qty) |         Include minimum stock in forecast. |
+| [stock_inventory_summary](stock_inventory_summary) |     "installable": True, |
 | [stock_move_available_locations](stock_move_available_locations) |         Show storage locations that have a positive stock for the product. |
 | [stock_move_line_lot_done](stock_move_line_lot_done) |         When lot is assigned automatically set quantity done. |
 | [stock_move_line_packaging](stock_move_line_packaging) |         Link product packaging from sale order. |
