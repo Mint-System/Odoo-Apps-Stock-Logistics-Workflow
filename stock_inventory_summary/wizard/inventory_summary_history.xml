@@ -7,6 +7,9 @@
             <form string="Choose your date">
                 <group>
                     <field name="inventory_datetime" />
+                    <field name="location_usage_internal" />
+                    <field name="location_id" />
+                    <!-- <field name="location_id" attrs="{'invisible': [('location_usage_internal', '!=', False)]}" domain="[('usage', '=', 'internal')]" /> -->
                 </group>
                 <group>
                     <p>The calculation of the inventory may take up to several minutes.</p>

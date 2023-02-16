@@ -21,12 +21,32 @@ class InventorySummary(models.Model):
     last_in_date = fields.Datetime()
     last_out_date = fields.Datetime()
 
-    def _get_move_line_data(self, data=[], set_ids=[], to_date=False):
+    def _get_move_line_data(self, data=[], set_ids=[], to_date=False, location_usage_internal=True, location_id=False):
         """Get stock move line data"""
         
-        # Load Data
-        quants = self.env['stock.quant'].search([])
-        lines = self.env['stock.move.line'].search([])
+        # Apply filter and load data
+        domain = []
+        if location_usage_internal:
+            domain = [
+                ('location_id.usage', '=', 'internal')
+            ]
+        if location_id:
+            domain = expression.AND([[('location_id', 'child_of', location_id.id)], domain])
+        quants = self.env['stock.quant'].search(domain)
+        domain = []
+        if location_usage_internal:
+            domain = [
+                '|',
+                    ('location_id.usage', '=', 'internal'),
+                    ('location_dest_id.usage', '=', 'internal')
+            ]
+        if location_id:
+            domain = expression.AND([[
+                '|',
+                    ('location_id', 'child_of', location_id.id),
+                    ('location_dest_id', 'child_of', location_id.id)
+            ], domain])
+        lines = self.env['stock.move.line'].search(domain)
 
         # For each quant get the corresponding move lines    
         for quant in quants:
@@ -43,7 +63,7 @@ class InventorySummary(models.Model):
                     l.product_id.id == quant.product_id.id and
                     (l.location_id.id == quant.location_id.id or l.location_dest_id.id == quant.location_id.id)
                 )
-
+            
             # Calculate quantity from lines
             in_lines = quant_lines.filtered(lambda l: l.location_dest_id == quant.location_id)
             out_lines = quant_lines.filtered(lambda l: l.location_id == quant.location_id)
@@ -63,13 +83,8 @@ class InventorySummary(models.Model):
 
         return data, set_ids
 
-    # def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
-    #     to_date = self._context.get('to_date', False)
-    #     self.get_data(to_date)
-    #     return super().search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
-
     @api.model
-    def get_data(self, to_date=False):
+    def get_data(self, to_date=False, location_usage_internal=True, location_id=False):
         """Generate inventory summary data"""
 
         # Get current data
@@ -81,7 +96,7 @@ class InventorySummary(models.Model):
         set_ids=[]
 
         # Get stock move line data
-        data, set_ids = self._get_move_line_data(data, set_ids, to_date)
+        data, set_ids = self._get_move_line_data(data, set_ids, to_date, location_usage_internal, location_id)
 
         # Create new records
         records = list(filter(lambda d: (d['location_id'], d['product_id']) not in curr_set_ids, data))
