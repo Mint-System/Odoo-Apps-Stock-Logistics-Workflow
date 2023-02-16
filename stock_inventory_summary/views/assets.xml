@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" name="stock_inventory_summary.assets_backend"
+        inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript"
+                src="/stock_inventory_summary/static/src/js/inventory_summary_list_controller.js"></script>
+            <script type="text/javascript"
+                src="/stock_inventory_summary/static/src/js/inventory_summary_list_view.js"></script>
+        </xpath>
+    </template>
+
+</odoo>

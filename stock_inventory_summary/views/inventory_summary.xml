@@ -9,6 +9,12 @@
                 <field name="product_id"/>
                 <field name="location_id"/>
                 <separator/>
+                <filter name="internal_loc" string="Internal Locations" domain="[('location_id.usage','=', 'internal')]"/>
+                <filter name="transit_loc" string="Transit Locations" domain="[('location_id.usage' ,'=', 'transit')]"/>
+                <separator/>
+                <filter name="negative" string="Negative Stock" domain="[('quantity', '&lt;', 0.0)]"/>
+                <filter name="positive" string="Positive Stock" domain="[('quantity', '&gt;', 0.0)]"/>
+                <separator/>
                 <filter name="group_type" string="Product" context="{'group_by': 'product_id'}"/>
                 <filter name="group_type" string="Location" context="{'group_by': 'location_id'}"/>
             </search>
@@ -19,9 +25,15 @@
         <field name="name">Inventory Summary List</field>
         <field name="model">inventory.summary</field>
         <field name="arch" type="xml">
-            <tree create="0" default_order="location_id asc, product_id desc">
+            <tree create="0" default_order="location_id asc, product_id desc" js_class="inventory_summary_list">
                 <field name="product_id" widget="many2one" />
                 <field name="location_id" widget="many2one" />
+                <field name="last_in_date" optional="show" />
+                <field name="last_out_date" optional="show" />
+                <field name="quantity" />
+                <field name="standard_price" optional="show"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="value" optional="show" />
             </tree>
         </field>
     </record>
@@ -29,8 +41,8 @@
     <record id="inventory_summary_action" model="ir.actions.act_window">
         <field name="name">Inventory Summary</field>
         <field name="res_model">inventory.summary</field>
-        <field name="view_mode">tree,kanban</field>
-        <field name="context">{}</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{ 'search_default_internal_loc': 1 }</field>
     </record>
 
     <menuitem id="inventory_summary_menu" action="inventory_summary_action" name="Inventory Summary" sequence="11" parent="stock.menu_warehouse_report"/>
