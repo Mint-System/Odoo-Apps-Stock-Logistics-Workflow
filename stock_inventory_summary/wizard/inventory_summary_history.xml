@@ -8,6 +8,9 @@
                 <group>
                     <field name="inventory_datetime" />
                 </group>
+                <group>
+                    <p>The calculation of the inventory may take up to several minutes.</p>
+                </group>
                 <footer>
                     <button name="open_at_date" string="Confirm" type="object" class="btn-primary" />
                     <button string="Cancel" class="btn-secondary" special="cancel" />

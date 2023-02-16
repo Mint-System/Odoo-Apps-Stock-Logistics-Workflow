@@ -12,6 +12,10 @@ class StockQuantityHistory(models.TransientModel):
     def open_at_date(self):
         tree_view_id = self.env.ref('stock_inventory_summary.inventory_summary_list').id
 
+        # Start calculation
+        self.env['inventory.summary'].get_data(self.inventory_datetime)
+
+        # Return to report
         action = {
             'type': 'ir.actions.act_window',
             'views': [(tree_view_id, 'tree')],
@@ -19,6 +23,6 @@ class StockQuantityHistory(models.TransientModel):
             'name': _('Products'),
             'res_model': 'inventory.summary',
             'domain': [],
-            'context': dict(self.env.context, to_date=self.inventory_datetime),
+            'context': dict(self.env.context, to_date = self.inventory_datetime),
         }
         return action

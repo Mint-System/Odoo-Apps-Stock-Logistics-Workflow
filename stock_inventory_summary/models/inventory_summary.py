@@ -24,25 +24,29 @@ class InventorySummary(models.Model):
     def _get_move_line_data(self, data=[], set_ids=[], to_date=False):
         """Get stock move line data"""
         
-        # For each quant get the corresponding move lines      
+        # Load Data
         quants = self.env['stock.quant'].search([])
+        lines = self.env['stock.move.line'].search([])
+
+        # For each quant get the corresponding move lines    
         for quant in quants:
 
-            # Domain from action_view_stock_moves
-            domain = [
-                ('product_id', '=', quant.product_id.id),
-                '|',
-                    ('location_id', '=', quant.location_id.id),
-                    ('location_dest_id', '=', quant.location_id.id),
-            ]
             # If date is set filter move lines
             if to_date:                
-                domain = expression.AND([[('date', '<=', to_date)], domain])
-            lines = self.env['stock.move.line'].search(domain)
+                quant_lines = lines.filtered(lambda l:
+                    l.date <= to_date and
+                    l.product_id.id == quant.product_id.id and
+                    (l.location_id.id == quant.location_id.id or l.location_dest_id.id == quant.location_id.id)
+                )
+            else:
+                quant_lines = lines.filtered(lambda l:
+                    l.product_id.id == quant.product_id.id and
+                    (l.location_id.id == quant.location_id.id or l.location_dest_id.id == quant.location_id.id)
+                )
 
             # Calculate quantity from lines
-            in_lines = lines.filtered(lambda l: l.location_dest_id == quant.location_id)
-            out_lines = lines.filtered(lambda l: l.location_id == quant.location_id)
+            in_lines = quant_lines.filtered(lambda l: l.location_dest_id == quant.location_id)
+            out_lines = quant_lines.filtered(lambda l: l.location_id == quant.location_id)
             quantity = sum(in_lines.mapped('qty_done')) - sum(out_lines.mapped('qty_done'))
             standard_price = quant.product_id.with_company(quant.company_id).standard_price
 
@@ -59,10 +63,10 @@ class InventorySummary(models.Model):
 
         return data, set_ids
 
-    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
-        to_date = self._context.get('to_date', False)
-        self.get_data(to_date)
-        return super().search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
+    # def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+    #     to_date = self._context.get('to_date', False)
+    #     self.get_data(to_date)
+    #     return super().search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
 
     @api.model
     def get_data(self, to_date=False):

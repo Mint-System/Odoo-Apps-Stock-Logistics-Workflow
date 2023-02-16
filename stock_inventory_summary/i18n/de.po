@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-16 07:12+0000\n"
-"PO-Revision-Date: 2023-02-16 07:12+0000\n"
+"POT-Creation-Date: 2023-02-16 08:00+0000\n"
+"PO-Revision-Date: 2023-02-16 08:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -290,7 +290,7 @@ msgstr "Produkt"
 #: code:addons/stock_inventory_summary/wizard/inventory_summary_history.py:0
 #, python-format
 msgid "Products"
-msgstr "Produkt"
+msgstr ""
 
 #. module: stock_inventory_summary
 #: model:ir.model.fields,field_description:stock_inventory_summary.field_inventory_summary__quantity
@@ -317,6 +317,11 @@ msgid ""
 msgstr ""
 
 #. module: stock_inventory_summary
+#: model_terms:ir.ui.view,arch_db:stock_inventory_summary.view_inventory_summary_history
+msgid "The calculation of the inventory may take up to several minutes."
+msgstr "Die Berechnung des Bestand kann mehrere Minuten in Anspruch nehmen."
+
+#. module: stock_inventory_summary
 #: model_terms:ir.ui.view,arch_db:stock_inventory_summary.inventory_summary_search
 msgid "Transit Locations"
 msgstr "Umschlaglager"
@@ -339,7 +344,7 @@ msgstr ""
 #. module: stock_inventory_summary
 #: model:ir.model.fields,field_description:stock_inventory_summary.field_inventory_summary__value
 msgid "Value"
-msgstr ""
+msgstr "Lagerwert"
 
 #. module: stock_inventory_summary
 #: model:ir.model.fields,field_description:stock_inventory_summary.field_inventory_summary__website_message_ids
