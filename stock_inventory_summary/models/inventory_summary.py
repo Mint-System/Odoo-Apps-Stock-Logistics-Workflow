@@ -88,8 +88,8 @@ class InventorySummary(models.Model):
         """Generate inventory summary data"""
 
         # Get current data
-        curr_ids = self.search([])
-        curr_set_ids = [(d.location_id.id, d.product_id.id) for d in curr_ids]
+        # curr_ids = self.search([])
+        # curr_set_ids = [(d.location_id.id, d.product_id.id) for d in curr_ids]
 
         # Reset data
         data=[]
@@ -98,18 +98,22 @@ class InventorySummary(models.Model):
         # Get stock move line data
         data, set_ids = self._get_move_line_data(data, set_ids, to_date, location_usage_internal, location_id)
 
-        # Create new records
-        records = list(filter(lambda d: (d['location_id'], d['product_id']) not in curr_set_ids, data))
-        self.create(records)
+        # Clear data and create records
+        self.env.cr.execute('DELETE FROM inventory_summary')
+        self.create(data)
 
-        # Update existing records
-        for curr in curr_ids:
-            t = (curr.location_id.id, curr.product_id.id)
-            vals = list(filter(lambda d: (d['location_id'], d['product_id']) == t, data))
-            if vals:
-                curr.write(vals[0])
+        # # Create new records
+        # records = list(filter(lambda d: (d['location_id'], d['product_id']) not in curr_set_ids, data))
+        # self.create(records)
 
-        # Remove records
-        records = self.search([])
-        records = records.filtered(lambda d: (d.location_id.id, d.product_id.id) not in set_ids)
-        records.unlink()
+        # # Update existing records
+        # for curr in curr_ids:
+        #     t = (curr.location_id.id, curr.product_id.id)
+        #     vals = list(filter(lambda d: (d['location_id'], d['product_id']) == t, data))
+        #     if vals:
+        #         curr.write(vals[0])
+
+        # # Remove records
+        # records = self.search([])
+        # records = records.filtered(lambda d: (d.location_id.id, d.product_id.id) not in set_ids)
+        # records.unlink()
