@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_amqp_host,access_amqp_host,amqp_base.model_amqp_host,base.group_user,1,1,1,1
