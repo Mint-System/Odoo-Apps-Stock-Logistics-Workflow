@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- <record id="get_data" model="ir.actions.server">
+        <field name="name">Calculate Critical Forecast</field>
+        <field name="model_id" ref="stock_critical_forecast.model_critical_forecast"/>
+        <field name="state">code</field>
+        <field name="code">model.get_data()</field>
+    </record> -->
+
+    <record forcecreate="True" id="calculate_action" model="ir.cron">
+        <field name="name">Calculate Critical Forecast</field>
+        <field name="model_id" ref="stock_critical_forecast.model_critical_forecast"/>
+        <field name="state">code</field>
+        <field name="code">
+model.get_data()
+        </field>
+        <field eval="True" name="active"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field eval="False" name="doall"/>
+    </record>
+    
+</odoo>
