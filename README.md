@@ -37,4 +37,5 @@ git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./ad
 | [stock_picking_notes](stock_picking_notes) |         Notes from sale order are copied to stock picking on confirmation. |
 | [stock_picking_responsible](stock_picking_responsible) |         Use sale order user stock picking responsible. |
 | [stock_production_lot_date](stock_production_lot_date) |         Define lot date and set expiry date relatively. |
+| [stock_production_lot_qty_storable](stock_production_lot_qty_storable) |         Store value of product qty of lot. |
 | [stock_product_last_move](stock_product_last_move) |         Show last incoming and outgoing move date of product. |
