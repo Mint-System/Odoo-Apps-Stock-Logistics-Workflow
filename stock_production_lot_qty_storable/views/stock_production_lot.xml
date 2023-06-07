@@ -13,7 +13,7 @@
     </record>
 
     <record id="search_product_lot_filter" model="ir.ui.view">
-        <field name="name">sstock_production_lot_qty_storable.search_product_lot_filter</field>
+        <field name="name">stock_production_lot_qty_storable.search_product_lot_filter</field>
         <field name="model">stock.production.lot</field>
         <field name="inherit_id" ref="stock.search_product_lot_filter" />
         <field name="arch" type="xml">
