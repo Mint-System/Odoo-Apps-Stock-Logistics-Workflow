@@ -17,6 +17,7 @@ class StockLot(models.Model):
             traceability_lines = self.env['stock.traceability.report'].with_context(context).get_lines()
 
             # Find move line of the final product
+            traceability_line_ids = []
             if traceability_lines:            
                 move_line = traceability_lines[0]
                 traceability_line_ids = self.env[move_line['model']].browse(move_line['model_id'])
