@@ -33,8 +33,8 @@ class ProductTemplate(models.Model):
     def _compute_last_incoming_line_id(self):
         for product in self:
             domain = [
-                ('product_id.product_tmpl_id', '=', product.id),
-                ('location_id.usage', '=', 'supplier'),
+                ('product_id.product_tmpl_id', '=', product.id),             
+                ('location_id.usage', 'in', ['supplier', 'production']),
                 ('state', '=', 'done'),
             ]
             last_line_id = self.env['stock.move.line'].search(domain, limit=1, order='date desc')

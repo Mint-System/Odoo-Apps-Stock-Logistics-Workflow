@@ -34,7 +34,7 @@ class ProductProduct(models.Model):
         for product in self:
             domain = [
                 ('product_id', '=', product.id),
-                ('location_id.usage', '=', 'supplier'),
+                ('location_id.usage', 'in', ['supplier', 'production']),
                 ('state', '=', 'done'),
             ]
             last_line_id = self.env['stock.move.line'].search(domain, limit=1, order='date desc')
