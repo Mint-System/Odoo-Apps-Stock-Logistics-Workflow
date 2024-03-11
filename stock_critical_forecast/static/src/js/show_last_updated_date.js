@@ -4,7 +4,7 @@ odoo.define('stock_critical_forecast.show_last_updated_date', function (require)
     var ListController = require('web.ListController')
     var session = require('web.session')
     var ulang = session.user_context['lang'].replace('_','-')
-    
+
     ListController.include({
         renderButtons: function($node) {
             this._super(...arguments)
