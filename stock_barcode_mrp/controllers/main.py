@@ -3,7 +3,7 @@ import logging
 from odoo import _, http
 from odoo.http import request
 
-from odoo.addons.stock_barcode.controllers.main import StockBarcodeController
+from odoo.addons.stock_barcode.controllers.stock_barcode import StockBarcodeController
 
 _logger = logging.getLogger(__name__)
 
