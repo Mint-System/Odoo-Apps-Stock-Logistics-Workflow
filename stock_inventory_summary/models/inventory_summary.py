@@ -69,7 +69,7 @@ class InventorySummary(models.Model):
             out_lines = quant_lines.filtered(lambda l: l.location_id == quant.location_id)
             # Convert to base unit
             in_quantities = in_lines.mapped(lambda l: l.product_uom_id._compute_quantity(l.qty_done, l.product_id.uom_id))
-            out_quantities = in_lines.mapped(lambda l: l.product_uom_id._compute_quantity(l.qty_done, l.product_id.uom_id))
+            out_quantities = out_lines.mapped(lambda l: l.product_uom_id._compute_quantity(l.qty_done, l.product_id.uom_id))
             quantity = sum(in_quantities) - sum(out_quantities)
             standard_price = quant.product_id.with_company(quant.company_id).standard_price
 
