@@ -1,0 +1,5 @@
+- Install the module
+- Open the Inventory app
+- Under Operations menu click "Calculate Critical Forecast"
+- Under Reporting menu open the Critical Forecast
+- Critical forecast is shown for products in inventory, production or delivery
