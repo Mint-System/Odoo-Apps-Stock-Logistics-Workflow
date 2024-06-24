@@ -1,32 +1,35 @@
 import logging
 
+from dateutil import relativedelta
+
 from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
-from dateutil import relativedelta
 
 
 class CriticalForecast(models.Model):
     _inherit = "critical.forecast"
 
-    def _compute_critical_date(self, product_id, replenish_data):
+    def _compute_critical_date(self, replenish_data):
         """Check if active orderpoint for this product exists."""
-        res = super()._compute_critical_date(product_id, replenish_data)
+        # Call the base method first
+        res = super()._compute_critical_date(replenish_data)
         if not res:
+            product_id = replenish_data.get("product_id")
             oderpoint_id = self.env["stock.warehouse.orderpoint"].search(
-                [("product_id", "=", product_id.id), ("qty_to_order", ">", 0.0)],
+                [("product_id", "=", product_id), ("qty_to_order", ">", 0.0)],
                 limit=1,
             )
             if oderpoint_id:
-                # Action date is always today, therefore critical date is today plus rplenish delay.
-                replenish_delay = self._compute_replenish_delay(product_id)
+                # Action date is always today, therefore critical date is today plus replenish delay.
+                replenish_delay = self._compute_replenish_delay(oderpoint_id.product_id)
                 return fields.Date.today() + relativedelta.relativedelta(
                     days=replenish_delay
                 )
         return res
 
     def _get_order_data(self, data=[], product_ids=[]):
-        """Add products with active orderopint to data list."""
+        """Add products with active orderpoint to data list."""
 
         # Lookup orderpoints with reorder filter
         oderpoint_ids = self.env["stock.warehouse.orderpoint"].search(
