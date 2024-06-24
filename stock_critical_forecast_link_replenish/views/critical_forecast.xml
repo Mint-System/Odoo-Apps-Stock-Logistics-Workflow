@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="critical_forecast_list" model="ir.ui.view">
+        <field name="name">stock_critical_forecast_link_replenish.critical_forecast_list</field>
+        <field name="model">critical.forecast</field>
+        <field name="inherit_id" ref="stock_critical_forecast.critical_forecast_list"/>
+        <field name="arch" type="xml">
+            <button name="action_product_forecast_report" position="after">
+                <button class="oe_stat_button" name="action_product_replenish" type="object" icon="fa-truck" attrs="{'invisible': [('product_min_qty', '=', 0)]}" />
+            </button>
+        </field>
+    </record>
+
+</odoo>
