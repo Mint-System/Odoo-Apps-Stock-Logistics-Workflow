@@ -3,3 +3,7 @@
 - Under Operations menu click "Calculate Critical Forecast"
 - Under Reporting menu open the Critical Forecast
 - Critical forecast is shown for products in inventory, production or delivery
+- To see the truck icon for products with replenishment order create a replenishment rule for a product
+- When the replenishment rule is set, create a replenishment order for a product
+- Fulfill the delivery in part and generate a new critical forecast
+- The forecast will now show the button for product critical forecast as well as replenishment forecast
