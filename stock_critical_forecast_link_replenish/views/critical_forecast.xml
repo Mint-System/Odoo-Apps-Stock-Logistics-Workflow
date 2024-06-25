@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="stock_critical_forecast.critical_forecast_list"/>
         <field name="arch" type="xml">
             <button name="action_product_forecast_report" position="after">
-                <button class="oe_stat_button" name="action_product_replenish" type="object" icon="fa-truck" attrs="{'invisible': [('product_min_qty', '=', 0)]}" />
+                <button class="oe_stat_button" name="action_product_replenish" type="object" icon="fa-truck" title="Replenish Product" attrs="{'invisible': [('product_min_qty', '=', 0)]}" />
             </button>
         </field>
     </record>
