@@ -15,6 +15,7 @@ git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./ad
 | Module | Summary |
 | --- | --- |
 | [stock_barcode_mrp](stock_barcode_mrp) |         Access work order by scanning the barcode of a manufacturing order. |
+| [stock_critical_forecast_link_replenish](stock_critical_forecast_link_replenish) |         Calculate action date from active orderpoint rules. |
 | [stock_critical_forecast](stock_critical_forecast) |         Show critical demand date for components in manufacturing and products to be shipped. |
 | [stock_lot_traceability_list](stock_lot_traceability_list) |         Show nested traceability report data as list. |
 | [stock_move_line_position](stock_move_line_position) |         Get line position from purchase or sale order. |
