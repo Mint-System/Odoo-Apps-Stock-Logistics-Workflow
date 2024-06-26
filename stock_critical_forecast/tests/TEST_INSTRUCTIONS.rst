@@ -1,6 +1,6 @@
 - Open the Inventory app
 - Under Operations menu click "Calculate Critical Forecast"
 - Under Reporting menu open the Critical Forecast
-- Critical forecast is shown for products in inventory, manufacturing and purchase
-- Choose a product to see the Forecasted Report
-- The Forecasted Report shows the units in respective manufacturing or purchase orders
+- The Critical Forecast by default shows products with a critical order date
+- Click the boxes icon near a product to see the Forecasted Report
+- The Forecasted Report shows the number of units of a product in respective manufacturing or purchase orders
