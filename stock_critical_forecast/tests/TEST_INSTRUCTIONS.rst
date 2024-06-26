@@ -2,5 +2,5 @@
 - Under Operations menu click "Calculate Critical Forecast"
 - Under Reporting menu open the Critical Forecast
 - The Critical Forecast by default shows products with a critical order date
-- Click the boxes icon near a product to see the Forecasted Report
-- The Forecasted Report shows the number of units of a product in respective manufacturing or purchase orders
+- Click the boxes icon near a product with a critical date, for example "Table to see the Forecasted Report
+- The Forecasted Report shows the number of product units in stock and a forecast of how the units are planned to be used in production or replenished.
