@@ -34,7 +34,6 @@
                 <field name="product_type" invisible="1"/>
                 <button class="oe_stat_button" name="action_product_forecast_report" title='Forecast Report' type="object" icon="fa-cubes" attrs="{'invisible': [('product_type', '!=', 'product')]}" />
                 <field name="product_id" widget="many2one" />
-                <field name="product_responsible_id" optional="hide" />
                 <field name="action_date" optional="show" decoration-warning="action_date == today" decoration-danger="action_date &lt; today" decoration-bf="action_date &lt; today" />
                 <field name="critical_date" optional="show" />
                 <field name="activity_ids" widget="list_activity" optional="show"/>

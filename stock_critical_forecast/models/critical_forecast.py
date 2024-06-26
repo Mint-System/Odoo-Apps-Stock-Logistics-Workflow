@@ -20,7 +20,6 @@ class CriticalForecast(models.Model):
     action_date = fields.Date()
     critical_date = fields.Date()
     product_type = fields.Selection(related="product_id.type")
-    product_responsible_id = fields.Many2one(related="product_id.responsible_id")
     qty_available = fields.Float(digits="Product Unit of Measure")
     virtual_available = fields.Float(digits="Product Unit of Measure")
     replenish_delay = fields.Integer()
