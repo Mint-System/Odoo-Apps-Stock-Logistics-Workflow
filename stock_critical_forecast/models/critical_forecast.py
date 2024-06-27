@@ -48,38 +48,38 @@ class CriticalForecast(models.Model):
             delivery_date = datetime.strptime(delivery_date, lang.date_format)
         return delivery_date
 
-    def _compute_replenish_delay(self, move):
+    def _compute_replenish_delay(self, product_id):
         return (
-            move.product_id.seller_ids[0].delay
-            if move.product_id.seller_ids
-            else move.product_id.produce_delay
+            product_id.seller_ids[0].delay
+            if product_id.seller_ids
+            else product_id.produce_delay
         )
 
-    def _prepare_report_line(self, move, replenish_data):
-        replenish_delay = self._compute_replenish_delay(move)
+    def _prepare_report_line(self, product_id, replenish_data):
+        replenish_delay = self._compute_replenish_delay(product_id)
         critical_date = self._compute_critical_date(replenish_data)
         return {
-            "product_id": move.product_id.id,
+            "product_id": product_id.id,
             "critical_date": critical_date,
             "action_date": critical_date - timedelta(days=replenish_delay)
             if critical_date
             else None,
             "replenish_delay": replenish_delay,
-            "qty_available": move.product_id.qty_available,
-            "virtual_available": move.product_id.virtual_available,
-            "min_qty": move.product_id.seller_ids[0].min_qty
-            if move.product_id.seller_ids
+            "qty_available": product_id.qty_available,
+            "virtual_available": product_id.virtual_available,
+            "min_qty": product_id.seller_ids[0].min_qty
+            if product_id.seller_ids
             else 0,
-            "product_min_qty": move.product_id.orderpoint_ids[0].product_min_qty
-            if move.product_id.orderpoint_ids
+            "product_min_qty": product_id.orderpoint_ids[0].product_min_qty
+            if product_id.orderpoint_ids
             else 0,
             "qty_in": replenish_data["qty"]["in"],
             "qty_out": replenish_data["qty"]["out"],
-            "route_id": move.product_id.route_ids[0].id
-            if move.product_id.route_ids
+            "route_id": product_id.route_ids[0].id
+            if product_id.route_ids
             else False,
-            "seller_id": move.product_id.seller_ids[0].partner_id.id
-            if move.product_id.seller_ids
+            "seller_id": product_id.seller_ids[0].partner_id.id
+            if product_id.seller_ids
             else False,
         }
 
@@ -106,7 +106,7 @@ class CriticalForecast(models.Model):
                 replenish_data = self.env[
                     "report.stock.report_product_product_replenishment"
                 ]._get_report_data([move.product_tmpl_id.id])
-                data.append(self._prepare_report_line(move, replenish_data))
+                data.append(self._prepare_report_line(move.product_id, replenish_data))
                 product_ids.append(move.product_id.id)
 
         return data, product_ids
@@ -130,7 +130,7 @@ class CriticalForecast(models.Model):
                 replenish_data = self.env[
                     "report.stock.report_product_product_replenishment"
                 ]._get_report_data([move.product_tmpl_id.id])
-                data.append(self._prepare_report_line(move, replenish_data))
+                data.append(self._prepare_report_line(move.product_id, replenish_data))
                 product_ids.append(move.product_id.id)
 
         return data, product_ids

@@ -15,14 +15,14 @@ class CriticalForecast(models.Model):
         # Call the base method first
         res = super()._compute_critical_date(replenish_data)
         if not res:
-            product_id = replenish_data.get("product_id")
-            oderpoint_id = self.env["stock.warehouse.orderpoint"].search(
-                [("product_id", "=", product_id), ("qty_to_order", ">", 0.0)],
+            product_id = replenish_data['product_templates'][0].product_variant_id
+            orderpoint_id = self.env["stock.warehouse.orderpoint"].search(
+                [("product_id", "=", product_id.id), ("qty_to_order", ">", 0.0)],
                 limit=1,
             )
-            if oderpoint_id:
+            if orderpoint_id:
                 # Action date is always today, therefore critical date is today plus replenish delay.
-                replenish_delay = self._compute_replenish_delay(oderpoint_id.product_id)
+                replenish_delay = self._compute_replenish_delay(product_id)
                 return fields.Date.today() + relativedelta.relativedelta(
                     days=replenish_delay
                 )
@@ -32,11 +32,11 @@ class CriticalForecast(models.Model):
         """Add products with active orderpoint to data list."""
 
         # Lookup orderpoints with reorder filter
-        oderpoint_ids = self.env["stock.warehouse.orderpoint"].search(
+        orderpoint_ids = self.env["stock.warehouse.orderpoint"].search(
             [("qty_to_order", ">", 0.0)]
         )
 
-        for orderpoint in oderpoint_ids.filtered(
+        for orderpoint in orderpoint_ids.filtered(
             lambda o: o.product_id.id not in product_ids
         ):
             replenish_data = self.env[
