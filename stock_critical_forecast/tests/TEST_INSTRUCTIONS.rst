@@ -1,6 +1,13 @@
 - Open the Inventory app
 - Under Operations menu click "Calculate Critical Forecast"
 - Under Reporting menu open the Critical Forecast
-- The Critical Forecast by default shows products with a critical order date
-- Click the boxes icon near a product with a critical date, for example "Table to see the Forecasted Report
-- The Forecasted Report shows the number of product units in stock and a forecast of how the units are planned to be used in production or replenished.
+- Note the critical date for the product "Tischbein"
+- Click the boxes icon next to the product "Tischbein"
+- Compare the date in the Forecast chart where the quantity goes negative
+- Create a Sale Order for customer "Deco Addict"
+- Add a sale position with product "Akustische Blockbildschirme" and quantity 20
+- In the "Other info" tab set the delivery date as today + 1 month
+- Confirm Sale Order
+- Under Operations menu click "Calculate Critical Forecast"
+- Under Reporting menu open the Critical Forecast
+- Note that the product "Akustische Blockbildschirme" is shown in the Critical Forecast with the critical date today + 1 month
