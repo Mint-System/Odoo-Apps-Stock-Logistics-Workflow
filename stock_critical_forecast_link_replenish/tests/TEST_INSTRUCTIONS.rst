@@ -1,0 +1,6 @@
+- Open the Inventory app
+- Open the product "Tischplatte"
+- Create order point with minimum quantity 3
+- Under Operations menu click "Calculate Critical Forecast"
+- Under Reporting menu open the Critical Forecast
+- Check if the product shows up with a critical date today
