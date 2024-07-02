@@ -15,7 +15,7 @@ class CriticalForecast(models.Model):
         # Call the base method first
         res = super()._compute_critical_date(replenish_data)
         if not res:
-            product_id = replenish_data['product_templates'][0].product_variant_id
+            product_id = replenish_data["product_templates"][0].product_variant_id
             orderpoint_id = self.env["stock.warehouse.orderpoint"].search(
                 [("product_id", "=", product_id.id), ("qty_to_order", ">", 0.0)],
                 limit=1,
