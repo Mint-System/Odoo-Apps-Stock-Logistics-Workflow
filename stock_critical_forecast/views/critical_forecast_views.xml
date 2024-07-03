@@ -22,6 +22,7 @@
                 <separator/>
                 <filter name="group_type" string="Route" context="{'group_by': 'route_id'}"/>
                 <filter name="group_type" string="Vendor" context="{'group_by': 'seller_id'}"/>
+                <filter name="group_type" string="Responsible" context="{'group_by': 'product_responsible_id'}"/>
             </search>
         </field>
     </record>
