@@ -20,9 +20,9 @@
                 <filter string="90 days" name="next_quarter" domain="[('action_date','&lt;', (context_today() + datetime.timedelta(days=90)).strftime('%%Y-%%m-%%d'))]"/>
                 <filter string="180 days" name="next_semester" domain="[('action_date','&lt;', (context_today() + datetime.timedelta(days=180)).strftime('%%Y-%%m-%%d'))]"/>
                 <separator/>
-                <filter name="group_type" string="Route" context="{'group_by': 'route_id'}"/>
-                <filter name="group_type" string="Vendor" context="{'group_by': 'seller_id'}"/>
-                <filter name="group_type" string="Responsible" context="{'group_by': 'product_responsible_id'}"/>
+                <filter name="group_route" string="Route" context="{'group_by': 'route_id'}"/>
+                <filter name="group_vendor" string="Vendor" context="{'group_by': 'seller_id'}"/>
+                <filter name="group_responsible" string="Responsible" context="{'group_by': 'product_responsible_id'}"/>
             </search>
         </field>
     </record>
