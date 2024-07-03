@@ -68,17 +68,13 @@ class CriticalForecast(models.Model):
             "replenish_delay": replenish_delay,
             "qty_available": product_id.qty_available,
             "virtual_available": product_id.virtual_available,
-            "min_qty": product_id.seller_ids[0].min_qty
-            if product_id.seller_ids
-            else 0,
+            "min_qty": product_id.seller_ids[0].min_qty if product_id.seller_ids else 0,
             "product_min_qty": product_id.orderpoint_ids[0].product_min_qty
             if product_id.orderpoint_ids
             else 0,
             "qty_in": replenish_data["qty"]["in"],
             "qty_out": replenish_data["qty"]["out"],
-            "route_id": product_id.route_ids[0].id
-            if product_id.route_ids
-            else False,
+            "route_id": product_id.route_ids[0].id if product_id.route_ids else False,
             "seller_id": product_id.seller_ids[0].partner_id.id
             if product_id.seller_ids
             else False,
