@@ -20,7 +20,7 @@ class CriticalForecast(models.Model):
     action_date = fields.Date()
     critical_date = fields.Date()
     product_type = fields.Selection(related="product_id.type")
-    product_responsible_id = fields.Many2one(related="product_id.responsible_id")
+    product_responsible_id = fields.Many2one("res.users", "Responsible")
     qty_available = fields.Float(digits="Product Unit of Measure")
     virtual_available = fields.Float(digits="Product Unit of Measure")
     replenish_delay = fields.Integer()
@@ -75,7 +75,8 @@ class CriticalForecast(models.Model):
             "qty_in": replenish_data["qty"]["in"],
             "qty_out": replenish_data["qty"]["out"],
             "route_id": product_id.route_ids[0].id if product_id.route_ids else False,
-            "seller_id": product_id.seller_ids[0].partner_id.id
+            "seller_id": product_id.seller_ids[0].partner_id.id if product_id.seller_ids else False,
+            "product_responsible_id": product_id.responsible_id.id
             if product_id.seller_ids
             else False,
         }

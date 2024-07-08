@@ -12,6 +12,7 @@
     "data": [
         "security/ir.model.access.csv",
         "views/critical_forecast_views.xml",
+        "views/product_template.xml",
         "data/ir_cron.xml",
         "wizard/critical_forecast_views.xml",
     ],
@@ -19,12 +20,4 @@
     "application": False,
     "auto_install": False,
     "images": ["images/screen.png"],
-    "assets": {
-        "web.assets_backend": [
-            "stock_critical_forecast/static/src/js/show_last_updated_date.js",
-        ],
-        "web.assets_qweb": [
-            "stock_critical_forecast/static/src/xml/listview_last_updated_date.xml",
-        ],
-    },
 }
