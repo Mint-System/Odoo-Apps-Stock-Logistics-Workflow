@@ -1,0 +1,4 @@
+- Open Inventory > Configuration > Warehouses and create a new warehouse "TEST"
+- Open Inventory > Transfers and create and new incoming transfer, choose operation type TEST: Receipts and destination location TEST/Stock
+- On the product line open the Detailed Operations form and choose TEST/Stock
+- Confirm the transfer, open the TEST/Stock warehouse and show Current Stock to see the result of transfer

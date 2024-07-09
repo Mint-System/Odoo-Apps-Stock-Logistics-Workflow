@@ -1,0 +1,94 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_move_available_locations
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-05 13:12+0000\n"
+"PO-Revision-Date: 2022-07-05 13:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_move_available_locations
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_move__available_location_ids
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_move_line__available_location_ids
+msgid "Available Location"
+msgstr "Verfügbare Lagerorte"
+
+#. module: stock_move_available_locations
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_picking__available_location_ids
+msgid "Available Picking Locations"
+msgstr "Verfügbare Lagerorte Transfer"
+
+#. module: stock_move_available_locations
+#: model:ir.model.fields,help:stock_move_available_locations.field_stock_location__picking_location
+msgid "Check if location must be available in transfers."
+msgstr "Markieren wenn Lagerort immer in Transfer zur Auswahl erscheinen soll."
+
+#. module: stock_move_available_locations
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_location__display_name
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_move__display_name
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_quant__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: stock_move_available_locations
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_location__id
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_move__id
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_move_line__id
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_picking__id
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_quant__id
+msgid "ID"
+msgstr ""
+
+#. module: stock_move_available_locations
+#: model:ir.model,name:stock_move_available_locations.model_stock_location
+msgid "Inventory Locations"
+msgstr "Inventurlager"
+
+#. module: stock_move_available_locations
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_location____last_update
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_move____last_update
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_move_line____last_update
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_quant____last_update
+msgid "Last Modified on"
+msgstr "Zuletzt geändert am"
+
+#. module: stock_move_available_locations
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_move_line__location_id_domain
+msgid "Location Id Domain"
+msgstr "Lagerort Domäne"
+
+#. module: stock_move_available_locations
+#: model:ir.model,name:stock_move_available_locations.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Produktbewegungen (Lagerbewegung)"
+
+#. module: stock_move_available_locations
+#: model:ir.model,name:stock_move_available_locations.model_stock_quant
+msgid "Quants"
+msgstr "Bestand"
+
+#. module: stock_move_available_locations
+#: model:ir.model.fields,field_description:stock_move_available_locations.field_stock_location__picking_location
+msgid "Show Picking Location?"
+msgstr "Lageort für Transfer?"
+
+#. module: stock_move_available_locations
+#: model:ir.model,name:stock_move_available_locations.model_stock_move
+msgid "Stock Move"
+msgstr "Lagerbuchung"
+
+#. module: stock_move_available_locations
+#: model:ir.model,name:stock_move_available_locations.model_stock_picking
+msgid "Transfer"
+msgstr "Lieferung vornehmen"
