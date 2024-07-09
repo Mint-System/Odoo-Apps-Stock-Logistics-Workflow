@@ -1,0 +1,4 @@
+- Open Sales > Orders > Quotations
+- Create a new Quotation for Azure Interior
+- Add a product "Bolt" and in the description field write "TEST"
+- Confirm the order and open the Delivery order, the description "TEST" is copied from the Quotation
