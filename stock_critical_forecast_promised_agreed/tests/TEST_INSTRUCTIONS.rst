@@ -1,0 +1,6 @@
+- Open Inventory > Operations > Calculate Critical Forecast
+- Open Reporting > Critical Forecast to see it
+- Choose a Table Leg product and create a new Purchase > Blanket Order for it
+- Recalculate the Critical Forecast, the Agreed Qty now reduced by the number of units from the Purchase Orders of the product
+- Create a new Sales > Blanket Order for Table Leg, recalculate the Critical Forecast
+- Open the Critical Forecast, the Promised Qty has reduced by the number of units in the Sales Order
