@@ -1,0 +1,4 @@
+- Open Purchase > Orders > Purchase Orders
+- Create a new Purchase Order for Azure Interior
+- Add product line (e.g. Bolt, Screw, Drawer), the line position numbers will be added
+- Confirm the order and open the Delivery form, the line position numbers are preserved from the Purchase Order
