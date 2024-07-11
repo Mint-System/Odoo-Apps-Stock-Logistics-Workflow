@@ -1,4 +1,4 @@
 - Open Inventory > Operations > Transfers and create a new Transfer to Deco Addict
-- Enter two product lines with the same product - Pedal Bin, change the description on one of them
+- Enter two product lines with the same product - Pedal Bin, they will get combined into a single product line
 - Confirm the delivery order and press Print > Delivery Slip
-- The Delivery Slip must include both products with their respective descriptions
+- The Delivery Slip must also have the two product lines aggregated into one
