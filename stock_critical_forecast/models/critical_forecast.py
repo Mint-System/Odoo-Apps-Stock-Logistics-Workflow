@@ -75,7 +75,9 @@ class CriticalForecast(models.Model):
             "qty_in": replenish_data["qty"]["in"],
             "qty_out": replenish_data["qty"]["out"],
             "route_id": product_id.route_ids[0].id if product_id.route_ids else False,
-            "seller_id": product_id.seller_ids[0].partner_id.id if product_id.seller_ids else False,
+            "seller_id": product_id.seller_ids[0].partner_id.id
+            if product_id.seller_ids
+            else False,
             "product_responsible_id": product_id.responsible_id.id
             if product_id.seller_ids
             else False,

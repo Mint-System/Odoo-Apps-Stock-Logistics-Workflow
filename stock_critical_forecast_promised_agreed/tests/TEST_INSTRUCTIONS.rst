@@ -1,0 +1,11 @@
+- Open Inventory > Operations > Calculate Critical Forecast
+- Open Reporting > Critical Forecast to see it
+- Choose a Table Leg product and create a new Purchase > Blanket Order for it with a quantity 15
+- Recalculate the Critical Forecast, the Agreed Qty now increased by the number of units from the Blanket Order of the product, the value was 0 and is now 15
+- Create a new RFQ and Purchase order for 15 units from the requisition, receive the products, assign a lot number and validate the delivery
+- Recalculate critical forecast and open it, the value of Promised Qty is reduced by 15 and is again 0
+- Create a new Sales > Blanket Order for Table Leg and quantity 5, recalculate the Critical Forecast
+- Open the Critical Forecast, the Promised Qty has increased by the number of units in the Sale Blanket Order, it was 3 and is now 8
+- From the Blanket Order create a Sales Order, confirm it and proceed with delivery
+- Deliver the products and validate the delivery,
+- Recalculate critical forecast and open it, the value of Agreed Qty is reduced by 5
