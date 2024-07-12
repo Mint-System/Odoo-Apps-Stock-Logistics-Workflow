@@ -1,0 +1,4 @@
+- Open Inventory > Operations > Transfers and create a new Transfer to Deco Addict
+- Enter two product lines with the same product - Pedal Bin, set different descriptions for them
+- Confirm the delivery order and press Print > Delivery Slip
+- The Delivery Slip will have the descriptions for both products lines instead of product name
