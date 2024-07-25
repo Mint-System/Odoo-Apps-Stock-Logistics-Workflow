@@ -1,0 +1,4 @@
+- Open Inventory > Operations > Transfers
+- Create a new Transfer
+- In the Addtional Info set the Responsible person
+- Confirm the Transfer, the field is saved
