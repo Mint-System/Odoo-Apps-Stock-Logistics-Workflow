@@ -1,0 +1,4 @@
+- Open Inventory > Operations > Transfers
+- Create a new Transfer
+- In the Notes tab create a new note
+- Confirm the Transfer, the note is saved
