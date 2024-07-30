@@ -1,9 +1,11 @@
-- Open the Inventory app
+Forecasted report:
 - Under Operations menu click "Calculate Critical Forecast"
 - Under Reporting menu open the Critical Forecast
 - Note the critical date for the product "Tischbein"
 - Click the boxes icon next to the product "Tischbein"
 - Compare the date in the Forecast chart where the quantity goes negative
+
+Sale order:
 - Create a Sale Order for customer "Deco Addict"
 - Add a sale position with product "Akustische Blockbildschirme" and quantity 20
 - In the "Other info" tab set the delivery date as today + 1 month

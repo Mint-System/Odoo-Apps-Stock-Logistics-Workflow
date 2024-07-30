@@ -142,7 +142,6 @@ class CriticalForecast(models.Model):
         # Get current data
         current_ids = self.search([])
         current_product_ids = current_ids.mapped("product_id.id")
-        # _logger.warning(['current_ids',current_ids])
 
         # Reset data
         data = []
@@ -178,7 +177,6 @@ class CriticalForecast(models.Model):
             "default_product_id": self.product_id.id,
             "active_model": "product.product",
         }
-        # _logger.warning(action)
         return action
 
     def calculate(self):
@@ -186,4 +184,5 @@ class CriticalForecast(models.Model):
         action.method_direct_trigger()
         # threaded_calculation = threading.Thread(target=self.get_data, args=())
         # threaded_calculation.start()
-        return {"type": "ir.actions.client", "tag": "reload"}
+        # return {"type": "ir.actions.client", "tag": "reload"}
+        return self.sudo().env.ref("stock_critical_forecast.critical_forecast_action").read()[0]
