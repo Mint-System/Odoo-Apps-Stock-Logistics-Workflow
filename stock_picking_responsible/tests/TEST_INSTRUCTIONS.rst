@@ -1,4 +1,4 @@
-- Open Inventory > Operations > Transfers
-- Create a new Transfer
-- In the Addtional Info set the Responsible person
-- Confirm the Transfer, the field is saved
+- Open Sales > Orders > Quotations
+- Create a new quotation for Deco Addict with product [FURN_7800] Desk Combination
+- Confirm the Sales Order and open the Delivery
+- In the Additional Info tab the Responsible person must be same as the Salesperson on the Sales Order
