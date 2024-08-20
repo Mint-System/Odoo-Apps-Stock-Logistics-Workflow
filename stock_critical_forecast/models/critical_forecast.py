@@ -185,4 +185,8 @@ class CriticalForecast(models.Model):
         # threaded_calculation = threading.Thread(target=self.get_data, args=())
         # threaded_calculation.start()
         # return {"type": "ir.actions.client", "tag": "reload"}
-        return self.sudo().env.ref("stock_critical_forecast.critical_forecast_action").read()[0]
+        return (
+            self.sudo()
+            .env.ref("stock_critical_forecast.critical_forecast_action")
+            .read()[0]
+        )

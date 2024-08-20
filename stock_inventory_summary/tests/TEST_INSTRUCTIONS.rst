@@ -1,0 +1,4 @@
+- Open Inventory > Overview > Incoming
+- Pick an unconfirmed delivery and validate it
+- Open Inventory > Operations > Run Inventory Summary to update the inventory summary report
+- Open Inventory > Reporting > Inventory Summary and check whether the product from the validated delivery is shown in the inventory summary

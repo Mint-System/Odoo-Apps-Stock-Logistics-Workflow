@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inventory_summary_history" model="ir.ui.view">
+        <field name="name">Inventory at Date</field>
+        <field name="model">inventory.summary.history</field>
+        <field name="arch" type="xml">
+            <form string="Choose your date">
+                <group>
+                    <field name="inventory_datetime" />
+                    <field name="location_usage_internal" />
+                    <field name="location_id" />
+                    <!-- <field name="location_id" attrs="{'invisible': [('location_usage_internal', '!=', False)]}" domain="[('usage', '=', 'internal')]" /> -->
+                </group>
+                <group>
+                    <p>The calculation of the inventory may take up to several minutes.</p>
+                </group>
+                <footer>
+                    <button name="open_at_date" string="Confirm" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
