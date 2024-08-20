@@ -1,0 +1,2 @@
+- Open Inventory > Products > Products and switch to the list view
+- In the new fields Last Incoming Date and Last Outgoing Date the date of recent incoming and outgoing transfers for a product are shown

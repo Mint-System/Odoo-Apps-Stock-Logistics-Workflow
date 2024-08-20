@@ -1,8 +1,5 @@
 import logging
-
-from dateutil import relativedelta
-
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 
 from odoo import fields, models
 
@@ -19,24 +16,26 @@ class CriticalForecast(models.Model):
         """
         today = fields.Datetime.today()
         to_date = today + timedelta(days=90)
-        forecast_report = self.env['report.stock.quantity'].read_group(
+        forecast_report = self.env["report.stock.quantity"].read_group(
             domain=[
-                ('date', '>=', today),
-                ('date', '<=', to_date),
-                ('product_id', '=', product_id.id),
-                ('company_id', '=', self.env.company.id),
-                ('product_qty', '<', product_min_qty),
+                ("date", ">=", today),
+                ("date", "<=", to_date),
+                ("product_id", "=", product_id.id),
+                ("company_id", "=", self.env.company.id),
+                ("product_qty", "<", product_min_qty),
             ],
-            fields=['date'],
-            groupby=['date:day'],
-            orderby='date',
+            fields=["date"],
+            groupby=["date:day"],
+            orderby="date",
             limit=1,
-            lazy=False
+            lazy=False,
         )
 
         orderopint_date = False
         if forecast_report:
-            orderopint_date = datetime.strptime(forecast_report[0]['__range']['date:day']['from'], '%Y-%m-%d').date()
+            orderopint_date = datetime.strptime(
+                forecast_report[0]["__range"]["date:day"]["from"], "%Y-%m-%d"
+            ).date()
         return orderopint_date
 
     def _compute_critical_date(self, replenish_data):
@@ -51,8 +50,12 @@ class CriticalForecast(models.Model):
             limit=1,
         )
         if orderpoint_id:
-            orderpoint_date =self._compute_orderpoint_date(product_id, orderpoint_id.product_min_qty)            
-            if (orderpoint_date and not critical_date) or (orderpoint_date < critical_date.date()):
+            orderpoint_date = self._compute_orderpoint_date(
+                product_id, orderpoint_id.product_min_qty
+            )
+            if (orderpoint_date and not critical_date) or (
+                orderpoint_date < critical_date.date()
+            ):
                 return orderpoint_date
         return critical_date
 
