@@ -25,7 +25,7 @@
         <field name="name">Inventory Summary List</field>
         <field name="model">inventory.summary</field>
         <field name="arch" type="xml">
-            <tree create="0" default_order="location_id asc, product_id desc" js_class="inventory_summary_list">
+            <tree create="0" default_order="location_id asc, product_id desc">
                 <field name="product_id" widget="many2one" />
                 <field name="location_id" widget="many2one" />
                 <field name="last_in_date" optional="show" />
@@ -47,17 +47,5 @@
     </record>
 
     <menuitem id="inventory_summary_menu" action="inventory_summary_action" name="Inventory Summary" sequence="11" parent="stock.menu_warehouse_report"/>
-
-    <record id="get_data" model="ir.actions.server">
-      <field name="name">Run Inventory Summary</field>
-      <field name="model_id" ref="model_inventory_summary"/>
-      <field name="state">code</field>
-      <field name="code">model.get_data()</field>
-    </record>
-
-    <menuitem id="menu_inventory_summary_get_data"
-        action="stock_inventory_summary.get_data"
-        parent="stock.menu_stock_warehouse_mgmt"
-        sequence="160"/>
 
 </odoo>

@@ -21,4 +21,17 @@
             </form>
         </field>
     </record>
+
+    <record id="history" model="ir.actions.act_window">
+        <field name="name">Run Inventory Summary</field>
+        <field name="res_model">inventory.summary.history</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_inventory_summary_history"
+        action="stock_inventory_summary.history"
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="160"/>
+
 </odoo>
