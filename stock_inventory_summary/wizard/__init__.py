@@ -1,0 +1,1 @@
+from . import inventory_summary_history
