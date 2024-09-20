@@ -31,12 +31,12 @@ class CriticalForecast(models.Model):
             lazy=False,
         )
 
-        orderopint_date = False
+        orderpoint_date = False
         if forecast_report:
-            orderopint_date = datetime.strptime(
+            orderpoint_date = datetime.strptime(
                 forecast_report[0]["__range"]["date:day"]["from"], "%Y-%m-%d"
             ).date()
-        return orderopint_date
+        return orderpoint_date
 
     def _compute_critical_date(self, replenish_data):
         """
