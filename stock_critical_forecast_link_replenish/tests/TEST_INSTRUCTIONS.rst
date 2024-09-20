@@ -27,4 +27,4 @@ Add orderpoint rule:
 - Create order point with minimum quantity 1
 - Under Operations menu click "Calculate Critical Forecast"
 - Under Reporting menu open the Critical Forecast
-- Check if product is shown
+- Check if product is shown as critical
