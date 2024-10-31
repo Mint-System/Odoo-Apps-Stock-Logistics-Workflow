@@ -8,6 +8,12 @@ _logger = logging.getLogger(__name__)
 class StockLot(models.Model):
     _inherit = "stock.lot"
 
+    traceability_line_ids = fields.Many2many(
+        "stock.move.line",
+        "Traceability Lines",
+        compute="_compute_traceability_line_ids",
+    )
+
     def _compute_traceability_line_ids(self):
         for lot in self:
 
@@ -20,11 +26,11 @@ class StockLot(models.Model):
                 self.env["stock.traceability.report"].with_context(context).get_lines()
             )
 
-            # Find move line of the final product
+            # Get model records from traceability lines
             if traceability_lines:
-                move_line = traceability_lines[0]
-                traceability_line_ids = self.env[move_line["model"]].browse(
-                    move_line["model_id"]
+                final_product = traceability_lines[0]
+                traceability_line_ids = self.env[final_product["model"]].browse(
+                    [line["model_id"] for line in traceability_lines]
                 )
 
             lines_todo = list(traceability_line_ids)
@@ -40,9 +46,9 @@ class StockLot(models.Model):
                     traceability_line_ids += linked_move_lines
 
                 # Get move lines for each linked line
-                for line in linked_move_lines:
+                for linked_line in linked_move_lines:
                     move_lines = self.env["stock.traceability.report"]._get_move_lines(
-                        line
+                        linked_line
                     )
                     if move_lines:
                         traceability_line_ids += move_lines
@@ -51,10 +57,6 @@ class StockLot(models.Model):
                         lines_todo += list(move_lines)
 
             lot.traceability_line_ids = traceability_line_ids
-
-    traceability_line_ids = fields.Many2many(
-        "stock.move.line", "Traceability Lines", compute=_compute_traceability_line_ids
-    )
 
     def action_traceability_list(self):
         tree_view_id = self.env.ref("stock.view_move_line_tree").id
