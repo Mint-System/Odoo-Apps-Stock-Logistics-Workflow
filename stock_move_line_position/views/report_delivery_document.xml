@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <template id="report_delivery_document" inherit_id="stock.report_delivery_document">
+
+    <xpath expr="//table[@name='stock_move_table']//th[@name='th_sm_product']"
+      position="before">
+      <th name="th_sm_position">
+        <strong>Pos</strong>
+      </th>
+    </xpath>
+
+    <xpath expr="//table[@name='stock_move_table']/tbody/tr/td[1]" position="before">
+      <td>
+        <span t-field="move.position" />
+      </td>
+    </xpath>
+  </template>
+
+</odoo>
