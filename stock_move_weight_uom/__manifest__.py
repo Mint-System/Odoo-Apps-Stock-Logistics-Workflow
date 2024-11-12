@@ -8,7 +8,7 @@
     "category": "Inventory",
     "version": "17.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["delivery", "product_logistics_uom"],
+    "depends": ["stock", "product_logistics_uom"],
     "installable": True,
     "application": False,
     "auto_install": False,
