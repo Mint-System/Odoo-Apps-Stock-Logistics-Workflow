@@ -21,7 +21,7 @@ class StockQuantPackage(models.Model):
                     weight_uom = ml.product_id.weight_uom_id._compute_quantity(ml.product_id.weight, weight_uom_id)
                     # _logger.warning(["_compute_weight_1",ml.product_id.weight_uom_id.name,weight_uom_id.name])
                     # _logger.warning([ml.product_id.weight,weight_uom])
-                    weight += ml.product_uom_id._compute_quantity(ml.qty_done, ml.product_id.uom_id) * weight_uom
+                    weight += ml.product_uom_id._compute_quantity(ml.quantity, ml.product_id.uom_id) * weight_uom
             else:
                 for quant in package.quant_ids:
                     weight_uom = quant.product_id.weight_uom_id._compute_quantity(quant.product_id.weight, weight_uom_id)
