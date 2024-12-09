@@ -1,0 +1,4 @@
+- Open Settings > Inventory and enable Units of Measure
+- Open Products > Drawer > Inventory tab and change the unit of measure of weight to 2kg
+- Create a new transfer with product Drawer and 10 units,
+- In the Additional Info Tab the Weight and Weight for shipping fields will show 20kg
