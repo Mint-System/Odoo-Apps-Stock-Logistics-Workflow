@@ -1,0 +1,3 @@
+- Open manufacutring order "WH/MO/00003"
+- Open s/n "0000001"
+- Check if traceability list matches the report
