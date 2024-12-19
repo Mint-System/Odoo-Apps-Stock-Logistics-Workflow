@@ -77,15 +77,15 @@
         <field name="name">Critical Forecast List</field>
         <field name="model">critical.forecast</field>
         <field name="arch" type="xml">
-            <tree create="0" default_order="action_date asc, product_id desc">
+            <list create="0" default_order="action_date asc, product_id desc">
                 <field name="write_date" optional="show" />
-                <field name="product_type" invisible="1" />
                 <button
                     class="oe_stat_button"
                     name="action_product_forecast_report"
                     type="object"
                     icon="fa-cubes"
-                    invisible="product_type != 'product'"
+                    title="Forecast Report"
+                    invisible="product_type != 'consu'"
                 />
                 <field name="product_id" widget="many2one" />
                 <field
@@ -104,7 +104,7 @@
                 <field name="product_min_qty" optional="hide" />
                 <field name="qty_in" optional="hide" />
                 <field name="qty_out" optional="hide" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -117,7 +117,7 @@
                 <field name="action_date" />
                 <field name="critical_date" />
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="kanban-card">
                         <div t-attf-class="oe_kanban_card oe_kanban_global_click">
                             <div class="o_kanban_record_top mb16">
                                 <div class="o_kanban_record_headings mt4">
@@ -148,7 +148,7 @@
     <record id="critical_forecast_action" model="ir.actions.act_window">
         <field name="name">Critical Forecast</field>
         <field name="res_model">critical.forecast</field>
-        <field name="view_mode">tree,kanban</field>
+        <field name="view_mode">list,kanban</field>
         <field name="context">{'search_default_critical_date': 1}</field>
     </record>
 

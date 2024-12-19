@@ -27,7 +27,7 @@ class CriticalForecast(models.Model):
     product_min_qty = fields.Integer()
     qty_in = fields.Float(digits="Product Unit of Measure")
     qty_out = fields.Float(digits="Product Unit of Measure")
-    route_id = fields.Many2one("stock.location.route", "Route")
+    route_id = fields.Many2one("stock.route", "Route")
     seller_id = fields.Many2one("res.partner", "Vendor")
 
     def _compute_critical_date(self, replenish_data):
