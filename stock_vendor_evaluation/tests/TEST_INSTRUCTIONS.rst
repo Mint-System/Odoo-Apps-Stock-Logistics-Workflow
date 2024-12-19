@@ -1,0 +1,5 @@
+- Open a receipt
+- Create an evaluation "Very Good" with value 6
+- The move to the next receipt and create an evaluation "Ok" with value 4
+- Open the vendor rating report
+- Check if the ratings are shown
