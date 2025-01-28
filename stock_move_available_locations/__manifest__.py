@@ -3,7 +3,7 @@
     "summary": """
         Show storage locations that have a positive stock for the product.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
     "version": "16.0.1.0.0",
