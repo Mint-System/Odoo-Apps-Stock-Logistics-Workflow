@@ -3,7 +3,7 @@
     "summary": """
         Presents stock inventory data grouped by location and product.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
     "version": "14.0.1.3.2",

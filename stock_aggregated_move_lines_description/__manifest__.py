@@ -3,7 +3,7 @@
     "summary": """
         Use stock move description for the aggregated move line description.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
     "version": "14.0.2.1.0",

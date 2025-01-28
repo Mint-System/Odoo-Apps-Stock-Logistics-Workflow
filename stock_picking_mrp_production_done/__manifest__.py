@@ -3,7 +3,7 @@
     "summary": """
         Complete picking and upstream manufacture order at the same time.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Invoicing",
     "version": "14.0.1.1.0",

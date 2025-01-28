@@ -3,7 +3,7 @@
     "summary": """
         Access work order by scanning the barcode of a manufacturing order.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Manufacturing",
     "version": "14.0.1.1.0",

@@ -3,7 +3,7 @@
     "summary": """
         Convert unit of measurement when calculating total weight.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
     "version": "14.0.1.1.0",

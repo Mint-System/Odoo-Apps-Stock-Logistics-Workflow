@@ -3,7 +3,7 @@
     "summary": """
         Propagate quantity done change on stock move to upstream moves.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
     "version": "14.0.1.0.0",

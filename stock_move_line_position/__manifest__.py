@@ -3,7 +3,7 @@
     "summary": """
         Get line position from purchase, sale or manufacturing order.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Inventory",
     "version": "14.0.3.0.0",
