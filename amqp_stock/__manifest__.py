@@ -3,7 +3,7 @@
     "summary": """
         Consume and publish stock operations as AMQP messages.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Tools",
     "version": "14.0.1.0.0",
