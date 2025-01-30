@@ -8,7 +8,7 @@
     "version": "17.0.1.0.0",
     "development_status": "Beta",
     "license": "AGPL-3",
-    "author": "ACSONE SA/NV,Odoo Community Association (OCA)",
+    "author": "ACSONE SA/NV,Mint System GmbH",
     "maintainers": ["ThomasBinsfeld"],
     "website": "https://github.com/oca/stock-logistics-workflow",
     "depends": ["stock"],
