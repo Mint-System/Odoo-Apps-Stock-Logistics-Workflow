@@ -8,7 +8,9 @@ _logger = logging.getLogger(__name__)
 class StockMove(models.Model):
     _inherit = "stock.move"
 
-    position = fields.Integer("Pos", compute="_compute_get_position")
+    #position = fields.Integer("Pos", compute="_compute_get_position")
+    position = fields.Integer("Pos")
+
 
     def _compute_get_position(self):
         for move in self:
@@ -18,3 +20,5 @@ class StockMove(models.Model):
                 move.position = move.purchase_line_id.position
             else:
                 move.position = 0
+
+    
