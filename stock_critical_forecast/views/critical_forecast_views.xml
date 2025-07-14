@@ -69,6 +69,11 @@
                     string="Vendor"
                     context="{'group_by': 'seller_id'}"
                 />
+                <filter
+                    name="group_responsible"
+                    string="Responsible"
+                    context="{'group_by': 'product_responsible_id'}"
+                />
             </search>
         </field>
     </record>
@@ -88,6 +93,7 @@
                     invisible="product_type != 'consu'"
                 />
                 <field name="product_id" widget="many2one" />
+                <field name="product_responsible_id" optional="hide" />
                 <field
                     name="action_date"
                     optional="show"

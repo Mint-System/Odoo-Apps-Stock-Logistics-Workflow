@@ -20,6 +20,7 @@ class CriticalForecast(models.Model):
     action_date = fields.Date()
     critical_date = fields.Date()
     product_type = fields.Selection(related="product_id.type")
+    product_responsible_id = fields.Many2one("res.users", "Responsible")
     qty_available = fields.Float(digits="Product Unit of Measure")
     virtual_available = fields.Float(digits="Product Unit of Measure")
     replenish_delay = fields.Integer()
@@ -80,6 +81,9 @@ class CriticalForecast(models.Model):
             if move.product_id.route_ids
             else False,
             "seller_id": move.product_id.seller_ids[0].partner_id.id
+            if move.product_id.seller_ids
+            else False,
+            "product_responsible_id": move.product_id.responsible_id.id
             if move.product_id.seller_ids
             else False,
         }
