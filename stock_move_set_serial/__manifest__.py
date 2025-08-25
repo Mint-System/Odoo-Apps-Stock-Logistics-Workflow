@@ -17,4 +17,9 @@
     "application": False,
     "auto_install": False,
     "images": ["images/screen.png"],
+    "assets": {
+        "web.assets_backend": [
+            "stock_move_set_serial/static/src/js/generate_serial_patch.js",
+        ],
+    },
 }
