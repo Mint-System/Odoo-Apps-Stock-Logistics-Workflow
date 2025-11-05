@@ -1,0 +1,2 @@
+- Install this module and *mrp_production_upstream_state*.
+- Check the visibility of column *Upstream Status*.

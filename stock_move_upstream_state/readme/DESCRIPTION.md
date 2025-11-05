@@ -1,0 +1,1 @@
+Access state of upstream move in current move.
