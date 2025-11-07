@@ -1,0 +1,1 @@
+Access move line in stock aggregated report.
