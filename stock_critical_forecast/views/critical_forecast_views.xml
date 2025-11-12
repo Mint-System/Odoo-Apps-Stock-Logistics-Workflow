@@ -86,6 +86,7 @@
                     name="action_product_forecast_report"
                     type="object"
                     icon="fa-cubes"
+                    title="View Forecast Report"
                     invisible="product_type != 'product'"
                 />
                 <field name="product_id" widget="many2one" />
