@@ -1,0 +1,1 @@
+Use stock move description for the aggregated move line description.
