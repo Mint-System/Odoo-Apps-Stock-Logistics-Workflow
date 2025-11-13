@@ -1,0 +1,1 @@
+Show storage locations that have a positive stock for the product.

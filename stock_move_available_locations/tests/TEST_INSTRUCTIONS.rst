@@ -1,0 +1,5 @@
+- Enable Settings > Inventory > Warehouse > Storage Locations
+- Open Inventory > Configuration > Locations > WH/Bestand and set "Show Picking Location" to True
+- Open Inventory > Transfers and create a new incoming transfer
+- On the product line open the Detailed Operations form and choose WH/Bestand
+- Check if the stock location with "Show Picking Location" set to True is selectable and others are not
