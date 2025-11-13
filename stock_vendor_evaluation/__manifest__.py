@@ -4,7 +4,7 @@
         Rate each receipt and analyze vendor ratings.
     """,
     "author": "Mint System GmbH",
-    "website": "https://www.mint-system.ch",
+    "website": "https://www.mint-system.ch/",
     "category": "Inventory",
     "version": "17.0.1.0.0",
     "license": "AGPL-3",

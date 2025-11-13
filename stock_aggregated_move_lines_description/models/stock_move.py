@@ -14,7 +14,5 @@ class StockMoveLine(models.Model):
             move_line = aggregated_move_line["move_line"]
             _logger.warning(f"ml desc picking: {move_line.move_id.description_picking}")
             if move_line:
-                aggregated_move_line[
-                    "description"
-                ] = move_line.move_id.description_picking.replace("\n", "<br/>")
+                aggregated_move_line["description"] = move_line.move_id.description_picking.replace("\n", "<br/>")
         return aggregated_move_lines

@@ -62,26 +62,18 @@ class CriticalForecast(models.Model):
         return {
             "product_id": move.product_id.id,
             "critical_date": critical_date,
-            "action_date": critical_date - timedelta(days=replenish_delay)
-            if critical_date
-            else None,
+            "action_date": critical_date - timedelta(days=replenish_delay) if critical_date else None,
             "replenish_delay": replenish_delay,
             "qty_available": move.product_id.qty_available,
             "virtual_available": move.product_id.virtual_available,
-            "min_qty": move.product_id.seller_ids[0].min_qty
-            if move.product_id.seller_ids
-            else 0,
+            "min_qty": move.product_id.seller_ids[0].min_qty if move.product_id.seller_ids else 0,
             "product_min_qty": move.product_id.orderpoint_ids[0].product_min_qty
             if move.product_id.orderpoint_ids
             else 0,
             "qty_in": replenish_data["qty"]["in"],
             "qty_out": replenish_data["qty"]["out"],
-            "route_id": move.product_id.route_ids[0].id
-            if move.product_id.route_ids
-            else False,
-            "seller_id": move.product_id.seller_ids[0].partner_id.id
-            if move.product_id.seller_ids
-            else False,
+            "route_id": move.product_id.route_ids[0].id if move.product_id.route_ids else False,
+            "seller_id": move.product_id.seller_ids[0].partner_id.id if move.product_id.seller_ids else False,
         }
 
     def _get_picking_data(self, data=[], product_ids=[]):
@@ -101,12 +93,10 @@ class CriticalForecast(models.Model):
         # _logger.warning(['picking_ids',picking_ids])
 
         for picking in picking_ids:
-            for move in picking.move_ids.filtered(
-                lambda m: m.product_id.id not in product_ids
-            ):
-                replenish_data = self.env[
-                    "stock.forecasted_product_product"
-                ]._get_report_data([move.product_tmpl_id.id])
+            for move in picking.move_ids.filtered(lambda m: m.product_id.id not in product_ids):
+                replenish_data = self.env["stock.forecasted_product_product"]._get_report_data(
+                    [move.product_tmpl_id.id]
+                )
                 data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
 
@@ -125,12 +115,10 @@ class CriticalForecast(models.Model):
         # _logger.warning(['production_ids',production_ids])
 
         for mo in production_ids:
-            for move in mo.move_raw_ids.filtered(
-                lambda m: m.product_id.id not in product_ids
-            ):
-                replenish_data = self.env[
-                    "stock.forecasted_product_product"
-                ]._get_report_data([move.product_tmpl_id.id])
+            for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids):
+                replenish_data = self.env["stock.forecasted_product_product"]._get_report_data(
+                    [move.product_tmpl_id.id]
+                )
                 data.append(self._prepare_report_line(move, replenish_data))
                 product_ids.append(move.product_id.id)
 
@@ -156,9 +144,7 @@ class CriticalForecast(models.Model):
         data, product_ids = self._get_picking_data(data, product_ids)
 
         # Create entries
-        self.create(
-            list(filter(lambda d: d["product_id"] not in current_product_ids, data))
-        )
+        self.create(list(filter(lambda d: d["product_id"] not in current_product_ids, data)))
 
         # Update entries
         for curr in current_ids:

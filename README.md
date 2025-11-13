@@ -1,20 +1,17 @@
 # Odoo Apps: Stock Logistics Workflow
 
-Collection of stock model related modules.
+Odoo modules extending the `stock` module.
 
 ## Usage
 
-Clone module into Odoo addon directory.
+Clone this repo into the Odoo addons directory.
 
 ```bash
-git clone git@github.com:mint-system/odoo-apps-stock-logistics-workflow.git ./addons/stock_logistics_workflow
+git clone git@github.com:Mint-System/Odoo-Apps-Stock-Logistics-Workflow.git ./addons/stock_logistics_workflow
 ```
 
 ## Available modules
 
 | Module | Summary |
-| --- | --- |
-| [stock_critical_forecast](stock_critical_forecast) |         Show critical demand date for components in manufacturing and products to be shipped. |
-| [stock_lot_traceability_list](stock_lot_traceability_list) |         Show nested traceability report data as list. |
-| [stock_production_lot_active](stock_production_lot_active) |         Allow to archive/unarchive a lot.""", |
-| [stock_vendor_evaluation](stock_vendor_evaluation) |         Rate each receipt and analyze vendor ratings. |
+| ------ | ------- |
+|        |         |

@@ -1,13 +1,13 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<odoo> 
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo>
     <record id="view_stock_move_pivot_inherit" model="ir.ui.view">
         <field name="name">stock.move.pivot.inherit.standard.cost</field>
         <field name="model">stock.move</field>
-        <field name="inherit_id" ref="stock.view_move_pivot"/>
+        <field name="inherit_id" ref="stock.view_move_pivot" />
         <field name="arch" type="xml">
             <xpath expr="//pivot" position="inside">
                 <!-- <field string="Kosten" name="product_standard_price" type="measure"/> -->
-                <field string="Kosten" name="planned_costs" type="measure"/>
+                <field string="Kosten" name="planned_costs" type="measure" />
             </xpath>
         </field>
     </record>

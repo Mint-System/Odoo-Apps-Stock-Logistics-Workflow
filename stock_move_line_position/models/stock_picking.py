@@ -1,6 +1,6 @@
 import logging
 
-from odoo import api, fields, models
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -11,10 +11,10 @@ class StockPicking(models.Model):
     def update_position(self):
         _logger.info("### update_position")
         for picking in self:
-            moves = picking.move_ids.sorted('id')
+            moves = picking.move_ids.sorted("id")
             position = 1
             for move in moves:
-                move.write({'position': position})
+                move.write({"position": position})
                 position += 1
 
     def set_position(self):
@@ -24,7 +24,7 @@ class StockPicking(models.Model):
                 for move in picking.move_ids:
                     position += 1
                     # move.position = position
-                    move.write({'position': position})
+                    move.write({"position": position})
             else:
                 position = 0
                 for move in picking.move_ids:
