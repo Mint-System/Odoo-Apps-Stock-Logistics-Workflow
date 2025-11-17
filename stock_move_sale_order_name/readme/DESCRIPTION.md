@@ -1,0 +1,1 @@
+Use sale order line name for stock move description.
