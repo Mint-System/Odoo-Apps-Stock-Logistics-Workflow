@@ -1,0 +1,1 @@
+Notes from sale order are copied to stock picking on confirmation.

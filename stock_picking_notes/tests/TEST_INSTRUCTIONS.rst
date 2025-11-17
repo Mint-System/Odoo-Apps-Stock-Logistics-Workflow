@@ -1,0 +1,5 @@
+- Open Sales > Orders > Quotations
+- Create a new quotation for Deco Addict with product [FURN_7800] Desk Combination
+- In the Notes tab create a new note
+- Confirm the Sales Order and open the Delivery
+- In the Notes tab of the delivery the note from the Sales Order must be copied
