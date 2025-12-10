@@ -72,6 +72,7 @@
     <field name="arch" type="xml">
       <xpath expr="//field[@name='location_id']" position="before">
         <field name="available_location_ids" column_invisible="True" />
+        <field name="location_id_domain" column_invisible="True" />
       </xpath>
       <xpath expr="//field[@name='quant_id']" position="attributes">
         <attribute name="domain">location_id_domain</attribute>
