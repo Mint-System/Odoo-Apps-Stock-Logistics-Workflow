@@ -1,0 +1,1 @@
+Show last incoming and outgoing move date of product.
