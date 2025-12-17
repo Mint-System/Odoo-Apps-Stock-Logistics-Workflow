@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from odoo import fields, models
 
@@ -32,7 +32,7 @@ class CriticalForecast(models.Model):
 
         orderpoint_date = False
         if forecast_report:
-            orderpoint_date = datetime.strptime(forecast_report[0]["__range"]["date:day"]["from"], "%Y-%m-%d").date()
+            orderpoint_date = forecast_report[0][0]
         return orderpoint_date
 
     def _compute_critical_date(self, replenish_data):
@@ -40,25 +40,25 @@ class CriticalForecast(models.Model):
         Compute critical date based on orderpoint and forecast report.
         """
         critical_date = super()._compute_critical_date(replenish_data)
+        _logger.warning(f"critical date: {critical_date}")
         _logger.warning(f"replenish_data: {replenish_data['product_templates']}")
 
-        # product_id = replenish_data["product_templates"][0].product_variant_id
-        product_id = replenish_data["product_templates"][0].get('id')
-        # orderpoint_id = self.env["stock.warehouse.orderpoint"].search(
-        #     [("product_id", "=", product_id.id), ("product_min_qty", ">", 0.0)],
-        #     limit=1,
-        # )
+        product_id = replenish_data["product_templates"][0].get("id")
+        product_tmpl = self.env["product.template"].search([("id", "=", product_id)])
+        product_var = product_tmpl.product_variant_id
         orderpoint_id = self.env["stock.warehouse.orderpoint"].search(
-            [("product_id", "=", product_id), ("product_min_qty", ">", 0.0)],
+            [("product_id", "=", product_var.id), ("product_min_qty", ">", 0.0)],
             limit=1,
         )
         if orderpoint_id:
-            orderpoint_date = self._compute_orderpoint_date(product_id, orderpoint_id.product_min_qty)
-            _logger.warning(f"orderpoint: {orderpoint_id}, orderpoint date: {orderpoint_date}, critical_date: {critical_date}")
-            _logger.warning(f"oderpoint_date and not critical_date: {orderpoint_date and not critical_date}")
-            if (not orderpoint_date and not critical_date):
+            _logger.warning(f"product {product_var.name} has orderpoint")
+            orderpoint_date = self._compute_orderpoint_date(
+                product_var.id,
+                orderpoint_id.product_min_qty
+            )
+            if not orderpoint_date and not critical_date:
                 return False
-            elif (orderpoint_date and not critical_date):
+            elif orderpoint_date and not critical_date:
                 return orderpoint_date
             elif orderpoint_date and orderpoint_date < critical_date.date():
                 return orderpoint_date

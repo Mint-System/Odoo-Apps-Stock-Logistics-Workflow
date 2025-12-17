@@ -9,6 +9,7 @@ Add orderpoint:
 Update manufacturing:
 
 - Open "WH/MO/00002" and set the planned date to + 7 days
+- Confirm "WH/MO/00002"
 - Under Operations menu click "Calculate Critical Forecast"
 - Under Reporting menu open the Critical Forecast
 - Check if product "Tischbein" is shown with today + 7 days
