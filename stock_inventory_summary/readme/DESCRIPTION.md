@@ -1,0 +1,1 @@
+Presents stock inventory data grouped by location and product.

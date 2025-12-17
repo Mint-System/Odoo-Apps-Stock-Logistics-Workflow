@@ -52,10 +52,7 @@ class CriticalForecast(models.Model):
         )
         if orderpoint_id:
             _logger.warning(f"product {product_var.name} has orderpoint")
-            orderpoint_date = self._compute_orderpoint_date(
-                product_var.id,
-                orderpoint_id.product_min_qty
-            )
+            orderpoint_date = self._compute_orderpoint_date(product_var.id, orderpoint_id.product_min_qty)
             if not orderpoint_date and not critical_date:
                 return False
             elif orderpoint_date and not critical_date:
