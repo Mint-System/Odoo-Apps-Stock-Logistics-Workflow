@@ -9,7 +9,6 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     def update_position(self):
-        _logger.info("### update_position")
         for picking in self:
             moves = picking.move_ids.sorted("id")
             position = 1
