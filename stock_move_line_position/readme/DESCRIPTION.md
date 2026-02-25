@@ -1,0 +1,1 @@
+Get line position from purchase or sale order.
