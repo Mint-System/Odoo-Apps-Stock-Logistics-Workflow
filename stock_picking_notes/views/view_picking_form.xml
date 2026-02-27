@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-  <record id="view_picking_form" model="ir.ui.view">
+  <!-- <record id="view_picking_form" model="ir.ui.view">
     <field name="name">stock_picking_notes.view_picking_form</field>
     <field name="model">stock.picking</field>
     <field name="inherit_id" ref="stock.view_picking_form" />
@@ -11,5 +11,47 @@
         <field name="note_footer" />
       </field>
     </field>
-  </record>
+  </record> -->
+
+
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">stock_picking_notes.view_picking_form</field>
+    <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <page name="note" position="replace">
+                <page string="Text">
+                    <group name="notes">
+                        <span />
+                        <p
+                            class="fst-italic text-muted"
+                        >These notes will be printed on the Picking Operations sheet.</p>
+                        <label for="note" class="oe_inline" />
+                        <field name="note" widget="html" nolabel="1" />
+
+                        <span />
+                        <p
+                            class="fst-italic text-muted"
+                        >These notes will be added to the pdf document.</p>
+
+                        <label for="note_header" class="oe_inline" />
+                        <field name="note_header" widget="html" nolabel="1" />
+
+                        <span />
+                        <p
+                            class="fst-italic text-muted"
+                        >The header note is shown before the order lines.</p>
+
+                        <label for="note_footer" class="oe_inline" />
+                        <field name="note_footer" widget="html" nolabel="1" />
+
+                        <span />
+                        <p
+                            class="fst-italic text-muted"
+                        >The footer note is shown after the order lines.</p>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
 </odoo>
