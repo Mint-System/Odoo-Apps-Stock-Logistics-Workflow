@@ -7,7 +7,7 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     lot_generated_status = fields.Char(
-        string="Lots",
+        string="Lots/SN erfasst",
         compute='_compute_lot_generated_status',
         store=False,
         readonly=True
