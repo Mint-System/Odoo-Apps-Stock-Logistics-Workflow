@@ -1,0 +1,5 @@
+- Active Module
+- Generate Purchase Order for products with tracking.
+- Switch to corresponding Picking.
+- Generate lots for a move line.
+- Check if indicator for generated lots changes to "ok".
