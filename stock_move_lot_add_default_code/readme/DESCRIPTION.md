@@ -1,0 +1,1 @@
+Adds product's default code to lot name.

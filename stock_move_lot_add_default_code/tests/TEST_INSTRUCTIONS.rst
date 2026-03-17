@@ -1,0 +1,5 @@
+- Activate module.
+- Create purchase order for product with tracking and default code.
+- Switch to receipt (picking).
+- Create serials for the line with tracked product.
+- Check if default code of product is added to lot name.
