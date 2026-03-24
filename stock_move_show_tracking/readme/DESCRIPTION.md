@@ -1,0 +1,1 @@
+Shows tracking type on Stock Move.
