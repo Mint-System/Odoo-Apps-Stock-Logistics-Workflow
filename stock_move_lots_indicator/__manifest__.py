@@ -10,7 +10,7 @@
     "development_status": "Production/Stable",
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["stock"],
+    "depends": ["stock","stock_move_show_tracking"],
     "data": [
         "views/stock_move_views.xml"
     ],
