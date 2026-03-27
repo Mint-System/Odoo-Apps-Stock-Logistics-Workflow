@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="print_serial_labels_wizard_form" model="ir.ui.view">
+        <field name="name">print.serial.labels.wizard.form</field>
+        <field name="model">print.serial.labels.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Print Serial Labels in Batches">
+                <group>
+                    <field name="batch_size" required="1"/>
+                </group>
+                <footer>
+                    <button string="Print" type="object" name="action_print_labels" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_print_serial_labels_wizard" model="ir.actions.act_window">
+        <field name="name">Print Serial Labels in Batches</field>
+        <field name="res_model">print.serial.labels.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
