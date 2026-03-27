@@ -19,7 +19,7 @@
 
     <!-- Wizard Action -->
     <record id="action_print_serial_labels_wizard" model="ir.actions.act_window">
-        <field name="name">Print Serial Labels in Batches</field>
+        <field name="name">Download Serial Labels in Batches</field>
         <field name="res_model">print.serial.labels.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
