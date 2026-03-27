@@ -1,0 +1,1 @@
+Prints labels with product serials in batches
