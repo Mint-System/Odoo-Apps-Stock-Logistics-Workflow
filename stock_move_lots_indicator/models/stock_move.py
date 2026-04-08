@@ -21,10 +21,13 @@ class StockMove(models.Model):
             if product.tracking == "none":
                 move.lot_generated_status = "-"
             else:
+                _logger.warning(f"product: {product}")
                 move_lines = move.move_line_ids
+                for line in move_lines:
+                    _logger(f"lot name: {lot_name}, lot id: {lot_id}")
                 if not move_lines:
                     move.lot_generated_status = "-"
-                elif all(line.lot_name or lot_id for line in move_lines):
+                elif all(line.lot_name or line.lot_id for line in move_lines):
                     move.lot_generated_status = "✅"
                 else:
                     move.lot_generated_status = "❌"
