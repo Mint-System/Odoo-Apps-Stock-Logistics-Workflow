@@ -14,7 +14,7 @@ class StockMove(models.Model):
     )
 
 
-    @api.depends('move_line_ids', 'move_line_ids.lot_name')
+    @api.depends('move_line_ids', 'move_line_ids.lot_name', 'move_line_ids.lot_id')
     def _compute_lot_generated_status(self):
         for move in self:
             product = move.product_id
@@ -24,7 +24,7 @@ class StockMove(models.Model):
                 move_lines = move.move_line_ids
                 if not move_lines:
                     move.lot_generated_status = "-"
-                elif all(line.lot_name for line in move_lines):
+                elif all(line.lot_name or lot_id for line in move_lines):
                     move.lot_generated_status = "✅"
                 else:
                     move.lot_generated_status = "❌"
