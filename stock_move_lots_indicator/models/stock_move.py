@@ -24,7 +24,7 @@ class StockMove(models.Model):
                 _logger.warning(f"product: {product}")
                 move_lines = move.move_line_ids
                 for line in move_lines:
-                    _logger(f"lot name: {line.lot_name}, lot id: {line.lot_id}")
+                    _logger.warning(f"lot name: {line.lot_name}, lot id: {line.lot_id}")
                 if not move_lines:
                     move.lot_generated_status = "-"
                 elif all(line.lot_name or line.lot_id for line in move_lines):
