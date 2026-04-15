@@ -10,8 +10,13 @@ class StockMove(models.Model):
         string="Lots/SN erfasst",
         compute='_compute_lot_generated_status',
         store=False,
-        readonly=True
+        readonly=True,
+        help="✅ All serials assigned and available | "
+         "⚠️ Serials already reserved elsewhere | "
+         "❌ Missing serials |"
+         "- Nothing to do",
     )
+
 
 
     @api.depends('move_line_ids', 'move_line_ids.lot_name', 'move_line_ids.lot_id')
