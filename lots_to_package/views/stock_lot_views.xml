@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="action_move_lots" model="ir.actions.server">
+        <field name="name">Move Lots</field>
+        <field name="model_id" ref="stock.model_stock_lot"/>
+        <field name="state">code</field>
+        <field name="code">
+action = model.action_move_all_lots()
+        </field>
+    </record>
+    
+    <menuitem id="menu_move_lots_action"
+              name="Lots > Packages"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="action_move_lots"
+              sequence="51"/>
+
+</odoo>
