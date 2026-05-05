@@ -1,6 +1,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
-    "name": "Move Lot Quantity",
+    "name": "Stock Move Lot Quantity",
     "summary": """
         Set total stock quantity of lot as default move quantity.
     """,
