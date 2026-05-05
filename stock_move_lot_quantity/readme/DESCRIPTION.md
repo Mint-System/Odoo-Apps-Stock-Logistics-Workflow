@@ -1,0 +1,1 @@
+Set total stock quantity of lot as default move quantity.
