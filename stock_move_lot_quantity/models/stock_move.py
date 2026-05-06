@@ -9,24 +9,19 @@ class StockMove(models.Model):
     lot_badges_html = fields.Html(
         string='Lots',
         compute='_compute_lot_badges_html',
-        store=False,  # always fresh, no need to store
+        store=False,
         sanitize=False,
     )
 
 
     def _action_assign(self, force_qty=False):
-        _logger.warning("#### action assign called")
         res = super()._action_assign(force_qty=force_qty)
-        _logger.warning(f"res: {res}")
-
 
         for move in self:
-            _logger.warning(f"move line ids: {move.move_line_ids}")
             for line in move.move_line_ids:
                 if not line.lot_id or line.product_id.tracking != 'lot':
                     continue
 
-                # Read reserved_quantity from quant AFTER super() has updated it
                 quants = self.env['stock.quant'].search([
                     ('product_id', '=', line.product_id.id),
                     ('lot_id', '=', line.lot_id.id),
