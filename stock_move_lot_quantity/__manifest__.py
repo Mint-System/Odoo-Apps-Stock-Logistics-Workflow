@@ -16,6 +16,14 @@
         "views/stock_move_line_views.xml",
         "views/stock_picking_views.xml"
     ],
+    'assets': {
+        'web.assets_backend': [
+            'stock_move_lot_quantity/static/src/models/barcode_model.js',
+        ],
+        'stock_barcode.assets': [
+            'stock_move_lot_quantity/static/src/models/barcode_model.js',
+        ],
+    },
     "installable": True,
     "application": False,
     "auto_install": False,
