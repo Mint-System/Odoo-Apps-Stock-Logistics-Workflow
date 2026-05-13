@@ -1,0 +1,6 @@
+- Create product tracked by "lot".
+- Create lot and corresponding stock for this product.
+- Start internal transfer of product with quantity equals 1 for product.
+- Mark as "to do".
+- The picked quantity is set to available stock for picked lot.
+- The colored lot indicates that picked quantity is greater than required quantity.
