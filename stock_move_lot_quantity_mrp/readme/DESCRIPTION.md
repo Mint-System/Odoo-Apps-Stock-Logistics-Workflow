@@ -1,0 +1,1 @@
+Shows lots with color indicator on stock moves of manufacture order.

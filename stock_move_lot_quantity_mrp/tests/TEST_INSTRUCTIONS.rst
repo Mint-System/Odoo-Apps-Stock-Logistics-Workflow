@@ -1,0 +1,9 @@
+- Create at least two products A and B.
+- Set tracking of product B to "lot".
+- Create bom where product B is component of product A bom.
+- Create lot and stock for product B e.g. 100 Units for lot "B1".
+- Create a manufacture order for product A.
+- Check the Picking created. The total avialable quantity for lot "B1" is picked.
+- The colorized lot number indicates that only part of picked quantity is used for production.
+- Validate picking.
+- Pickled quantity and colored lot is now presented on MO stock move too.
