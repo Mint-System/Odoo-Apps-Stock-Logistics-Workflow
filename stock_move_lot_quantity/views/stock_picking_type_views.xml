@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_type_form" model="ir.ui.view">
+        <field name="name">stock_move_lot_quantity.view_picking_type_form</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sequence_code']" position="after">
+                <field name="pick_all_lot_qty" string="Pick All Lot Qty" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

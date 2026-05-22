@@ -18,6 +18,9 @@ class StockMove(models.Model):
         res = super()._action_assign(force_qty=force_qty)
 
         for move in self:
+            if not move.picking_id.picking_type_id.pick_all_lot_qty:
+                continue
+
             for line in move.move_line_ids:
                 if not line.lot_id or line.product_id.tracking != 'lot':
                     continue
