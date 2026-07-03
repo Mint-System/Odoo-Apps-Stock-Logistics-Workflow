@@ -1,0 +1,1 @@
+Splits the picking with respect to a product property and automatically validates the associated picking.

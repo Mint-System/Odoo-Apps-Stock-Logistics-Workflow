@@ -1,0 +1,7 @@
+- Enable module.
+- Create products A, B, C, ... where product B has flag 'Pick/validate automatically' enabled.
+- Check that flag can only be set for non stroable products.
+- Create bom for product A with product B as component.
+- Create manufacturing order (MO) for product A and confirm.
+- Check if two pickings were created, one for products with flag and one for products without flag.
+- Check if latter was validated immediately. 
