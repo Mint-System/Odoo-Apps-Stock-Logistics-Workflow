@@ -12,6 +12,7 @@
     "license": "AGPL-3",
     "depends": ["stock"],
     "data": [
+        "data/server_action.xml",
         "views/stock_move_views.xml",
         "views/stock_picking_views.xml",
         "views/stock_picking_type_views.xml"

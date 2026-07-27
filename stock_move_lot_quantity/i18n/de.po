@@ -1,0 +1,85 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_move_lot_quantity
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-27 14:20+0000\n"
+"PO-Revision-Date: 2026-07-27 14:20+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_move_lot_quantity
+#: model:ir.model.fields,field_description:stock_move_lot_quantity.field_stock_move__display_name
+#: model:ir.model.fields,field_description:stock_move_lot_quantity.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:stock_move_lot_quantity.field_stock_picking_type__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: stock_move_lot_quantity
+#: model:ir.model.fields,field_description:stock_move_lot_quantity.field_stock_move__has_partial_lot
+msgid "Has Partial Lot"
+msgstr ""
+
+#. module: stock_move_lot_quantity
+#: model:ir.model.fields,field_description:stock_move_lot_quantity.field_stock_move__id
+#: model:ir.model.fields,field_description:stock_move_lot_quantity.field_stock_move_line__id
+#: model:ir.model.fields,field_description:stock_move_lot_quantity.field_stock_picking_type__id
+msgid "ID"
+msgstr ""
+
+#. module: stock_move_lot_quantity
+#: model:ir.model.fields,help:stock_move_lot_quantity.field_stock_picking_type__pick_all_lot_qty
+msgid ""
+"If enabled, done quantity is set to the full on-hand quantity of each lot "
+"instead of the reserved quantity."
+msgstr ""
+"Wenn aktiviert, wird die transferierte Menge auf die volle Lagermenge "
+"jeder S/N statt auf die benötigte Menge gesetzt."
+
+#. module: stock_move_lot_quantity
+#: model:ir.model.fields,field_description:stock_move_lot_quantity.field_stock_move__lot_badges_html
+msgid "Lot Badges Html"
+msgstr "Los-Badge"
+
+#. module: stock_move_lot_quantity
+#: model_terms:ir.ui.view,arch_db:stock_move_lot_quantity.mrp_production_form_view
+#: model_terms:ir.ui.view,arch_db:stock_move_lot_quantity.view_picking_form
+msgid "Lot/Serial Numbers"
+msgstr "Los/Seriennr."
+
+#. module: stock_move_lot_quantity
+#: model:ir.actions.server,name:stock_move_lot_quantity.action_lots_multi_location
+msgid "Lots in multiple locations"
+msgstr "Lose an verschiedenen Lagerorten"
+
+#. module: stock_move_lot_quantity
+#: model_terms:ir.ui.view,arch_db:stock_move_lot_quantity.view_picking_type_form
+msgid "Pick All Lot Qty"
+msgstr "Transferiere gesamten Bestand des Loses"
+
+#. module: stock_move_lot_quantity
+#: model:ir.model.fields,field_description:stock_move_lot_quantity.field_stock_picking_type__pick_all_lot_qty
+msgid "Pick All Lot Quantity"
+msgstr "Transferiere gesamten Bestand des Loses"
+
+#. module: stock_move_lot_quantity
+#: model:ir.model,name:stock_move_lot_quantity.model_stock_picking_type
+msgid "Picking Type"
+msgstr "Kommissionierart"
+
+#. module: stock_move_lot_quantity
+#: model:ir.model,name:stock_move_lot_quantity.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Produktbewegungen (Lagerbuchung)"
+
+#. module: stock_move_lot_quantity
+#: model:ir.model,name:stock_move_lot_quantity.model_stock_move
+msgid "Stock Move"
+msgstr "Lagerbuchung"

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_lots_multi_location" model="ir.actions.server">
+        <field name="name">Lots in multiple locations</field>
+        <field name="model_id" ref="stock.model_stock_lot"/>
+        <field name="binding_model_id" ref="stock.model_stock_lot"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+query = """
+    SELECT sq.lot_id
+    FROM stock_quant sq
+    JOIN stock_location sl ON sl.id = sq.location_id
+    WHERE sq.lot_id IS NOT NULL
+      AND sl.usage = 'internal'
+      AND ABS(sq.quantity) > 0.00001
+    GROUP BY sq.lot_id
+    HAVING COUNT(DISTINCT sq.location_id) > 1
+"""
+env.cr.execute(query)
+lot_ids = [row[0] for row in env.cr.fetchall()]
+
+if not lot_ids:
+    raise UserError("No lots found in more than one location.")
+
+if len(lot_ids) == 1:
+    action = {
+        'type': 'ir.actions.act_window',
+        'name': 'Lot in multiple locations',
+        'res_model': 'stock.lot',
+        'view_mode': 'form',
+        'res_id': lot_ids[0],
+        'target': 'current',
+    }
+else:
+    action = {
+        'type': 'ir.actions.act_window',
+        'name': 'Lots in multiple locations',
+        'res_model': 'stock.lot',
+        'view_mode': 'list,form',
+        'domain': [('id', 'in', lot_ids)],
+        'target': 'current',
+    }
+        </field>
+    </record>
+</odoo>
