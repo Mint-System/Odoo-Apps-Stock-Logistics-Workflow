@@ -40,8 +40,6 @@ class CriticalForecast(models.Model):
         Compute critical date based on orderpoint and forecast report.
         """
         critical_date = super()._compute_critical_date(replenish_data)
-        _logger.warning(f"critical date: {critical_date}")
-        _logger.warning(f"replenish_data: {replenish_data['product_templates']}")
 
         product_id = replenish_data["product_templates"][0].get("id")
         product_tmpl = self.env["product.template"].search([("id", "=", product_id)])
@@ -56,12 +54,20 @@ class CriticalForecast(models.Model):
             if not orderpoint_date and not critical_date:
                 return False
             elif orderpoint_date and not critical_date:
+                if orderpoint_date:
+                    _logger.warning(f"orderpoint date: {orderpoint_date}")
                 return orderpoint_date
             elif orderpoint_date and orderpoint_date < critical_date.date():
+                if orderpoint_date:
+                    _logger.warning(f"orderpoint date: {orderpoint_date}")
                 return orderpoint_date
             else:
+                if critical_date:
+                    _logger.warning(f"critical date: {critical_date}")
                 return critical_date
         else:
+            if critical_date:
+                _logger.warning(f"critical date: {critical_date}")
             return critical_date or False
 
     def _get_order_data(self, data=[], product_ids=[]):
