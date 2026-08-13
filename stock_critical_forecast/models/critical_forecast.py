@@ -37,9 +37,9 @@ class CriticalForecast(models.Model):
                 replenish_data["lines"],
             )
         )
-        _logger.warning(f"########  problematic_lines: {problematic_lines}")
         if not problematic_lines:
             return None
+        _logger.warning(f"########  problematic_lines: {problematic_lines}")
         lang = get_lang(self.env)
         date_time_format = lang.date_format + " " + lang.time_format
         delivery_date = problematic_lines[0]["delivery_date"]
@@ -91,7 +91,6 @@ class CriticalForecast(models.Model):
                 ("company_id", "=", self.env.company.id),
             ]
         )
-        # _logger.warning(['picking_ids',picking_ids])
 
         for picking in picking_ids:
             for move in picking.move_ids.filtered(lambda m: m.product_id.id not in product_ids):
@@ -113,7 +112,6 @@ class CriticalForecast(models.Model):
                 ("company_id", "=", self.env.company.id),
             ]
         )
-        # _logger.warning(['production_ids',production_ids])
 
         for mo in production_ids:
             for move in mo.move_raw_ids.filtered(lambda m: m.product_id.id not in product_ids):
@@ -132,7 +130,6 @@ class CriticalForecast(models.Model):
         # Get current data
         current_ids = self.search([])
         current_product_ids = current_ids.mapped("product_id.id")
-        # _logger.warning(['current_ids',current_ids])
 
         # Reset data
         data = []
@@ -166,7 +163,6 @@ class CriticalForecast(models.Model):
             "default_product_id": self.product_id.id,
             "active_model": "product.product",
         }
-        # _logger.warning(action)
         return action
 
     def calculate(self):
