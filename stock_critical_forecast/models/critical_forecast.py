@@ -37,6 +37,7 @@ class CriticalForecast(models.Model):
                 replenish_data["lines"],
             )
         )
+        _logger.warning(f"########  problematic_lines: {problematic_lines}")
         if not problematic_lines:
             return None
         lang = get_lang(self.env)
