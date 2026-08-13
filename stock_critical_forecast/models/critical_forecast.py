@@ -39,7 +39,7 @@ class CriticalForecast(models.Model):
         )
         if not problematic_lines:
             return None
-        _logger.warning(f"########  problematic_lines: {problematic_lines}")
+        # _logger.warning(f"########  problematic_lines: {problematic_lines}")
         lang = get_lang(self.env)
         date_time_format = lang.date_format + " " + lang.time_format
         delivery_date = problematic_lines[0]["delivery_date"]
