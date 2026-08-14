@@ -8,7 +8,7 @@
     "category": "Inventory",
     "version": "17.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["mrp", "sale_stock", "purchase"],
+    "depends": ["mrp", "stock", "sale_stock", "purchase"],
     "data": [
         "security/ir.model.access.csv",
         "views/critical_forecast_views.xml",
