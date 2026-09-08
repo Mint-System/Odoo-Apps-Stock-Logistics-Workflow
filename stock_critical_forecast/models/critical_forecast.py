@@ -69,8 +69,9 @@ class CriticalForecast(models.Model):
 
 
     def _compute_critical_date(self, replenish_data):
-        TARGET_PRODUCT_ID = 23267
-        match = self.log_replenish_data_if_matched(replenish_data, TARGET_PRODUCT_ID, use_template_id=True)
+        TARGET_PRODUCT_ID = 23183
+        # TARGET_PRODUCT_ID = 27
+        match = self.log_replenish_data_if_matched(replenish_data, TARGET_PRODUCT_ID, use_template_id=False)
         
         problematic_lines = list(
             filter(
