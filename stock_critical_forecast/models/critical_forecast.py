@@ -1,4 +1,5 @@
 import logging
+import pprint
 
 from odoo import api, fields, models
 
@@ -30,7 +31,47 @@ class CriticalForecast(models.Model):
     route_id = fields.Many2one("stock.route", "Route")
     seller_id = fields.Many2one("res.partner", "Vendor")
 
+
+
+
+
+    def log_replenish_data_if_matched(self, replenish_data, target_product_id, use_template_id=False):
+        """Log replenish/forecast data only if target_product_id matches this entry.
+
+        :param replenish_data: dict as returned per-product by the replenishment report
+                                (contains 'product_templates_ids' / 'product_variants_ids')
+        :param target_product_id: int, the product.product (variant) id to match
+                                   (or product.template id if use_template_id=True)
+        :param use_template_id: match against product_templates_ids instead of variants
+        """
+        id_list = (
+            replenish_data.get('product_templates_ids', [])
+            if use_template_id
+            else replenish_data.get('product_variants_ids', [])
+        )
+
+        if target_product_id not in id_list:
+            return False
+
+        display_name = (
+            replenish_data.get('product_templates', [{}])[0].get('display_name')
+            if replenish_data.get('product_templates')
+            else 'Unknown'
+        )
+
+        _logger.info(
+            "Replenish data matched for product_id=%s (%s):\n%s",
+            target_product_id,
+            display_name,
+            pprint.pformat(replenish_data, width=120),
+        )
+        return True
+
+
     def _compute_critical_date(self, replenish_data):
+        TARGET_PRODUCT_ID = 23267
+        match = self.log_replenish_data_if_matched(replenish_data, TARGET_PRODUCT_ID, use_template_id=True)
+        
         problematic_lines = list(
             filter(
                 lambda l: not l["replenishment_filled"] or l["is_late"],
@@ -39,7 +80,9 @@ class CriticalForecast(models.Model):
         )
         if not problematic_lines:
             return None
-        # _logger.warning(f"########  problematic_lines: {problematic_lines}")
+        
+        if match:
+            _logger.warning(f"########  problematic_lines: {problematic_lines}")
         lang = get_lang(self.env)
         date_time_format = lang.date_format + " " + lang.time_format
         delivery_date = problematic_lines[0]["delivery_date"]
