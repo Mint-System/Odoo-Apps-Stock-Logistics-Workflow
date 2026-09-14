@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_critical_forecast,access_critical_forecast,model_critical_forecast_line,base.group_user,1,1,1,1
+access_critical_forecast_compute_wizard_user,critical.forecast.compute.wizard.user,model_critical_forecast_compute_wizard,base.group_user,1,1,1,1
