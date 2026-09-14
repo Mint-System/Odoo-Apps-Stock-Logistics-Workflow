@@ -1,1 +1,1 @@
-from . import critical_forecast
+from . import critical_forecast_new
