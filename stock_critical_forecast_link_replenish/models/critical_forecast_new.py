@@ -23,6 +23,7 @@ class CriticalForecast(models.Model):
                 ("product_id", "=", product_id),
                 ("company_id", "=", self.env.company.id),
                 ("product_qty", "<", product_min_qty),
+                ("state", "=", "forecast"),
             ],
             groupby=["date:day"],
             order="date:day",
