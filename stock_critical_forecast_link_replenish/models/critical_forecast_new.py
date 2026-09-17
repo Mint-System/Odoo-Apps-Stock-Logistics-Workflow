@@ -40,7 +40,6 @@ class CriticalForecast(models.Model):
         needs action first.
         """
         critical_date = super()._compute_critical_date(replenish_data, product=product)
-        _logger.warning(f"##### PRODUCT: {product.name}, critcial date from MO/PC: {critical_date}")
 
         if not product:
             # Nothing to check against an orderpoint without a known product.
@@ -50,7 +49,6 @@ class CriticalForecast(models.Model):
             [("product_id", "=", product.id), ("product_min_qty", ">", 0.0)],
             limit=1,
         )
-        _logger.warning(f"##### ORDERPOINT ID: {orderpoint_id}")
         if not orderpoint_id:
             return critical_date
 
