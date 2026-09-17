@@ -55,7 +55,7 @@ class CriticalForecast(models.Model):
 
         orderpoint_date = self._compute_orderpoint_date(product.id, orderpoint_id.product_min_qty)
         if orderpoint_date:
-            _logger.info("Orderpoint date for %s: %s", product.display_name, orderpoint_date)
+            _logger.info("Orderpoint date for %s (%s): %s", product.display_name, product.id, orderpoint_date)
 
         if not orderpoint_date:
             return critical_date
