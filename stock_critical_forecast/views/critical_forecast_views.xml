@@ -80,7 +80,7 @@
         <field name="arch" type="xml">
             <tree create="0" default_order="action_date asc, product_id desc">
                 <field name="write_date" optional="show" />
-                <field name="product_type" invisible="1" />
+                <field name="product_type" optional="hide" />
                 <button
                     class="oe_stat_button"
                     name="action_product_forecast_report"
