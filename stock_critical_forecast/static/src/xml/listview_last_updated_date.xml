@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<template xml:space="preserve">
-  <t t-extend="ListView.buttons">
-    <t t-jquery="div.o_list_buttons" t-operation="append">
-      <div
-                class="o_list_selection_box container_last_updated_on"
-                t-if="widget.modelName == 'critical.forecast'"
-            >
-        <i><strong>Last Updated On: <span
-                            class="container_last_updated_date"
-                        /></strong></i>
-      </div>
+<templates xml:space="preserve">
+    <t t-name="stock_critical_forecast.ListView" t-inherit="web.ListView" t-inherit-mode="extension">
+        <xpath expr="//t[@t-set-slot='control-panel-create-button']" position="before">
+            <t t-set-slot="control-panel-status-indicator">
+                <span t-if="lastUpdated" class="text-muted small ms-2">
+                    Last Updated On: <t t-esc="lastUpdated"/>
+                </span>
+            </t>
+        </xpath>
     </t>
-  </t>
-</template>
+</templates>

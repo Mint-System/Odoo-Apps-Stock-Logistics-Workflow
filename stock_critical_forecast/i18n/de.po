@@ -189,7 +189,7 @@ msgstr ""
 #: code:addons/stock_critical_forecast/static/src/xml/listview_last_updated_date.xml:0
 #, python-format
 msgid "Last Updated On:"
-msgstr ""
+msgstr "Zuletzt aktualisiert am:"
 
 #. module: stock_critical_forecast
 #: model:ir.model.fields,field_description:stock_critical_forecast.field_critical_forecast__write_uid

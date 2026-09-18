@@ -1,53 +1,27 @@
-odoo.define("stock_critical_forecast.show_last_updated_date", function (require) {
-    "use strict";
+/** @odoo-module **/
+import { patch } from "@web/core/utils/patch";
+import { ListController } from "@web/views/list/list_controller";
+import { onWillStart } from "@odoo/owl";
+import { deserializeDateTime } from "@web/core/l10n/dates";
 
-    var ListController = require("web.ListController");
-    var session = require("web.session");
-    var ulang = session.user_context.lang.replace("_", "-");
+patch(ListController.prototype, {
+    setup() {
+        super.setup();
+        onWillStart(async () => {
+            if (this.props.resModel === "critical.forecast") {
+                const result = await this.orm.searchRead(
+                    this.props.resModel,
+                    [],
+                    ["write_date"],
+                    { limit: 1, order: "write_date desc" }
+                );
 
-    ListController.include({
-        renderButtons: function ($node) {
-            this._super(...arguments);
-            if (this.$buttons.find(".container_last_updated_on").length) {
-                this.set_last_update_date();
+                this.lastUpdated = result.length
+                    ? deserializeDateTime(result[0].write_date).toLocaleString(
+                          luxon.DateTime.DATETIME_MED
+                      )
+                    : null;
             }
-        },
-        updateButtons() {
-            this._super(...arguments);
-            if (this.$buttons.find(".container_last_updated_on").length) {
-                this.set_last_update_date();
-            }
-        },
-        set_last_update_date: function () {
-            return this._rpc({
-                model: this.modelName,
-                method: "search_read",
-                args: [[], ["write_date"]],
-                kwargs: {
-                    limit: 1,
-                },
-            }).then((result) => {
-                if (result.length > 0) {
-                    var write_date = new Date(result[0].write_date);
-                    write_date = new Date(
-                        write_date.setMinutes(
-                            write_date.getMinutes() - write_date.getTimezoneOffset()
-                        )
-                    );
-                    if (result.length) {
-                        this.$buttons
-                            .find(".container_last_updated_on")
-                            .removeClass("d-none");
-                        this.$buttons
-                            .find(".container_last_updated_date")
-                            .text(write_date.toLocaleString(ulang));
-                    } else {
-                        this.$buttons
-                            .find(".container_last_updated_on")
-                            .addClass("d-none");
-                    }
-                }
-            });
-        },
-    });
+        });
+    },
 });
